@@ -73,33 +73,6 @@
                 return saturate(sqrt(edgeX * edgeX + edgeY * edgeY));
             }
 
-            half gauss(half2 uv)
-            {
-                const half G[9] =
-                {
-                    0.0625, 0.125, 0.0625,
-                    0.125 , 0.25 , 0.125 ,
-                    0.0625, 0.125, 0.0625
-                };
-
-                const half2 duv[9]=
-                {
-                    half2(-1, -1), half2(0, -1), half2(1, -1),
-                    half2(-1,  0), half2(0,  0), half2(1,  0),
-                    half2(-1,  1), half2(0,  1), half2(1,  1)
-                };
-
-                float ret = 0;
-
-                for(int i = 0; i < 9; i++)
-                {
-                    half sob = sobel(uv + duv[i] * half2(_BlurOffsetX, _BlurOffsetY));
-                    ret += sob * G[i];
-                }
-
-                return ret;
-            }
-
             v2f vert (appdata_base v)
             {
                 v2f o;
@@ -111,7 +84,94 @@
 
             float4 frag (v2f i) : COLOR
             {
-                half G = gauss(i.uv);
+                half G = sobel(i.uv);
+                return fixed4(G, G, G, 1.0f);
+            }
+
+            ENDCG
+        }
+
+        Pass 
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            float2 _Offsets;
+
+            struct v2f
+            {
+                float4 pos : POSITION;
+                half2 uv : TEXCOORD0;
+                half4 uv01 : TEXCOORD1;
+                half4 uv23 : TEXCOORD2;
+                half4 uv45 : TEXCOORD3;
+            };
+
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = v.texcoord.xy;
+
+                o.uv01 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1);
+                o.uv23 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 2;
+                o.uv45 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 3;
+
+                return o;
+            }
+
+            float4 frag (v2f i) : COLOR
+            {
+                fixed4 color = fixed4(0, 0, 0, 0);
+                color += 0.40 * tex2D(_MainTex, i.uv);
+                color += 0.15 * tex2D(_MainTex, i.uv01.xy);
+                color += 0.15 * tex2D(_MainTex, i.uv01.zw);
+                color += 0.10 * tex2D(_MainTex, i.uv23.xy);
+                color += 0.10 * tex2D(_MainTex, i.uv23.zw);
+                color += 0.05 * tex2D(_MainTex, i.uv45.xy);
+                color += 0.05 * tex2D(_MainTex, i.uv45.zw);
+                return color;
+            }
+
+            ENDCG
+        }
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            sampler2D _NoiseTex;
+            float4 _NoiseTex_ST;
+
+            struct v2f
+            {
+                float4 pos : POSITION;
+                half4 uv : TEXCOORD0;
+            };
+
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTex);
+                o.uv.zw = TRANSFORM_TEX(v.texcoord, _NoiseTex);
+                return o;
+            }
+
+            float4 frag (v2f i) : COLOR
+            {
+                float G = tex2D(_MainTex, i.uv).r * tex2D(_NoiseTex, i.uv.zw - floor(i.uv.zw)).r;
                 return fixed4(G, G, G, 1.0f);
             }
 

@@ -336,6 +336,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -366,11 +367,14 @@ MonoBehaviour:
   CurShader: {fileID: 4800000, guid: 33afebfc119c31840802b9bb17ee783d, type: 3}
   DifferencingScaleX: 0
   DifferencingScaleY: 0.00239
-  BlurOffsetX: 0.003
-  BlurOffsetY: 0.003
+  BlurOffsetX: 0.0035
+  BlurOffsetY: 0.0017
+  NoiseTexture: {fileID: 2800000, guid: a529669e2fe040c429c049aec27d50a2, type: 3}
+  NoiseTextureScale: {x: 2.4, y: 3.01}
+  NoiseTextureOffset: {x: 0, y: 0}
   StartPointU: 0.5
   StartPointV: 0.68
-  Strength: 0.821
+  Strength: 0.9
   AttenuateRatio: 0.46
   DistanceAttenuation: 1.14
 --- !u!20 &519420031
@@ -429,6 +433,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 40c7fcc7f118c7c488a3bc1e268a6d16, type: 2}
 --- !u!1 &1199151303
 GameObject:
   m_ObjectHideFlags: 0

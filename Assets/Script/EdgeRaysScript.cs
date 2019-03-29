@@ -30,18 +30,24 @@ public class EdgeRaysScript : MonoBehaviour
 
     public static float ChangeValue9;
  
-    //Differencing + Blur
+    //Differencing
     [Range(0, 0.01f), Tooltip("[横向差分间隔]差分时，横向间隔的距离。")]
     public float DifferencingScaleX = 0.0000f;
 
     [Range(0, 0.01f), Tooltip("[纵向差分间隔]差分时，纵向间隔的距离。")]
     public float DifferencingScaleY = 0.00239f;
 
+    //Gauss Blur
     [Range(0, 0.01f), Tooltip("[横向模糊间隔]模糊时，横向间隔的距离。")]
     public float BlurOffsetX = 0.003f;
  
     [Range(0, 0.01f), Tooltip("[纵向模糊间隔]模糊时，纵向间隔的距离。")]
     public float BlurOffsetY = 0.003f;
+
+    //Noising
+    public Texture NoiseTexture;
+    public Vector2 NoiseTextureScale = new Vector2(1, 1);
+    public Vector2 NoiseTextureOffset = new Vector2(0, 0);
 
     //Baby Step
     [Range(0, 1), Tooltip("[光源点横坐标]光源点的横坐标。")]
@@ -109,11 +115,16 @@ public class EdgeRaysScript : MonoBehaviour
         //着色器实例不为空，就进行参数设置
         if (CurShader != null)
         {
-            //为Differencing + Blur效果添加参数
+            //为Differencing效果添加参数
             material.SetFloat("_DifferencingScaleX", DifferencingScaleX);
             material.SetFloat("_DifferencingScaleY", DifferencingScaleY);
+            //为Gauss Blur效果添加参数
             material.SetFloat("_BlurOffsetX", BlurOffsetX);
             material.SetFloat("_BlurOffsetY", BlurOffsetY);
+            //为Noising效果添加参数
+            material.SetTexture("_NoiseTex", NoiseTexture);
+            material.SetTextureScale("_NoiseTex", NoiseTextureScale);
+            material.SetTextureOffset("_NoiseTex", NoiseTextureOffset);
             //为Baby Step效果添加参数
             material.SetFloat("_StartPointU", StartPointU);
             material.SetFloat("_StartPointV", StartPointV);
@@ -130,33 +141,28 @@ public class EdgeRaysScript : MonoBehaviour
  
             //准备一个缓存renderBuffer，用于准备存放最终数据
             RenderTexture renderBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
-            //设置渲染模式：双线性
-            renderBuffer.filterMode = FilterMode.Bilinear;
             //拷贝sourceTexture中的渲染数据到renderBuffer,并仅绘制指定的pass0的纹理数据
             Graphics.Blit(sourceTexture, renderBuffer, material, 0);
 
-            // 定义一个临时渲染的缓存tempBuffer
+            //高斯模糊，两次模糊，横向纵向，使用pass1进行高斯模糊
             RenderTexture tempBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
-            // 拷贝renderBuffer中的渲染数据到tempBuffer,并仅绘制指定的pass1的纹理数据
+            material.SetVector("_Offsets", new Vector2(0, BlurOffsetY));
             Graphics.Blit(renderBuffer, tempBuffer, material, 1);
-            //  清空renderBuffer
-            RenderTexture.ReleaseTemporary(renderBuffer);
-            // 将tempBuffer赋给renderBuffer，此时renderBuffer里面pass0和pass1的数据已经准备好
-             renderBuffer = tempBuffer;
+            material.SetVector("_Offsets", new Vector2(BlurOffsetX, 0));
+            Graphics.Blit(tempBuffer, renderBuffer, material, 1);
 
-             // 定义一个临时渲染的缓存tempBuffer
-            tempBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
+
             // 拷贝renderBuffer中的渲染数据到tempBuffer,并仅绘制指定的pass1的纹理数据
             Graphics.Blit(renderBuffer, tempBuffer, material, 2);
+            Graphics.Blit(tempBuffer, renderBuffer, material, 3);
+            Graphics.Blit(renderBuffer, tempBuffer, material, 4);
             //  清空renderBuffer
-            RenderTexture.ReleaseTemporary(renderBuffer);
-            // 将tempBuffer赋给renderBuffer，此时renderBuffer里面pass0和pass1的数据已经准备好
-             renderBuffer = tempBuffer;
- 
+
             //拷贝最终的renderBuffer到目标纹理，并绘制所有通道的纹理到屏幕
-            Graphics.Blit(renderBuffer, destTexture);
-            //清空renderBuffer
+            Graphics.Blit(tempBuffer, destTexture);
+            //清空Buffer
             RenderTexture.ReleaseTemporary(renderBuffer);
+            RenderTexture.ReleaseTemporary(tempBuffer);
  
         }
  
@@ -208,6 +214,8 @@ public class EdgeRaysScript : MonoBehaviour
             AttenuateRatio = ChangeValue8;
 
             DistanceAttenuation = ChangeValue9;
+
+            NoiseTextureOffset += new Vector2(0.02f, 0.02f) * Time.deltaTime;
         }
         //若程序没有在运行，去寻找对应的Shader文件
 #if UNITY_EDITOR
