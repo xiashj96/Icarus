@@ -3,6 +3,17 @@
     Properties
     {
         _MainTex ("Main Tex", 2D) = "white" {}
+        _DifferencingScaleX ("Differencing Scale X", Range(0, 0.01)) = 0
+        _DifferencingScaleY ("Differencing Scale Y", Range(0, 0.01)) = 0.00239
+        _BlurOffsetX ("Blur Offset X", Range(0, 0.01)) = 0.0035
+        _BlurOffsetY ("Blur Offset Y", Range(0, 0.01)) = 0.0017
+        _NoiseTex ("Noise Texture", 2D) = "white" {}
+        _StartPointU ("Start Point U", Range(0, 1)) = 0.5
+        _StartPointV ("Start Point V", Range(0, 1)) = 0.68
+        _Strength("_Strength", Range(0, 5)) = 0.9
+        _AttenuateRatio("Attenuate Ratio", Range(0, 1)) = 0.4
+        _DistanceAttenuation("Distance Attenuation", Range(0, 2)) = 1.52
+
     }
     SubShader
     {
@@ -212,10 +223,10 @@
             {
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
-                int cnt = 30;
-                float stepLength = 0.0005;
+                int cnt = 40;
+                float stepLength = 0.0003;
                 half2 step = normalize(vec) * stepLength;
-                [unroll(30)]
+                [unroll(40)]
                 for(int it = 0; it < cnt; it++)
                 {
                     if((float)it * stepLength > length(vec) )
@@ -271,10 +282,10 @@
             {
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
-                int cnt = 30;
-                float stepLength = 0.0005;
+                int cnt = 40;
+                float stepLength = 0.0003;
                 half2 step = normalize(vec) * stepLength;
-                [unroll(30)]
+                [unroll(40)]
                 for(int it = 0; it < cnt * cnt; it += cnt)
                 {
                     if((float)it * stepLength > length(vec) )
