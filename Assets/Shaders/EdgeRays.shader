@@ -223,17 +223,17 @@
             {
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
+                float len = length(vec);
                 int cnt = 40;
                 float stepLength = 0.0003;
-                half2 step = normalize(vec) * stepLength;
+                half2 step = vec / len * stepLength;
+
                 [unroll(40)]
                 for(int it = 0; it < cnt; it++)
                 {
-                    if((float)it * stepLength > length(vec) )
+                    if(it * stepLength > len )
                         break;
                     half2 pos = i.uv + step * it;
-                    half2 _DifferenceScale = half2(0.0005, 0.0005);
-
                     float tmp = max(tex2D(_MainTex, pos) * _Strength - _AttenuateRatio * ( log(length(vec)) - log(length(vec - step * it))), 0);
                     G = max(G, tmp);
                 }
@@ -282,17 +282,17 @@
             {
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
+                float len = length(vec);
                 int cnt = 40;
                 float stepLength = 0.0003;
-                half2 step = normalize(vec) * stepLength;
+                half2 step = vec / len * stepLength;
                 [unroll(40)]
                 for(int it = 0; it < cnt * cnt; it += cnt)
                 {
-                    if((float)it * stepLength > length(vec) )
+                    if(it * stepLength > len )
                         break;
                     half2 pos = i.uv + step * it;
-                    fixed3 tex = tex2D(_MainTex, pos);
-                    float tmp = max(tex.r - _AttenuateRatio * ( log(length(vec)) - log(length(vec - step * it)) ), 0);
+                    float tmp = max(tex2D(_MainTex, pos).r - _AttenuateRatio * ( log(length(vec)) - log(length(vec - step * it)) ), 0);
                     G = max(G, tmp);
                 }
 

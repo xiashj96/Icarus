@@ -25,9 +25,9 @@ public class EdgeRaysScript : MonoBehaviour
             RenderTexture renderBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
             RenderTexture tempBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
 
-            sourceTexture.filterMode = FilterMode.Bilinear;
-            renderBuffer.filterMode = FilterMode.Bilinear;
-            tempBuffer.filterMode = FilterMode.Bilinear;
+            //sourceTexture.filterMode = FilterMode.Bilinear;
+            //renderBuffer.filterMode = FilterMode.Bilinear;
+            //tempBuffer.filterMode = FilterMode.Bilinear;
             
             Graphics.Blit(sourceTexture, renderBuffer, CurMaterial, 0);
 
@@ -40,10 +40,7 @@ public class EdgeRaysScript : MonoBehaviour
 
             Graphics.Blit(renderBuffer, tempBuffer, CurMaterial, 2);
             Graphics.Blit(tempBuffer, renderBuffer, CurMaterial, 3);
-            Graphics.Blit(renderBuffer, tempBuffer, CurMaterial, 4);
-
-            //Graphics.Blit(renderBuffer, destTexture);
-            Graphics.Blit(tempBuffer, destTexture);
+            Graphics.Blit(renderBuffer, destTexture, CurMaterial, 4);
 
             RenderTexture.ReleaseTemporary(renderBuffer);
             RenderTexture.ReleaseTemporary(tempBuffer);
