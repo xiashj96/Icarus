@@ -72,14 +72,14 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WA1: 0.5
-    - _WA2: 0.1
+    - _WA1: 0.05
+    - _WA2: 0.01
     - _WA3: 0
-    - _WSF1: 25
-    - _WSF2: 100
+    - _WSF1: 250
+    - _WSF2: 1000
     - _WSF3: 0
-    - _WTF1: 0.2
-    - _WTF2: 3
+    - _WTF1: 1
+    - _WTF2: 15
     - _WTF3: 0
     - _ZWrite: 1
     m_Colors:
