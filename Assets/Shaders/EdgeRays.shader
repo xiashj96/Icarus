@@ -33,9 +33,6 @@
             half _DifferencingScaleX;
             half _DifferencingScaleY;
 
-            half _BlurOffsetX;
-            half _BlurOffsetY;
-
             struct v2f
             {
                 float4 pos : POSITION;

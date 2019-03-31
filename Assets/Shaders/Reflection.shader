@@ -3,9 +3,11 @@
 	Properties
 	{
 		_MainTex ("MainTex", 2D) = "white" {}
+
 		_BlueLine ("Blue Line", Range(0, 0.5)) = 0.35
 		_Compression ("Compression", Range(0, 1)) = 0
 		_SightPoint ("Sight Point", Range(0, 1)) = 0.3
+
 		_WTF1("Wave Time Freq 1", float) = 1
 		_WSF1("Wave Spacial Freq 1", float) = 250
 		_WA1("Wave Amplitude 1", float) = 0.05
@@ -15,6 +17,9 @@
 		_WTF3("Wave Time Freq 3", float) = 0
 		_WSF3("Wave Spacial Freq 3", float) = 0
 		_WA3("Wave Amplitude 3", float) = 0
+
+		_BlurOffsetX ("Blur Offset X", Range(0, 0.01)) = 0.0035
+        _BlurOffsetY ("Blur Offset Y", Range(0, 0.01)) = 0.0017
 	}
 	SubShader
 	{
@@ -89,9 +94,95 @@
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				return fixed4(reflect(i.uv) + tex2D(_MainTex, i.uv).rgb, 1);
+				return fixed4(reflect(i.uv), 1);
 			}
 			ENDCG
 		}
+
+		Pass 
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            float2 _Offsets;
+
+            struct v2f
+            {
+                float4 pos : POSITION;
+                half2 uv : TEXCOORD0;
+                half4 uv01 : TEXCOORD1;
+                half4 uv23 : TEXCOORD2;
+                half4 uv45 : TEXCOORD3;
+            };
+
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = v.texcoord.xy;
+
+                o.uv01 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1);
+                o.uv23 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 2;
+                o.uv45 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 3;
+
+                return o;
+            }
+
+            float4 frag (v2f i) : COLOR
+            {
+                fixed4 color = fixed4(0, 0, 0, 0);
+                color += 0.40 * tex2D(_MainTex, i.uv);
+                color += 0.15 * tex2D(_MainTex, i.uv01.xy);
+                color += 0.15 * tex2D(_MainTex, i.uv01.zw);
+                color += 0.10 * tex2D(_MainTex, i.uv23.xy);
+                color += 0.10 * tex2D(_MainTex, i.uv23.zw);
+                color += 0.05 * tex2D(_MainTex, i.uv45.xy);
+                color += 0.05 * tex2D(_MainTex, i.uv45.zw);
+                return color;
+            }
+
+            ENDCG
+        }
+
+        Pass 
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+
+            sampler2D _OriginTex;
+            float4 _OriginTex_ST;
+
+            struct v2f
+            {
+                float4 pos : POSITION;
+                half2 uv : TEXCOORD0;
+            };
+
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+
+                return o;
+            }
+
+            float4 frag (v2f i) : COLOR
+            {
+                return tex2D(_OriginTex, i.uv) + tex2D(_MainTex, i.uv);
+            }
+
+            ENDCG
+        }
 	}
 }

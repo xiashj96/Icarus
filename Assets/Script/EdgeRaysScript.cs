@@ -8,26 +8,24 @@ using System.Collections;
 public class EdgeRaysScript : MonoBehaviour
 {
     public Material CurMaterial;
- 
-    //-------------------------------------【OnRenderImage()函数】------------------------------------  
-    // 说明：此函数在当完成所有渲染图片后被调用，用来渲染图片后期效果
-    //--------------------------------------------------------------------------------------------------------
+
+    RenderTexture renderBuffer = null;
+    RenderTexture tempBuffer = null;
+
     void OnRenderImage(RenderTexture sourceTexture, RenderTexture destTexture)
     {
         //着色器实例不为空，就进行参数设置
         if (CurMaterial != null)
         {
-            int renderWidth = sourceTexture.width;
-            int renderHeight = sourceTexture.height;
-
+            if(renderBuffer == null)
+            {
+                int renderWidth = sourceTexture.width;
+                int renderHeight = sourceTexture.height;
+                renderBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
+                tempBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
+            }
+            
             CurMaterial.SetTexture("_OriginTex", sourceTexture);
-
-            RenderTexture renderBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
-            RenderTexture tempBuffer = RenderTexture.GetTemporary(renderWidth, renderHeight, 0, sourceTexture.format);
-
-            //sourceTexture.filterMode = FilterMode.Bilinear;
-            //renderBuffer.filterMode = FilterMode.Bilinear;
-            //tempBuffer.filterMode = FilterMode.Bilinear;
             
             Graphics.Blit(sourceTexture, renderBuffer, CurMaterial, 0);
 
@@ -41,9 +39,6 @@ public class EdgeRaysScript : MonoBehaviour
             Graphics.Blit(renderBuffer, tempBuffer, CurMaterial, 2);
             Graphics.Blit(tempBuffer, renderBuffer, CurMaterial, 3);
             Graphics.Blit(renderBuffer, destTexture, CurMaterial, 4);
-
-            RenderTexture.ReleaseTemporary(renderBuffer);
-            RenderTexture.ReleaseTemporary(tempBuffer);
  
         }
  
@@ -55,9 +50,6 @@ public class EdgeRaysScript : MonoBehaviour
         }
     }
  
-    //-----------------------------------------【Update()函数】--------------------------------------  
-    // 说明：此函数每帧都会被调用
-    //--------------------------------------------------------------------------------------------------------
     void Update()
     {
         //若程序在运行，进行赋值
@@ -66,6 +58,17 @@ public class EdgeRaysScript : MonoBehaviour
             Vector2 offset = CurMaterial.GetTextureOffset("_NoiseTex");
             offset += new Vector2(0.02f, 0.02f) * Time.deltaTime;
             CurMaterial.SetTextureOffset("_NoiseTex", offset);
+        }
+    }
+
+    void OnDisable()
+    {
+        CurMaterial.SetTextureOffset("_NoiseTex", new Vector2(0, 0));
+
+        if(renderBuffer != null)
+        {
+            RenderTexture.ReleaseTemporary(renderBuffer);
+            RenderTexture.ReleaseTemporary(tempBuffer);
         }
     }
  

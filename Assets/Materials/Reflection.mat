@@ -57,6 +57,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BlueLine: 0.117
+    - _BlurOffsetX: 0.0032
+    - _BlurOffsetY: 0.0004
     - _BumpScale: 1
     - _Compression: 0
     - _Cutoff: 0.5
@@ -81,7 +83,7 @@ Material:
     - _WSF1: 250
     - _WSF2: 1000
     - _WSF3: 0
-    - _WTF1: 1
+    - _WTF1: 2
     - _WTF2: 15
     - _WTF3: 0
     - _ZWrite: 1
