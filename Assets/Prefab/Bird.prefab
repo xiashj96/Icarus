@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 1184694201713154395}
   - component: {fileID: 1520071236}
   - component: {fileID: 844483111823741153}
+  - component: {fileID: 2435489313825089707}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Untagged
@@ -166,4 +167,15 @@ MonoBehaviour:
   maxTangentForce: 1.1
   normalForceScale: 10
   comp: 1
-  life: 0
+--- !u!114 &2435489313825089707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184694201713154397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44493e99d6686d442a23508d67bfac85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
