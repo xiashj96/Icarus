@@ -10,6 +10,6 @@ public class Bird : MonoBehaviour
     private void Start()
     {
         float scale = (life + 1) / 2;
-        transform.localScale = new Vector3(scale, scale, 1);
+        //transform.localScale = new Vector3(scale, scale, 1);
     }
 }

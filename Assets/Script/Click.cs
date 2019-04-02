@@ -11,7 +11,7 @@ public class Click : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         //Touch[] touches;
         if (Input.GetMouseButtonDown(0))
         {

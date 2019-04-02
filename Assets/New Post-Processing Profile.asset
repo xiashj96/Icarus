@@ -30,7 +30,7 @@ MonoBehaviour:
     m_Settings:
       excludeSkybox: 1
   antialiasing:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       method: 0
       fxaaSettings:
@@ -80,7 +80,7 @@ MonoBehaviour:
   motionBlur:
     m_Enabled: 0
     m_Settings:
-      shutterAngle: 270
+      shutterAngle: 256
       sampleCount: 10
       frameBlending: 0
   eyeAdaptation:
@@ -103,7 +103,7 @@ MonoBehaviour:
       bloom:
         intensity: 4.29
         threshold: 1.06
-        softKnee: 0.5
+        softKnee: 0.4
         radius: 2.8
         antiFlicker: 1
       lensDirt:
@@ -311,11 +311,11 @@ MonoBehaviour:
       spectralTexture: {fileID: 0}
       intensity: 0.1
   grain:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       colored: 1
-      intensity: 0.5
-      size: 1
+      intensity: 0.34
+      size: 0.5
       luminanceContribution: 0.8
   vignette:
     m_Enabled: 1

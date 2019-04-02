@@ -24,6 +24,7 @@ public class FlyAroundSun : MonoBehaviour
     //float integalDist = 0;
     
     float randTime;
+    GameObject sun;
     Vector2 sunPosition;
     Rigidbody2D rb2d;
 
@@ -31,7 +32,7 @@ public class FlyAroundSun : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        sunPosition = GameObject.FindGameObjectWithTag("Sun").transform.position;
+        sun = GameObject.FindGameObjectWithTag("Sun");
         rb2d.velocity = new Vector2(Random.Range(-2f, 2f), 2f); // random initial velocity
         tangentForce = Random.Range(minTangentForce, maxTangentForce);
 
@@ -49,6 +50,7 @@ public class FlyAroundSun : MonoBehaviour
 
     void FixedUpdate()
     {
+        sunPosition = sun.transform.position;
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
     }

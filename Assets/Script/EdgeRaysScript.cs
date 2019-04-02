@@ -12,6 +12,13 @@ public class EdgeRaysScript : MonoBehaviour
     RenderTexture renderBuffer = null;
     RenderTexture tempBuffer = null;
 
+    GameObject sun;
+
+    private void Start()
+    {
+        sun = GameObject.FindGameObjectWithTag("Sun");
+    }
+
     void OnRenderImage(RenderTexture sourceTexture, RenderTexture destTexture)
     {
         //着色器实例不为空，就进行参数设置
@@ -58,6 +65,10 @@ public class EdgeRaysScript : MonoBehaviour
             Vector2 offset = CurMaterial.GetTextureOffset("_NoiseTex");
             offset += new Vector2(0.02f, 0.02f) * Time.deltaTime;
             CurMaterial.SetTextureOffset("_NoiseTex", offset);
+
+            // update sun position
+            Vector3 viewPos = Camera.main.WorldToViewportPoint(sun.transform.position);
+            CurMaterial.SetFloat("_StartPointV", viewPos.y);
         }
     }
 
