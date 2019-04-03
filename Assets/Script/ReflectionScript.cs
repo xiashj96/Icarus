@@ -12,6 +12,8 @@ public class ReflectionScript : MonoBehaviour
     RenderTexture renderBuffer = null;
     RenderTexture tempBuffer = null;
 
+    public float speed = 0.2f;
+
     void OnRenderImage(RenderTexture sourceTexture, RenderTexture destTexture)
     {
         if (CurMaterial != null)
@@ -54,7 +56,7 @@ public class ReflectionScript : MonoBehaviour
         if(Input.GetKey(KeyCode.UpArrow))
         {
             float compression = CurMaterial.GetFloat("_Compression");
-            compression += 0.2f * Time.deltaTime;
+            compression += speed * Time.deltaTime;
             if(compression > 1) compression = 1;
             CurMaterial.SetFloat("_Compression", compression);
         }
@@ -62,7 +64,7 @@ public class ReflectionScript : MonoBehaviour
         if(Input.GetKey(KeyCode.DownArrow))
         {
             float compression = CurMaterial.GetFloat("_Compression");
-            compression += -0.2f * Time.deltaTime;
+            compression -= speed * Time.deltaTime;
             if(compression < 0) compression = 0;
             CurMaterial.SetFloat("_Compression", compression);
         }

@@ -221,8 +221,8 @@
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
                 float len = length(vec);
-                int cnt = 40;
-                float stepLength = 0.0003;
+                int cnt = 25;
+                float stepLength = 0.0005;
                 half2 step = vec / len * stepLength;
 
                 [unroll(40)]
@@ -231,7 +231,7 @@
                     if(it * stepLength > len )
                         break;
                     half2 pos = i.uv + step * it;
-                    float tmp = max(tex2D(_MainTex, pos) * _Strength - _AttenuateRatio * ( log(length(vec)) - log(length(vec - step * it))), 0);
+                    float tmp = max(tex2D(_MainTex, pos) * _Strength - _AttenuateRatio * ( log(length(vec) / length(vec - step * it))), 0);
                     G = max(G, tmp);
                 }
 
@@ -280,8 +280,8 @@
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
                 float len = length(vec);
-                int cnt = 40;
-                float stepLength = 0.0003;
+                int cnt = 25;
+                float stepLength = 0.0005;
                 half2 step = vec / len * stepLength;
                 [unroll(40)]
                 for(int it = 0; it < cnt * cnt; it += cnt)
@@ -289,7 +289,7 @@
                     if(it * stepLength > len )
                         break;
                     half2 pos = i.uv + step * it;
-                    float tmp = max(tex2D(_MainTex, pos).r - _AttenuateRatio * ( log(length(vec)) - log(length(vec - step * it)) ), 0);
+                    float tmp = max(tex2D(_MainTex, pos).r - _AttenuateRatio * ( log(length(vec) / length(vec - step * it)) ), 0);
                     G = max(G, tmp);
                 }
 
