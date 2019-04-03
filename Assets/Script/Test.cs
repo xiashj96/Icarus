@@ -10,16 +10,16 @@ public class Test : MonoBehaviour
         if(Input.GetKey(KeyCode.UpArrow))
         {
             float y = gameObject.transform.position.y;
-            y -= 0.38f * Time.deltaTime;
-            if(y < -18.2f) y = -18.2f;
+            y -= 0.37f * Time.deltaTime;
+            if(y < -20.78f) y = -20.78f;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
         }
 
         if(Input.GetKey(KeyCode.DownArrow))
         {
             float y = gameObject.transform.position.y;
-            y += 0.38f * Time.deltaTime;
-            if(y > -16.28f) y = -16.28f;
+            y += 0.37f * Time.deltaTime;
+            if(y > -18.9f) y = -18.9f;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, y, gameObject.transform.position.z);
         }
     }
