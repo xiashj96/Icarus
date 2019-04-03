@@ -27,14 +27,21 @@ public class FlyAroundSun : MonoBehaviour
     GameObject sun;
     Vector2 sunPosition;
     Rigidbody2D rb2d;
+    BirdManager BM;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        BM = GameObject.FindGameObjectWithTag("GameController").GetComponent<BirdManager>();
+
         sun = GameObject.FindGameObjectWithTag("Sun");
         rb2d.velocity = new Vector2(Random.Range(-2f, 2f), 2f); // random initial velocity
         tangentForce = Random.Range(minTangentForce, maxTangentForce);
+
+        // the more the birds, the greater the radius
+        //maxRadius = minRadius + 0.5f + BM.numOfBirds / 100;
 
         // change target radius periodically
         targetRadius = minRadius;

@@ -5,13 +5,12 @@ using DG.Tweening;
 
 public class BirdManager : MonoBehaviour
 {
-    public HashSet<Bird> BirdList;
+    public int numOfBirds = 0;
     //public bool sort = false; //TODO: state machine
     // Start is called before the first frame update
     
-    private void Awake()
+    private void Start()
     {
-        BirdList = new HashSet<Bird>();
         Screen.SetResolution(Screen.height * 9 / 16, Screen.height, Screen.fullScreen);
     }
     

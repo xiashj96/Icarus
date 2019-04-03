@@ -81,7 +81,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StartPointU: 0.5
-    - _StartPointV: 0.6725
+    - _StartPointV: 0.811875
     - _Strength: 0.53
     - _UVSec: 0
     - _ZWrite: 1

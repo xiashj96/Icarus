@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
-    //BirdManager BM;
+    BirdManager BM;
     public float life; //[0,1]
 
     private void Start()
     {
         float scale = (life + 1) / 2;
-        //transform.localScale = new Vector3(scale, scale, 1);
+        BM = GameObject.FindGameObjectWithTag("GameController").GetComponent<BirdManager>();
+        BM.numOfBirds += 1;
     }
 }
