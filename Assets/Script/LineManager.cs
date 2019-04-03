@@ -16,7 +16,7 @@ public class LineManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         if(Random.Range(0f, 1f) >= generatePossibility)
