@@ -12,7 +12,6 @@ public class SelfRotate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 8;
         if (clockwise)
         {
             transform.DORotate(new Vector3(0, 0, -360f), period, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
