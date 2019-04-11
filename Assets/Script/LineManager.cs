@@ -8,7 +8,8 @@ public class LineManager : MonoBehaviour
     public float radius = 6.3f;
 
 	GameObject sun;
-	public GameObject line;
+	public GameObject line1;
+    public GameObject line2;
 
     void Start()
     {
@@ -23,7 +24,7 @@ public class LineManager : MonoBehaviour
         	return;
 
         Vector3 sunPos = sun.transform.position;
-        GameObject lineObj = Instantiate(line);
+        GameObject lineObj = Random.Range(0, 2) == 0 ? Instantiate(line1) : Instantiate(line2);
        	lineObj.transform.position = sunPos + Vector3.down * radius;
        	lineObj.transform.RotateAround(sunPos, Vector3.forward, Random.Range(0f, 360f));
        	GameObject.Destroy(lineObj, 1.125f);
