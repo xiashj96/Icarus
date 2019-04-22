@@ -15,6 +15,6 @@ public class DisplayBirdNumber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = "number of birds:" + BM.numOfBirds.ToString();
+        text.text = "number of birds:" + BM.numOfBirds.ToString()+ "  Time:" +Time.time.ToString("0.#");
     }
 }
