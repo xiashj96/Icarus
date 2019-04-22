@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 597343181175969442}
   - component: {fileID: 597343181175969445}
+  - component: {fileID: 5757990601932091765}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Sun
@@ -25,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 597343181175969444}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.36, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6686393354689015332}
   - {fileID: 222782715394232065}
@@ -84,6 +85,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5757990601932091765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597343181175969444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ca1df2b785e0e47ae7c1a4d20ce61d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ring: {fileID: 4845247243421034761}
+  hole: {fileID: 5432023812697427273}
+  core: {fileID: 8497764256607080422}
+  halo: {fileID: 7960476097939812527}
+  plane: {fileID: 2883201918916186036}
+  coreStartScale: 0.3
+  coreEndScale: 1
+  holeStartTime: 0.25
+  holeEndScale: 0.85
+  planeStartTime: 0.3
+  planeStartScale: 0.3
+  planeEndScale: 0.78
 --- !u!1 &2883201918916186036
 GameObject:
   m_ObjectHideFlags: 0
