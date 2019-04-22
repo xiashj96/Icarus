@@ -235,7 +235,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc9030642365f9a4fa0f862aa0f68a0a, type: 3}
   m_Name: 
@@ -577,7 +577,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numOfBirds: 0
   particleLimit: 100
-  basicRadius: 3
+  basicRadius: 2.8
+  state1StartRadiusRate: 0.4
   basicRadiusRate: 2
   velocityRate: 1
   GS: {fileID: 0}
