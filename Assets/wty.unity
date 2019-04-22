@@ -553,6 +553,7 @@ GameObject:
   - component: {fileID: 1199151306}
   - component: {fileID: 1199151307}
   - component: {fileID: 1199151308}
+  - component: {fileID: 1199151309}
   m_Layer: 0
   m_Name: Manager
   m_TagString: GameController
@@ -574,6 +575,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numOfBirds: 0
   particleLimit: 100
+  basicRadius: 3
+  velocityRate: 1
+  GS: {fileID: 0}
 --- !u!4 &1199151305
 Transform:
   m_ObjectHideFlags: 0
@@ -633,6 +637,19 @@ MonoBehaviour:
   radius: 6.3
   line1: {fileID: 597962383473852803, guid: d865c3eb5a589c244a058ea372ccd913, type: 3}
   line2: {fileID: 597962383473852803, guid: 60f4336964dce244cbad8d3a0f8c90ac, type: 3}
+--- !u!114 &1199151309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199151303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6950b5487e8a834685cd74b4b72e0c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 1
 --- !u!1 &1208023283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1161,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2883201918916186036, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5b7f78ad2ad8184fac191a10f60f401, type: 3}
