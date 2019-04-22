@@ -418,6 +418,7 @@ MonoBehaviour:
   radius: 0
   life: 0
   sun: {fileID: 0}
+  particleSystem: {fileID: 1873329978585416477}
 --- !u!1 &3247753818990339471
 GameObject:
   m_ObjectHideFlags: 0

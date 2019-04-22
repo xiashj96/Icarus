@@ -6,6 +6,8 @@ using DG.Tweening;
 public class BirdManager : MonoBehaviour
 {
     public int numOfBirds = 0;
+    public int particleLimit = 100;
+
     public float basicRadius = 3F;
     public float velocityRate = 1F;
     public GameSystem GS;
@@ -42,6 +44,7 @@ public class BirdManager : MonoBehaviour
             basicRadius /= 2F;
         }
     }
+    
     //public bool sort = false; //TODO: state machine
     // Start is called before the first frame update
     public float GetRadius(int id,float iRate)

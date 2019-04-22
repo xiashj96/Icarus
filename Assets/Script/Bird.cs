@@ -28,6 +28,9 @@ public class Bird : MonoBehaviour
     BirdManager BM;
     GameSystem GS;
 
+    public ParticleSystem particleSystem;
+    int numOfBirds = 0;
+
     IEnumerator ChangeRadiusCoroutine()
     {
         while(true)
@@ -85,5 +88,15 @@ public class Bird : MonoBehaviour
         if (GS.state == 2)
             ret *= 2F;
         return ret;
+    }
+
+    void Update()
+    {
+    	if(numOfBirds != BM.numOfBirds)
+    	{
+    		var emission = particleSystem.emission;
+    		emission.rateOverTime = Mathf.Min(BM.particleLimit / BM.numOfBirds / particleSystem.startLifetime, 5f);
+    		numOfBirds = BM.numOfBirds;
+    	}
     }
 }
