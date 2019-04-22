@@ -366,6 +366,7 @@ MonoBehaviour:
   start: 0
   endng: 3.35
   speed: 0.05
+  edgeRays: {fileID: 2100000, guid: f3e80e2682744ba469998f52abe0b3c9, type: 2}
 --- !u!1 &1049086907
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,6 +575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numOfBirds: 0
+  particleLimit: 100
   basicRadius: 3
   velocityRate: 1
   GS: {fileID: 0}

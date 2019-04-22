@@ -10,7 +10,7 @@
         _NoiseTex ("Noise Texture", 2D) = "white" {}
         _StartPointU ("Start Point U", Range(0, 1)) = 0.5
         _StartPointV ("Start Point V", Range(0, 1)) = 0.68
-        _Strength("_Strength", Range(0, 5)) = 0.9
+        _Strength("Strength", Range(0, 5)) = 0.9
         _AttenuateRatio("Attenuate Ratio", Range(0, 1)) = 0.4
         _DistanceAttenuation("Distance Attenuation", Range(0, 2)) = 1.52
 
