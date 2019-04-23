@@ -95,7 +95,7 @@ public class Bird : MonoBehaviour
     	if(numOfBirds != BM.numOfBirds)
     	{
     		var emission = particleSystem.emission;
-    		emission.rateOverTime = Mathf.Min(BM.particleLimit / BM.numOfBirds / particleSystem.startLifetime, 5f);
+    		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particleSystem.startLifetime, 5f);
     		numOfBirds = BM.numOfBirds;
     	}
     }
