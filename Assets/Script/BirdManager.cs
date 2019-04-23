@@ -11,9 +11,11 @@ public class BirdManager : MonoBehaviour
     public float basicRadius = 3F;
 
     public float state1StartRadiusRate = 0.4F;
-    float state1RatdiusRate;
+    float state1RadiusRate = 0.4F;
 
-    public float basicRadiusRate = 2F;
+    public float state2BasicRadiusRate = 2F;
+    float state2RadiusRate = 1F;
+
     public float velocityRate = 1F;
     public GameSystem GS;
     public HashSet<Bird> BirdList = new HashSet<Bird>();
@@ -22,9 +24,10 @@ public class BirdManager : MonoBehaviour
 
     public IEnumerator State1Coroutine(float duration)
     {
+        state1RadiusRate = state1StartRadiusRate;
     	for(float t = 0; t < duration; t += Time.deltaTime)
     	{
-    		state1RatdiusRate = state1StartRadiusRate + (1 - state1StartRadiusRate) * t / duration;
+    		state1RadiusRate = state1StartRadiusRate + (1 - state1StartRadiusRate) * t / duration;
     		yield return 0;
     	}
     }
@@ -32,6 +35,7 @@ public class BirdManager : MonoBehaviour
     public IEnumerator State2Coroutine()
     {
         ind[0] = ind[1] = ind[2] = 0;
+        state2RadiusRate = 1;
         yield return new WaitForSeconds(5F);
         while (true)
         {
@@ -45,19 +49,19 @@ public class BirdManager : MonoBehaviour
             ind[0] = 1; ind[1] = 2; ind[2] = 3;
 
             yield return new WaitForSeconds(3.8F);
-            basicRadius *= basicRadiusRate;
+            state2RadiusRate = state2BasicRadiusRate;
             yield return new WaitForSeconds(0.4F);
-            basicRadius /= basicRadiusRate;
+            state2RadiusRate = 1;
 
             yield return new WaitForSeconds(3.6F);
-            basicRadius *= basicRadiusRate;
+            state2RadiusRate = state2BasicRadiusRate;
             yield return new WaitForSeconds(0.4F);
-            basicRadius /= basicRadiusRate;
+            state2RadiusRate = 1;
 
             yield return new WaitForSeconds(3.6F);
-            basicRadius *= basicRadiusRate;
+            state2RadiusRate = state2BasicRadiusRate;
             yield return new WaitForSeconds(0.4F);
-            basicRadius /= basicRadiusRate;
+            state2RadiusRate = 1;
         }
     }
     
@@ -68,9 +72,9 @@ public class BirdManager : MonoBehaviour
         switch(GS.state)
         {
             case 1:
-                return basicRadius * (state1RatdiusRate + iRate * 0.2F);
+                return basicRadius * (state1RadiusRate + iRate * 0.2F);
             case 2:
-                return basicRadius * ringRate[ind[id % 3]] * (1 + iRate * 0.06F);
+                return basicRadius * (state2RadiusRate * ringRate[ind[id % 3]] + iRate * 0.06F);
         }
         return basicRadius;
 
@@ -79,7 +83,6 @@ public class BirdManager : MonoBehaviour
     private void Start()
     {
         GS = GetComponent<GameSystem>();
-        state1RatdiusRate = state1StartRadiusRate;
         Screen.SetResolution(Screen.height * 9 / 16, Screen.height, Screen.fullScreen);
     }
     
