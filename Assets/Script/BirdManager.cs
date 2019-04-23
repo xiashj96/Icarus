@@ -16,6 +16,8 @@ public class BirdManager : MonoBehaviour
     public float state2BasicRadiusRate = 2F;
     float state2RadiusRate = 1F;
 
+    public bool flicking = false;
+
     public float velocityRate = 1F;
     public GameSystem GS;
     public HashSet<Bird> BirdList = new HashSet<Bird>();
@@ -32,6 +34,8 @@ public class BirdManager : MonoBehaviour
     	}
     }
 
+    float flickTime = 0.4F, barTime = 4F;
+
     public IEnumerator State2Coroutine()
     {
         ind[0] = ind[1] = ind[2] = 0;
@@ -39,29 +43,29 @@ public class BirdManager : MonoBehaviour
         yield return new WaitForSeconds(5F);
         while (true)
         {
-            yield return new WaitForSeconds(3.8F);
+            yield return new WaitForSeconds(barTime - flickTime * 0.5F);
             ind[0] = 2; ind[1] = 1; ind[2] = 3;
 
-            yield return new WaitForSeconds(4F);
+            yield return new WaitForSeconds(barTime);
             ind[0] = 3; ind[1] = 1; ind[2] = 2;
 
-            yield return new WaitForSeconds(4F);
+            yield return new WaitForSeconds(barTime);
             ind[0] = 1; ind[1] = 2; ind[2] = 3;
 
-            yield return new WaitForSeconds(3.8F);
-            state2RadiusRate = state2BasicRadiusRate;
-            yield return new WaitForSeconds(0.4F);
-            state2RadiusRate = 1;
+            yield return new WaitForSeconds(barTime - flickTime * 0.5F);
+            flicking = true;
+            yield return new WaitForSeconds(flickTime);
+            flicking = false;
 
-            yield return new WaitForSeconds(3.6F);
-            state2RadiusRate = state2BasicRadiusRate;
-            yield return new WaitForSeconds(0.4F);
-            state2RadiusRate = 1;
+            yield return new WaitForSeconds(barTime - flickTime);
+            flicking = true;
+            yield return new WaitForSeconds(flickTime);
+            flicking = false;
 
-            yield return new WaitForSeconds(3.6F);
-            state2RadiusRate = state2BasicRadiusRate;
-            yield return new WaitForSeconds(0.4F);
-            state2RadiusRate = 1;
+            yield return new WaitForSeconds(barTime - flickTime);
+            flicking = true;
+            yield return new WaitForSeconds(flickTime);
+            flicking = false;
         }
     }
     

@@ -580,6 +580,7 @@ MonoBehaviour:
   basicRadius: 1.8
   state1StartRadiusRate: 0.4
   state2BasicRadiusRate: 2
+  flicking: 0
   velocityRate: 1
   GS: {fileID: 0}
   ringRate:
@@ -659,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 1
-  state1Duration: 60
+  state1Duration: 120
 --- !u!1 &1208023283
 GameObject:
   m_ObjectHideFlags: 0
