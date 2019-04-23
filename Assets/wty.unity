@@ -577,11 +577,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numOfBirds: 0
   particleLimit: 100
-  basicRadius: 2.8
+  basicRadius: 1.8
   state1StartRadiusRate: 0.4
-  basicRadiusRate: 2
+  state2BasicRadiusRate: 2
   velocityRate: 1
   GS: {fileID: 0}
+  ringRate:
+  - 1
+  - 0.85
+  - 1.3
+  - 1.75
 --- !u!4 &1199151305
 Transform:
   m_ObjectHideFlags: 0
@@ -623,8 +628,8 @@ MonoBehaviour:
   birdPrefab: {fileID: 1184694201713154397, guid: 313bbf4b84449584ba6aeb74eb4ee803,
     type: 3}
   T: 1
-  timeLowerbound: 1
-  timeUpperbound: 2
+  timeLowerbound: 0.5
+  timeUpperbound: 1
 --- !u!114 &1199151308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1200,7 +1205,7 @@ PrefabInstance:
     - target: {fileID: 5757990601932091765, guid: f5b7f78ad2ad8184fac191a10f60f401,
         type: 3}
       propertyPath: holeEndScale
-      value: 0.85
+      value: 0.64
       objectReference: {fileID: 0}
     - target: {fileID: 5757990601932091765, guid: f5b7f78ad2ad8184fac191a10f60f401,
         type: 3}
@@ -1211,6 +1216,16 @@ PrefabInstance:
         type: 3}
       propertyPath: planeStartScale
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757990601932091765, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: coreStartScale
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5757990601932091765, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: coreEndScale
+      value: 0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5b7f78ad2ad8184fac191a10f60f401, type: 3}

@@ -20,7 +20,7 @@ public class BirdManager : MonoBehaviour
     public GameSystem GS;
     public HashSet<Bird> BirdList = new HashSet<Bird>();
     int[] ind = { 0, 0, 0 };
-    float[] ringRate = { 1.0F, 0.9F, 1.25F, 1.6F };
+    public float[] ringRate = { 1.0F, 0.9F, 1.25F, 1.6F };
 
     public IEnumerator State1Coroutine(float duration)
     {

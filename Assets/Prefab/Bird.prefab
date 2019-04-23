@@ -410,10 +410,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44493e99d6686d442a23508d67bfac85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: -1
   normForce: 2
   tanForce: 1.5
   diffComp: 1.5
-  integComp: 1.5
+  integComp: 0.5
   theta: 0
   radius: 0
   life: 0

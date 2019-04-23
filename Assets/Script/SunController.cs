@@ -29,7 +29,7 @@ public class SunController : MonoBehaviour
     {
     	StartCoroutine(CoreCoroutine(duration));
     	StartCoroutine(HoleCoroutine(duration));
-    	StartCoroutine(PlaneCoroutine(duration));
+    	//StartCoroutine(PlaneCoroutine(duration));
     }
 
     IEnumerator CoreCoroutine(float duration)
