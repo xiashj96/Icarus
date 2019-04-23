@@ -22,7 +22,10 @@ public class Bird : MonoBehaviour
     public float radius;
 
     [Header("Life")]
-    public float life;
+    public float life = 1;  // when initialized, set life manually
+                            // life is related trail time
+    public float maxTrailTime;
+    TrailRenderer trail;
     
     public GameObject sun;
     Vector2 sunPosition;
@@ -30,7 +33,7 @@ public class Bird : MonoBehaviour
     BirdManager BM;
     GameSystem GS;
 
-    public ParticleSystem particleSystem;
+    ParticleSystem particle;
     int numOfBirds = 0;
 
     Vector2 ovalAxleP, ovalAxleQ;
@@ -55,9 +58,12 @@ public class Bird : MonoBehaviour
         id = BM.numOfBirds;
         BM.BirdList.Add(this);
 
+        trail = GetComponentInChildren<TrailRenderer>();
+        trail.time = life*maxTrailTime;
+        particle = GetComponentInChildren<ParticleSystem>();
+
         sun = GameObject.FindGameObjectWithTag("Sun");
         rb2d.velocity = new Vector2(Random.Range(-1F, 1F), 1F); // random initial velocity
-
         StartCoroutine(ChangeRadiusCoroutine());
 
         //Calc oval axles... used in state 3 (burning)
@@ -74,6 +80,7 @@ public class Bird : MonoBehaviour
         sunPosition = sun.transform.position;
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
+<<<<<<< HEAD
         
     }
 
@@ -84,6 +91,9 @@ public class Bird : MonoBehaviour
     Vector2 RectCoord(Vector2 u)
     {
         return u.x * ovalAxleP + u.y * ovalAxleQ;
+=======
+        adjustForce *= Mathf.Exp(-Time.fixedDeltaTime);
+>>>>>>> d3a5a741a85e292cc9e7e6e08dcd1d3f8e32371a
     }
 
     Vector2 GetTangentForce()
@@ -142,8 +152,8 @@ public class Bird : MonoBehaviour
     {
     	if(numOfBirds != BM.numOfBirds)
     	{
-    		var emission = particleSystem.emission;
-    		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particleSystem.startLifetime, 5f);
+    		var emission = particle.emission;
+    		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);
     		numOfBirds = BM.numOfBirds;
         }
     }
