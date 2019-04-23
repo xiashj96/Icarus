@@ -22,7 +22,10 @@ public class Bird : MonoBehaviour
     public float radius;
 
     [Header("Life")]
-    public float life;
+    public float life = 1;  // when initialized, set life manually
+                            // life is related trail time
+    public float maxTrailTime;
+    TrailRenderer trail;
     
     public GameObject sun;
     Vector2 sunPosition;
@@ -30,7 +33,7 @@ public class Bird : MonoBehaviour
     BirdManager BM;
     GameSystem GS;
 
-    public ParticleSystem particleSystem;
+    ParticleSystem particle;
     int numOfBirds = 0;
     int adjCnt = 0;
 
@@ -89,9 +92,12 @@ public class Bird : MonoBehaviour
         id = BM.numOfBirds;
         BM.BirdList.Add(this);
 
+        trail = GetComponentInChildren<TrailRenderer>();
+        trail.time = life*maxTrailTime;
+        particle = GetComponentInChildren<ParticleSystem>();
+
         sun = GameObject.FindGameObjectWithTag("Sun");
         rb2d.velocity = new Vector2(Random.Range(-1F, 1F), 1F); // random initial velocity
-
         StartCoroutine(ChangeRadiusCoroutine());
     }
     
@@ -100,8 +106,6 @@ public class Bird : MonoBehaviour
         sunPosition = sun.transform.position;
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
-        
-
         adjustForce *= Mathf.Exp(-Time.fixedDeltaTime);
     }
 
@@ -137,8 +141,8 @@ public class Bird : MonoBehaviour
     {
     	if(numOfBirds != BM.numOfBirds)
     	{
-    		var emission = particleSystem.emission;
-    		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particleSystem.startLifetime, 5f);
+    		var emission = particle.emission;
+    		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);
     		numOfBirds = BM.numOfBirds;
         }
     }
