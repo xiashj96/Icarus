@@ -11,10 +11,10 @@ public class BirdManager : MonoBehaviour
     public float basicRadius = 3F;
 
     public float state1StartRadiusRate = 0.4F;
+    float state0RadiusRate = 0.7F;
     float state1RadiusRate = 0.4F;
-
-    public float state2BasicRadiusRate = 2F;
     float state2RadiusRate = 1F;
+    float state3RadiusRate = 1F;
 
     public bool flicking = false;
 
@@ -41,14 +41,13 @@ public class BirdManager : MonoBehaviour
     {
         ind[0] = ind[1] = ind[2] = 0;
         state2RadiusRate = 1;
-        yield return new WaitForSeconds(5F);
+        //yield return new WaitForSeconds(5F);
         BirdList.Sort((b1, b2) => b1.theta.CompareTo(b2.theta));
         int k = 0;
         foreach(Bird b in BirdList)
         	b.col = (k++) % 3;
         while (true)
         {
-            yield return new WaitForSeconds(barTime - flickTime * 0.5F);
             ind[0] = 2; ind[1] = 1; ind[2] = 3;
 
             yield return new WaitForSeconds(barTime);
@@ -71,6 +70,8 @@ public class BirdManager : MonoBehaviour
             flicking = true;
             yield return new WaitForSeconds(flickTime);
             flicking = false;
+
+            yield return new WaitForSeconds(barTime - flickTime * 0.5F);
         }
     }
     
@@ -80,10 +81,15 @@ public class BirdManager : MonoBehaviour
     {
         switch(GS.state)
         {
+            case 0:
+                return basicRadius * (state0RadiusRate + iRate * 0.2F);
             case 1:
-                return basicRadius * (state1RadiusRate + iRate * 0.2F);
+                return basicRadius * (state1RadiusRate + iRate * 0.25F);
             case 2:
                 return basicRadius * (state2RadiusRate * ringRate[ind[id % 3]] + iRate * 0.06F);
+            case 3:
+                return basicRadius * (state3RadiusRate + iRate * 0.2F);
+
         }
         return basicRadius;
 

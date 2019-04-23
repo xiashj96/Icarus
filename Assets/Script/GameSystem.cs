@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class GameSystem : MonoBehaviour
 {
-    public int state = 0;
+    public int state = 1;
+    public float state0Duration = 3f;
     public float state1Duration = 5f;
+    public float state2Duration = 32F;
 
     BirdManager BM;
     SunController SC;
@@ -21,8 +23,19 @@ public class GameSystem : MonoBehaviour
         BM.StartCoroutine(BM.State1Coroutine(state1Duration));
         yield return new WaitForSeconds(state1Duration);
 
+        state = 0;
+        yield return new WaitForSeconds(state0Duration);
+
         state = 2;
-        BM.StartCoroutine(BM.State2Coroutine());
+        Coroutine c = BM.StartCoroutine(BM.State2Coroutine());
+        yield return new WaitForSeconds(state2Duration);
+        BM.flicking = false;
+        BM.StopCoroutine(c);
+
+        state = 0;
+        yield return new WaitForSeconds(state0Duration);
+
+        state = 3;
     }
 
     // Start is called before the first frame update

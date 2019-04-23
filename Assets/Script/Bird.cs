@@ -32,7 +32,8 @@ public class Bird : MonoBehaviour
 
     public ParticleSystem particleSystem;
     int numOfBirds = 0;
-    int adjCnt = 0;
+
+    Vector2 ovalAxleP, ovalAxleQ;
 
     IEnumerator ChangeRadiusCoroutine()
     {
@@ -42,43 +43,8 @@ public class Bird : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(1.5F, 5F));
         }
     }
-
-    /*
-    public void Adjust()
-    {
-        float xMin = 100;
-        int flag = 0;
-        float delta;
-        int cnt = 0;
-        foreach(Bird i in BM.BirdList)
-        {
-            if (i == this)
-                continue;
-            if (GS.state == 2 && i.id % 3 != id % 3)
-                continue;
-            cnt++;
-            delta = i.theta - theta;
-            if(delta > Mathf.PI / 2)
-                delta -= Mathf.PI;
-            if (delta < -Mathf.PI / 2)
-                delta += Mathf.PI;
-            if (Mathf.Abs(delta) < xMin)
-            {
-                xMin = Mathf.Abs(delta);
-                if (delta > 0)
-                    flag = 1;
-                if (delta < 0)
-                    flag = -1;
-            }
-            
-        }
-        adjustForce += flag * 0.6F;
-        Debug.Log("Adjust:" + id.ToString() + " " + flag.ToString());
-        adjCnt++;
-    }
-    */
-
-
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +59,14 @@ public class Bird : MonoBehaviour
         rb2d.velocity = new Vector2(Random.Range(-1F, 1F), 1F); // random initial velocity
 
         StartCoroutine(ChangeRadiusCoroutine());
+
+        //Calc oval axles... used in state 3 (burning)
+        float a = Random.Range(-Mathf.PI, Mathf.PI);
+        float l = Mathf.Pow(Random.Range(1F,8F),0.167F);
+
+        ovalAxleP = new Vector2(Mathf.Sin(a), Mathf.Cos(a)) * l;
+        ovalAxleQ = new Vector2(-Mathf.Cos(a), Mathf.Sin(a)) * 1;
+
     }
     
     void FixedUpdate()
@@ -101,21 +75,44 @@ public class Bird : MonoBehaviour
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
         
+    }
 
-        adjustForce *= Mathf.Exp(-Time.fixedDeltaTime);
+    Vector2 OvalCoord(Vector2 v)
+    {
+        return new Vector2(Vector2.Dot(v, ovalAxleP), Vector2.Dot(v, ovalAxleQ));
+    }
+    Vector2 RectCoord(Vector2 u)
+    {
+        return u.x * ovalAxleP + u.y * ovalAxleQ;
     }
 
     Vector2 GetTangentForce()
     {
         Vector2 r = (Vector2)transform.position - sunPosition;
+
+        if(GS.state == 3)
+        {
+            r = OvalCoord(r);
+        }
+
+
         Vector2 tangent = new Vector2(-r.y, r.x).normalized;
-        return tangent * (tanForce + adjustForce) * BM.velocityRate;
+        tangent *= tanForce * BM.velocityRate;
+        if (GS.state == 3)
+        {
+            tangent = RectCoord(tangent);
+        }
+        return tangent;
     }
 
     Vector2 GetNormalForce()
     {
         targetRadius = BM.GetRadius(col == -1 ? id % 3 : col, individualRadiusRate);
         Vector2 r = (Vector2)transform.position - sunPosition;
+        if (GS.state == 3)
+        {
+            r = OvalCoord(r);
+        }
         theta = Mathf.Atan2(r.x, r.y);
         Vector2 normal = r.normalized;
         radius = r.magnitude;
@@ -126,10 +123,18 @@ public class Bird : MonoBehaviour
             + Mathf.Clamp(normV, -1f, 1f) * diffComp
             + Mathf.Clamp(integalDist, -1f, 1f) * integComp
             );
+        if (GS.state == 0)
+            ret *= 4F;
         if (GS.state == 2)
             ret *= 2F;
+        if (GS.state == 3)
+            ret *= 8F;
         if (BM.flicking)
-            ret += normal * 8F;
+            ret += normal * 9F;
+        if (GS.state == 3)
+        {
+            ret = RectCoord(ret);
+        }
         return ret;
     }
 

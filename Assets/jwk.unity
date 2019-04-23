@@ -579,10 +579,10 @@ MonoBehaviour:
   particleLimit: 100
   basicRadius: 1.8
   state1StartRadiusRate: 0.4
-  state2BasicRadiusRate: 2
   flicking: 0
   velocityRate: 1
   GS: {fileID: 0}
+  BirdList: []
   ringRate:
   - 1
   - 0.85
@@ -660,7 +660,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 1
-  state1Duration: 120
+  state0Duration: 2
+  state1Duration: 20
+  state2Duration: 20
 --- !u!1 &1208023283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1017,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 160, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 533.8, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1933428575
 MonoBehaviour:
