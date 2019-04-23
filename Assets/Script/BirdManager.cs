@@ -17,8 +17,8 @@ public class BirdManager : MonoBehaviour
     public float velocityRate = 1F;
     public GameSystem GS;
     public HashSet<Bird> BirdList = new HashSet<Bird>();
-    int[] ind = { 0, 1, 2 };
-    float[] ringRate = { 0.9F, 1.25F, 1.6F };
+    int[] ind = { 0, 0, 0 };
+    float[] ringRate = { 1.0F, 0.9F, 1.25F, 1.6F };
 
     public IEnumerator State1Coroutine(float duration)
     {
@@ -31,17 +31,18 @@ public class BirdManager : MonoBehaviour
 
     public IEnumerator State2Coroutine()
     {
-        yield return new WaitForSeconds(0.2F);
+        ind[0] = ind[1] = ind[2] = 0;
+        yield return new WaitForSeconds(5F);
         while (true)
         {
             yield return new WaitForSeconds(3.8F);
-            ind[0] = 1;ind[1] = 0;
+            ind[0] = 2; ind[1] = 1; ind[2] = 3;
 
             yield return new WaitForSeconds(4F);
-            ind[0] = 2; ind[2] = 1;
+            ind[0] = 3; ind[1] = 1; ind[2] = 2;
 
             yield return new WaitForSeconds(4F);
-            ind[0] = 0; ind[1] = 1; ind[2] = 2;
+            ind[0] = 1; ind[1] = 2; ind[2] = 3;
 
             yield return new WaitForSeconds(3.8F);
             basicRadius *= basicRadiusRate;
@@ -69,9 +70,7 @@ public class BirdManager : MonoBehaviour
             case 1:
                 return basicRadius * (state1RatdiusRate + iRate * 0.2F);
             case 2:
-                int i = id % 3;
-                float r = ringRate[ind[i]];
-                return basicRadius * r * (1 + iRate * 0.06F);
+                return basicRadius * ringRate[ind[id % 3]] * (1 + iRate * 0.06F);
         }
         return basicRadius;
 
