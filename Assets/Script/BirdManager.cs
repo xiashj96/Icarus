@@ -20,7 +20,8 @@ public class BirdManager : MonoBehaviour
 
     public float velocityRate = 1F;
     public GameSystem GS;
-    public HashSet<Bird> BirdList = new HashSet<Bird>();
+    public List<Bird> BirdList = new List<Bird>();
+
     int[] ind = { 0, 0, 0 };
     public float[] ringRate = { 1.0F, 0.9F, 1.25F, 1.6F };
 
@@ -41,6 +42,10 @@ public class BirdManager : MonoBehaviour
         ind[0] = ind[1] = ind[2] = 0;
         state2RadiusRate = 1;
         yield return new WaitForSeconds(5F);
+        BirdList.Sort((b1, b2) => b1.theta.CompareTo(b2.theta));
+        int k = 0;
+        foreach(Bird b in BirdList)
+        	b.col = (k++) % 3;
         while (true)
         {
             yield return new WaitForSeconds(barTime - flickTime * 0.5F);

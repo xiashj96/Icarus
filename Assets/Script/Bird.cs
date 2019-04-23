@@ -7,6 +7,7 @@ public class Bird : MonoBehaviour
 {
     float targetRadius;
     public int id = -1;
+    public int col = -1;
     [Header("Kinematic")]
     public float normForce = 6F;
     public float tanForce = 6F;
@@ -42,6 +43,7 @@ public class Bird : MonoBehaviour
         }
     }
 
+    /*
     public void Adjust()
     {
         float xMin = 100;
@@ -74,7 +76,7 @@ public class Bird : MonoBehaviour
         Debug.Log("Adjust:" + id.ToString() + " " + flag.ToString());
         adjCnt++;
     }
-
+    */
 
 
     // Start is called before the first frame update
@@ -112,7 +114,7 @@ public class Bird : MonoBehaviour
 
     Vector2 GetNormalForce()
     {
-        targetRadius = BM.GetRadius(id,individualRadiusRate);
+        targetRadius = BM.GetRadius(col == -1 ? id % 3 : col, individualRadiusRate);
         Vector2 r = (Vector2)transform.position - sunPosition;
         theta = Mathf.Atan2(r.x, r.y);
         Vector2 normal = r.normalized;

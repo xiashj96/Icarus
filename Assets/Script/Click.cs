@@ -11,6 +11,13 @@ public class Click : MonoBehaviour
     public float timeLowerbound = 1.0f;
     public float timeUpperbound = 2.0f;
 
+    GameSystem GS;
+
+    void Start()
+    {
+        GS = GetComponent<GameSystem>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -22,22 +29,26 @@ public class Click : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0;
-            var bird = Instantiate(birdPrefab, mousePos, Quaternion.identity);
-            for (int i = 0; i < bird.transform.childCount; i++)
-	        {
-	            var child = bird.transform.GetChild(i).gameObject;
-	            if(child.name == "Trail")
-	            {
-	            	child.GetComponent<TrailRenderer>().time = Random.Range(timeLowerbound, timeUpperbound);
-	            	break;
-	            }
-	        }
+            if(GS.state == 1)
+            {
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePos.z = 0;
+                var bird = Instantiate(birdPrefab, mousePos, Quaternion.identity);
+                for (int i = 0; i < bird.transform.childCount; i++)
+                {
+                    var child = bird.transform.GetChild(i).gameObject;
+                    if(child.name == "Trail")
+                    {
+                        child.GetComponent<TrailRenderer>().time = Random.Range(timeLowerbound, timeUpperbound);
+                        break;
+                    }
+                }
+                
+                float time = Time.time - timer;
+                float life = 1 - Mathf.Exp(-time / T);
+                bird.GetComponent<Bird>().life = life;
+            }
             
-            float time = Time.time - timer;
-            float life = 1 - Mathf.Exp(-time / T);
-            bird.GetComponent<Bird>().life = life;
         }
         
     }
