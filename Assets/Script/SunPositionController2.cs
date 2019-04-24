@@ -17,7 +17,7 @@ public class SunPositionController2 : MonoBehaviour
         float startPosition = gameObject.transform.position.y;
         for(float t = 0; t < duration; t += Time.deltaTime)
         {
-            float position = startPosition + (endPosition - startPosition) * t / duration;
+            float position = startPosition + (endPosition - startPosition) * Mathf.Sqrt(t / duration);
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, position, gameObject.transform.position.z);
             yield return 0;
         }

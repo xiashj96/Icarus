@@ -43,9 +43,12 @@ public class EdgeRaysScript : MonoBehaviour
             CurMaterial.SetVector("_Offsets", new Vector2(BlurOffsetX, 0));
             Graphics.Blit(tempBuffer, renderBuffer, CurMaterial, 1);
 
-            Graphics.Blit(renderBuffer, tempBuffer, CurMaterial, 2);
-            Graphics.Blit(tempBuffer, renderBuffer, CurMaterial, 3);
-            Graphics.Blit(renderBuffer, destTexture, CurMaterial, 4);
+            //Graphics.Blit(renderBuffer, tempBuffer, CurMaterial, 2);
+            //Graphics.Blit(tempBuffer, renderBuffer, CurMaterial, 3);
+            //Graphics.Blit(renderBuffer, destTexture, CurMaterial, 4);
+
+            Graphics.Blit(renderBuffer, tempBuffer, CurMaterial, 3);
+            Graphics.Blit(tempBuffer, destTexture, CurMaterial, 4);
  
         }
  

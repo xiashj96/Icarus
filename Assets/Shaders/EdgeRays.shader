@@ -221,8 +221,8 @@
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
                 float len = length(vec);
-                int cnt = 25;
-                float stepLength = 0.0005;
+                int cnt = 35;
+                float stepLength = 0.0004;
                 half2 step = vec / len * stepLength;
 
                 [unroll(40)]
@@ -280,8 +280,8 @@
                 float G = 0;
                 half2 vec = half2(_StartPointU, _StartPointV) - i.uv;
                 float len = length(vec);
-                int cnt = 25;
-                float stepLength = 0.0005;
+                int cnt = 35;
+                float stepLength = 0.0004;
                 half2 step = vec / len * stepLength;
                 [unroll(40)]
                 for(int it = 0; it < cnt * cnt; it += cnt)

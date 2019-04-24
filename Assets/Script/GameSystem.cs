@@ -19,6 +19,7 @@ public class GameSystem : MonoBehaviour
     public float state2Duration = 32F;
     public float state3Duration1 = 20F;
     public float state3Duration2 = 2F;
+    public float state3Duration3 = 2F;
 
     BirdManager BM;
     SunController SC;
@@ -26,6 +27,8 @@ public class GameSystem : MonoBehaviour
     SunPositionController SPC;
     SunPositionController2 SPC2;
     BackgroundController BC;
+    BackgroundController2 BC2;
+    EdgeRaysController ERC;
 
     IEnumerator SetStateCoroutine()
     {
@@ -51,6 +54,8 @@ public class GameSystem : MonoBehaviour
         state = 3;
         SC2.StartAllCoroutine(state3Duration2);
         SPC2.StartAllCoroutine(state3Duration1);
+        BC2.StartAllCoroutine(state3Duration1);
+        ERC.StartAllCoroutine(state3Duration3);
         BM.StartCoroutine(BM.State3Coroutine());
     }
 
@@ -63,6 +68,8 @@ public class GameSystem : MonoBehaviour
         SPC = GameObject.Find("Sun").GetComponent<SunPositionController>();
         SPC2 = GameObject.Find("Sun").GetComponent<SunPositionController2>();
         BC = GameObject.Find("BackgroundSkyAndOcean").GetComponent<BackgroundController>();
+        BC2 = GameObject.Find("BackgroundSkyAndOcean").GetComponent<BackgroundController2>();
+        ERC = GetComponent<EdgeRaysController>();
         StartCoroutine(SetStateCoroutine());
     }
 

@@ -60,7 +60,7 @@ public class Bird : MonoBehaviour
         GS = GameObject.Find("Manager").GetComponent<GameSystem>();
         BM.numOfBirds += 1;
         id = BM.numOfBirds;
-        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(0.041F * id - Mathf.Floor(0.041F * id), 0.8F, 1F);
+        //GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(0.041F * id - Mathf.Floor(0.041F * id), 0.8F, 1F);
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();
@@ -111,7 +111,7 @@ public class Bird : MonoBehaviour
         Vector2 tangent = new Vector2(-r.y, r.x).normalized;
         tangent *= tanForce * BM.velocityRate;
         if (GS.state == 3)
-            tangent *= 1 + ovalIntensity * 0.2F;
+            tangent *= 0.8F + ovalIntensity * 0.2F;
         if(GS.state == 4)
         {
             if (droppingRate / maxDroppingRate >= 0.8F)

@@ -235,7 +235,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc9030642365f9a4fa0f862aa0f68a0a, type: 3}
   m_Name: 
@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 1049086909}
   - component: {fileID: 1049086908}
   - component: {fileID: 1049086910}
+  - component: {fileID: 1049086911}
   m_Layer: 0
   m_Name: BackgroundSkyAndOcean
   m_TagString: Untagged
@@ -442,6 +443,21 @@ MonoBehaviour:
   blueLineStartPosition: 0.13
   blueLineEndPosition: 0.08
   endCompression: 0.25
+--- !u!114 &1049086911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049086907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffb31ebe73f7aa49951bf39d641d713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endPosition: -21.47
+  reflectionMaterial: {fileID: 2100000, guid: 4356160632e27714da9683027140ced5, type: 2}
+  blueLineEndPosition: 0.075
 --- !u!1 &1179114425
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +551,7 @@ GameObject:
   - component: {fileID: 1199151307}
   - component: {fileID: 1199151308}
   - component: {fileID: 1199151309}
+  - component: {fileID: 1199151310}
   m_Layer: 0
   m_Name: Manager
   m_TagString: GameController
@@ -639,9 +656,57 @@ MonoBehaviour:
   state: 1
   state0Duration: 3
   state1Duration: 20
-  state2Duration: 0
+  state2Duration: 32
   state3Duration1: 20
   state3Duration2: 0.5
+  state3Duration3: 2
+--- !u!114 &1199151310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199151303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1c325f90fee547b16b961cf2c64c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startStrength: 0.2
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.10526315
+      inSlope: 3.5021577
+      outSlope: 3.5021577
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.043202005
+    - serializedVersion: 3
+      time: 0.36851934
+      value: 0.9338062
+      inSlope: -2.460733
+      outSlope: -2.460733
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.053904556
+    - serializedVersion: 3
+      time: 1.0002546
+      value: 0.4
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  edgeRaysMaterial: {fileID: 2100000, guid: f3e80e2682744ba469998f52abe0b3c9, type: 2}
 --- !u!1 &1208023283
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,7 +1061,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 160, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 482.59, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1933428575
 MonoBehaviour:
@@ -1025,7 +1090,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1232,7 +1297,7 @@ PrefabInstance:
     - target: {fileID: 5239052035384703433, guid: f5b7f78ad2ad8184fac191a10f60f401,
         type: 3}
       propertyPath: endPosition
-      value: 4
+      value: 3.24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5b7f78ad2ad8184fac191a10f60f401, type: 3}
