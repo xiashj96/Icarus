@@ -11,6 +11,8 @@ public class GameSystem : MonoBehaviour
      * 2: Ceremony
      * 3: Burning
      * 4: Dropping to the sea
+     * 5: Reborn
+     * 6: Burnout
      * 
     */
     public int state = 1;
@@ -48,18 +50,45 @@ public class GameSystem : MonoBehaviour
         BM.flicking = false;
         BM.StopCoroutine(c);
 
-        //state = 0;
-        //yield return new WaitForSeconds(state0Duration);
+        if(BM.numOfBirds <= 20)
+        {
+            state = 0;
+            yield return new WaitForSeconds(state0Duration);
+            state = 4;
+        }
+        else
+        {
+            state = 3;
+            if (BM.totLife / BM.numOfBirds < 0.4F)
+                BM.burnDamage = BM.maxLife * 1.1F / state3Duration1;
+            else
+                BM.burnDamage = BM.maxLife * 0.9F / state3Duration1;
 
-        state = 3;
-        SC2.StartAllCoroutine(state3Duration2);
-        SPC2.StartAllCoroutine(state3Duration1);
-        BC2.StartAllCoroutine(state3Duration1);
-        ERC.StartAllCoroutine(state3Duration3);
-        BM.StartCoroutine(BM.State3Coroutine());
+            SC2.StartAllCoroutine(state3Duration2);
+            SPC2.StartAllCoroutine(state3Duration1);
+            BC2.StartAllCoroutine(state3Duration1);
+            ERC.StartAllCoroutine(state3Duration3);
+            BM.StartCoroutine(BM.State3Coroutine());
+            Debug.Log("State 3:" + Time.time.ToString());
+            yield return new WaitForSeconds(state3Duration1);
+
+            Debug.Log("AAA");
+            if (BM.birdsAliveCnt == 0)
+            {
+                state = 5;
+                Debug.Log("State 5:" + Time.time.ToString());
+
+            }
+            else
+            {
+                Debug.Log("State 6:" + Time.time.ToString());
+                state = 6;
+            }
+
+        }
+        
     }
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         BM = GetComponent<BirdManager>();
