@@ -24,7 +24,8 @@ public class Bird : MonoBehaviour
     [Header("Life")]
     public float life = 1;  // when initialized, set life manually
                             // life is related trail time
-    public float maxTrailTime;
+    public float minTrailTime = 0.5f;
+    public float maxTrailTime = 1f;
     TrailRenderer trail;
     
     public GameObject sun;
@@ -59,7 +60,7 @@ public class Bird : MonoBehaviour
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();
-        trail.time = life*maxTrailTime;
+        trail.time = minTrailTime + life * (maxTrailTime - minTrailTime);
         particle = GetComponentInChildren<ParticleSystem>();
 
         sun = GameObject.FindGameObjectWithTag("Sun");

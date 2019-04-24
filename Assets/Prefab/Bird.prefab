@@ -196,7 +196,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.2
@@ -339,7 +339,8 @@ MonoBehaviour:
   theta: 0
   radius: 0
   life: 1
-  maxTrailTime: 3
+  minTrailTime: 0.5
+  maxTrailTime: 1
   sun: {fileID: 0}
 --- !u!1 &3247753818990339471
 GameObject:
