@@ -170,8 +170,11 @@ public class Bird : MonoBehaviour
 
     void Update()
     {
-        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
-        if(GS.state == 3)
+        if (alive)
+            GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
+        else
+            GetComponentInChildren<SpriteRenderer>().color = Color.black;
+        if (GS.state == 3)
         {
             life -= BM.burnDamage * Time.deltaTime;
             if(alive && life <=0F)

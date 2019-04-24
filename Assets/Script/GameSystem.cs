@@ -59,24 +59,29 @@ public class GameSystem : MonoBehaviour
         else
         {
             state = 3;
+            if (BM.totLife / BM.numOfBirds < 0.4F)
+                BM.burnDamage = BM.maxLife * 1.1F / state3Duration1;
+            else
+                BM.burnDamage = BM.maxLife * 0.9F / state3Duration1;
+
             SC2.StartAllCoroutine(state3Duration2);
             SPC2.StartAllCoroutine(state3Duration1);
             BC2.StartAllCoroutine(state3Duration1);
             ERC.StartAllCoroutine(state3Duration3);
             BM.StartCoroutine(BM.State3Coroutine());
-            if(BM.totLife / BM.numOfBirds < 0.4F)
-                BM.burnDamage = BM.maxLife * 1.1F / state3Duration1;
-            else
-                BM.burnDamage = BM.maxLife * 0.9F / state3Duration1;
-
+            Debug.Log("State 3:" + Time.time.ToString());
             yield return new WaitForSeconds(state3Duration1);
-            if (BM.birdsAliveCnt > 0)
+
+            Debug.Log("AAA");
+            if (BM.birdsAliveCnt == 0)
             {
                 state = 5;
+                Debug.Log("State 5:" + Time.time.ToString());
 
             }
             else
             {
+                Debug.Log("State 6:" + Time.time.ToString());
                 state = 6;
             }
 
