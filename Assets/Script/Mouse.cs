@@ -11,10 +11,12 @@ public class Mouse : MonoBehaviour
     //public float timeUpperbound = 2.0f;
 
     GameSystem GS;
+    LineManager LM;
 
     void Start()
     {
         GS = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
+        LM = GameObject.FindGameObjectWithTag("GameController").GetComponent<LineManager>();
     }
 
     // Update is called once per frame
@@ -35,6 +37,10 @@ public class Mouse : MonoBehaviour
                 var bird = GameObject.Instantiate(birdPrefab, mousePos, Quaternion.identity).GetComponent<Bird>();
                 float time = Time.time - timer;
                 bird.life = 1 - Mathf.Exp(-time / T);
+            }
+            else if(GS.state == 3)
+            {
+                LM.Generate(mousePos);
             }
         }
     }
