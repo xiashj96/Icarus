@@ -8,10 +8,14 @@ public class GameSystem : MonoBehaviour
     public float state0Duration = 3f;
     public float state1Duration = 5f;
     public float state2Duration = 32F;
+    public float state3Duration1 = 20F;
+    public float state3Duration2 = 2F;
 
     BirdManager BM;
     SunController SC;
+    SunController2 SC2;
     SunPositionController SPC;
+    SunPositionController2 SPC2;
     BackgroundController BC;
 
     IEnumerator SetStateCoroutine()
@@ -36,6 +40,9 @@ public class GameSystem : MonoBehaviour
         yield return new WaitForSeconds(state0Duration);
 
         state = 3;
+        SC2.StartAllCoroutine(state3Duration2);
+        SPC2.StartAllCoroutine(state3Duration1);
+        BM.StartCoroutine(BM.State3Coroutine());
     }
 
     // Start is called before the first frame update
@@ -43,7 +50,9 @@ public class GameSystem : MonoBehaviour
     {
         BM = GetComponent<BirdManager>();
         SC = GameObject.Find("Sun").GetComponent<SunController>();
+        SC2 = GameObject.Find("Sun").GetComponent<SunController2>();
         SPC = GameObject.Find("Sun").GetComponent<SunPositionController>();
+        SPC2 = GameObject.Find("Sun").GetComponent<SunPositionController2>();
         BC = GameObject.Find("BackgroundSkyAndOcean").GetComponent<BackgroundController>();
         StartCoroutine(SetStateCoroutine());
     }

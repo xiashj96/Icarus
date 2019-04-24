@@ -344,27 +344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clockwise: 0
   period: 20
---- !u!1 &805143554 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 597343181175969444, guid: f5b7f78ad2ad8184fac191a10f60f401,
-    type: 3}
-  m_PrefabInstance: {fileID: 597343180011176838}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &805143557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805143554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfc7bdbf43bf8e44bb6f69de5af62806, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPosition: 0
-  endPosition: 2.01
-  edgeRaysMaterial: {fileID: 2100000, guid: f3e80e2682744ba469998f52abe0b3c9, type: 2}
 --- !u!1 &1049086907
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +558,6 @@ MonoBehaviour:
   particleLimit: 100
   basicRadius: 1.8
   state1StartRadiusRate: 0.4
-  state2BasicRadiusRate: 2
   flicking: 0
   velocityRate: 1
   GS: {fileID: 0}
@@ -630,8 +608,6 @@ MonoBehaviour:
   birdPrefab: {fileID: 1184694201713154397, guid: 313bbf4b84449584ba6aeb74eb4ee803,
     type: 3}
   T: 1
-  timeLowerbound: 0.5
-  timeUpperbound: 1
 --- !u!114 &1199151308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,7 +637,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 1
+  state0Duration: 3
   state1Duration: 20
+  state2Duration: 0
+  state3Duration1: 20
+  state3Duration2: 0.5
 --- !u!1 &1208023283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,6 +1208,31 @@ PrefabInstance:
         type: 3}
       propertyPath: coreEndScale
       value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 839362129311896945, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: coreEndScale
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 839362129311896945, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: holeEndScale
+      value: 0.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 839362129311896945, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: planeStartScale
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 839362129311896945, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: planeEndScale
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 5239052035384703433, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: endPosition
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5b7f78ad2ad8184fac191a10f60f401, type: 3}
