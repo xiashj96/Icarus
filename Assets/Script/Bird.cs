@@ -24,6 +24,9 @@ public class Bird : MonoBehaviour
     [Header("Life")]
     public float life = 1;  // when initialized, set life manually
                             // life is related trail time
+    float droppingRate = 0F;
+    float maxDroppingRate = 50F;
+    float state4TargetX = 0F;
     public float minTrailTime = 0.5f;
     public float maxTrailTime = 1f;
     TrailRenderer trail;
@@ -36,9 +39,9 @@ public class Bird : MonoBehaviour
 
     ParticleSystem particle;
     int numOfBirds = 0;
-
-    //Vector2 ovalAxleP, ovalAxleQ;
+    
     float ovalAngle = 0F, ovalIntensity = 0F;
+
     IEnumerator ChangeRadiusCoroutine()
     {
         while(true)
@@ -57,6 +60,7 @@ public class Bird : MonoBehaviour
         GS = GameObject.Find("Manager").GetComponent<GameSystem>();
         BM.numOfBirds += 1;
         id = BM.numOfBirds;
+        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(0.041F * id - Mathf.Floor(0.041F * id), 0.8F, 1F);
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();
@@ -66,37 +70,40 @@ public class Bird : MonoBehaviour
         sun = GameObject.FindGameObjectWithTag("Sun");
         rb2d.velocity = new Vector2(Random.Range(-1F, 1F), 1F); // random initial velocity
         StartCoroutine(ChangeRadiusCoroutine());
-
-        //Calc oval axles... used in state 3 (burning)
-        /*
-        float a = Random.Range(-Mathf.PI, Mathf.PI);
-        float l = Mathf.Pow(Random.Range(1F,8F),0.167F);
-
-        ovalAxleP = new Vector2(Mathf.Sin(a), Mathf.Cos(a)) * l;
-        ovalAxleQ = new Vector2(-Mathf.Cos(a), Mathf.Sin(a)) * 1;
-        */
+        
         ovalAngle = Random.Range(-Mathf.PI, Mathf.PI);
         ovalIntensity = Mathf.Pow(Random.Range(0.6F, 1.4F), 2F);
 
+        state4TargetX = Random.Range(-2F, 2F) + Random.Range(-1F, 1F);
     }
     
     void FixedUpdate()
     {
         sunPosition = sun.transform.position;
+
+        if (GS.state == 4)//dropping to the sea
+        {
+            if (droppingRate <= maxDroppingRate)
+            {
+                droppingRate += Time.fixedDeltaTime / (0.01F + 10F * life);
+                if (droppingRate / maxDroppingRate >= 0.8F)
+                    rb2d.AddForce(Vector2.up * 3F * Mathf.Pow((droppingRate / maxDroppingRate - 0.8F) * 5F, 3F));
+            }
+            else
+            {
+                droppingRate += Time.fixedDeltaTime;
+                rb2d.AddForce(Vector2.down * 0.8F);
+            }
+
+            if (droppingRate / maxDroppingRate >= 0.8F && transform.position.y < sunPosition.y)
+                rb2d.AddForce(Vector2.right * (state4TargetX - transform.position.x));
+        }
+            
+
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
     }
-
-    /*
-    Vector2 OvalCoord(Vector2 v)
-    {
-        return new Vector2(Vector2.Dot(v, ovalAxleP), Vector2.Dot(v, ovalAxleQ));
-    }
-    Vector2 RectCoord(Vector2 u)
-    {
-        return u.x * ovalAxleP + u.y * ovalAxleQ;
-    }
-    */
+    
     Vector2 GetTangentForce()
     {
         Vector2 r = (Vector2)transform.position - sunPosition;
@@ -105,6 +112,11 @@ public class Bird : MonoBehaviour
         tangent *= tanForce * BM.velocityRate;
         if (GS.state == 3)
             tangent *= 1 + ovalIntensity * 0.2F;
+        if(GS.state == 4)
+        {
+            if (droppingRate / maxDroppingRate >= 0.8F)
+                tangent *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / maxDroppingRate);
+        }
         return tangent;
     }
 
@@ -130,6 +142,12 @@ public class Bird : MonoBehaviour
             ret *= 2F;
         if (GS.state == 3)
             ret *= 2F;
+        if (GS.state == 4)
+        {
+            if (droppingRate / maxDroppingRate >= 0.8F)
+                ret *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / maxDroppingRate);
+            ret *= 2F;
+        }
         if (BM.flicking)
             ret += normal * 9F;
         if (GS.state == 3)
