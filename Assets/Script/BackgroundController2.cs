@@ -2,26 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Background Controller For State 1
-public class BackgroundController : MonoBehaviour
+//Background Controller For State 3
+public class BackgroundController2 : MonoBehaviour
 {
-    // Update is called once per frame
-    public float startPosition = -18.9f;
     public float endPosition = -20.64f;
 
     public Material reflectionMaterial = null;
 
-    public float blueLineStartPosition = 0.12f;
     public float blueLineEndPosition = 0.085f;
-
-    public float endCompression = 0.5f;
-
-    void Start()
-    {
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, startPosition, gameObject.transform.position.z);
-        reflectionMaterial.SetFloat("_BlueLine", blueLineStartPosition);
-        reflectionMaterial.SetFloat("_Compression", 0);
-    }
 
     public void StartAllCoroutine(float duration)
     {
@@ -32,6 +20,7 @@ public class BackgroundController : MonoBehaviour
 
     IEnumerator MovingCoroutine(float duration)
     {
+        float startPosition = gameObject.transform.position.y;
         for(float t = 0; t < duration; t += Time.deltaTime)
         {
             float position = startPosition + (endPosition - startPosition) * t / duration;
@@ -42,6 +31,7 @@ public class BackgroundController : MonoBehaviour
 
     IEnumerator BlueLineCoroutine(float duration)
     {
+        float blueLineStartPosition = reflectionMaterial.GetFloat("_BlueLine");
         for(float t = 0; t < duration; t += Time.deltaTime)
         {
             float blueLine = blueLineStartPosition + (blueLineEndPosition - blueLineStartPosition) * t / duration;
@@ -52,17 +42,12 @@ public class BackgroundController : MonoBehaviour
 
     IEnumerator CompressingCoroutine(float duration)
     {
+        float startCompression = reflectionMaterial.GetFloat("_Compression");
         for(float t = 0; t < duration; t += Time.deltaTime)
         {
-            float compression = endCompression * t / duration;
+            float compression = startCompression + (1 - startCompression) * t / duration;
             reflectionMaterial.SetFloat("_Compression", compression);
             yield return 0;
         }
-    }
-
-    void OnDestroy()
-    {
-        reflectionMaterial.SetFloat("_BlueLine", blueLineStartPosition);
-        reflectionMaterial.SetFloat("_Compression", 0);
     }
 }

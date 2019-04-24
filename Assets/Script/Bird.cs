@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class Bird : MonoBehaviour
 {
+    bool alive = true;
     float targetRadius;
     public int id = -1;
     public int col = -1;
@@ -101,7 +102,8 @@ public class Bird : MonoBehaviour
             if (droppingRate / maxDroppingRate >= 0.8F && transform.position.y < sunPosition.y)
                 rb2d.AddForce(Vector2.right * (state4TargetX - transform.position.x));
         }
-            
+        if(!alive)
+            rb2d.AddForce(Vector2.down * 0.8F);
 
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
@@ -109,29 +111,34 @@ public class Bird : MonoBehaviour
     
     Vector2 GetTangentForce()
     {
+        if (!alive)
+            return Vector2.zero;
         Vector2 r = (Vector2)transform.position - sunPosition;
 
         Vector2 tangent = new Vector2(-r.y, r.x).normalized;
         tangent *= tanForce * BM.velocityRate;
         if (GS.state == 3)
-            tangent *= 1 + ovalIntensity * 0.2F;
+            tangent *= 0.8F + ovalIntensity * 0.2F;
         if(GS.state == 4)
         {
             if (droppingRate / maxDroppingRate >= 0.8F)
                 tangent *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / maxDroppingRate);
         }
+
         return tangent;
     }
 
     Vector2 GetNormalForce()
     {
+        if (!alive)
+            return Vector2.zero;
+
         targetRadius = BM.GetRadius(col == -1 ? id % 3 : col, individualRadiusRate);
         Vector2 r = (Vector2)transform.position - sunPosition;
         theta = Mathf.Atan2(r.x, r.y);
         Vector2 normal = r.normalized;
         radius = r.magnitude;
-
-
+        
         float normV = Vector2.Dot(rb2d.velocity, normal);
         integalDist += (radius - targetRadius) * Time.fixedDeltaTime;
 
@@ -166,7 +173,12 @@ public class Bird : MonoBehaviour
         GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
         if(GS.state == 3)
         {
-            life -= Time.deltaTime / 30F;
+            life -= BM.burnDamage * Time.deltaTime;
+            if(alive && life <=0F)
+            {
+                alive = false;
+                BM.birdsAliveCnt--;
+            }
         }
         if (numOfBirds != BM.numOfBirds)
     	{

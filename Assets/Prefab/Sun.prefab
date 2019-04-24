@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 597343181175969442}
   - component: {fileID: 597343181175969445}
   - component: {fileID: 5757990601932091765}
+  - component: {fileID: 839362129311896945}
+  - component: {fileID: 7804146430710770518}
+  - component: {fileID: 5239052035384703433}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Sun
@@ -106,9 +109,55 @@ MonoBehaviour:
   coreEndScale: 1
   holeStartTime: 0.25
   holeEndScale: 0.85
-  planeStartTime: 0.3
-  planeStartScale: 0.3
+--- !u!114 &839362129311896945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597343181175969444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c445f9ebf4d0e4391405cae81d2bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ring: {fileID: 4845247243421034761}
+  hole: {fileID: 5432023812697427273}
+  core: {fileID: 8497764256607080422}
+  halo: {fileID: 7960476097939812527}
+  plane: {fileID: 2883201918916186036}
+  coreEndScale: 1.3
+  holeEndScale: 1.1
+  planeStartScale: 0.25
   planeEndScale: 0.78
+--- !u!114 &7804146430710770518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597343181175969444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfc7bdbf43bf8e44bb6f69de5af62806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPosition: 0
+  endPosition: 2.26
+  edgeRaysMaterial: {fileID: 2100000, guid: f3e80e2682744ba469998f52abe0b3c9, type: 2}
+--- !u!114 &5239052035384703433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597343181175969444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de6f2cc1f1734c649982bdd7ea0787e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endPosition: 3
 --- !u!1 &2883201918916186036
 GameObject:
   m_ObjectHideFlags: 0

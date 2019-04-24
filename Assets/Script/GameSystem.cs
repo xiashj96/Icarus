@@ -11,17 +11,26 @@ public class GameSystem : MonoBehaviour
      * 2: Ceremony
      * 3: Burning
      * 4: Dropping to the sea
+     * 5: Reborn
+     * 6: Burnout
      * 
     */
     public int state = 1;
     public float state0Duration = 3f;
     public float state1Duration = 5f;
     public float state2Duration = 32F;
+    public float state3Duration1 = 20F;
+    public float state3Duration2 = 2F;
+    public float state3Duration3 = 2F;
 
     BirdManager BM;
     SunController SC;
+    SunController2 SC2;
     SunPositionController SPC;
+    SunPositionController2 SPC2;
     BackgroundController BC;
+    BackgroundController2 BC2;
+    EdgeRaysController ERC;
 
     IEnumerator SetStateCoroutine()
     {
@@ -49,15 +58,42 @@ public class GameSystem : MonoBehaviour
         }
         else
         {
-        }
+            state = 3;
+            SC2.StartAllCoroutine(state3Duration2);
+            SPC2.StartAllCoroutine(state3Duration1);
+            BC2.StartAllCoroutine(state3Duration1);
+            ERC.StartAllCoroutine(state3Duration3);
+            BM.StartCoroutine(BM.State3Coroutine());
+            if(BM.totLife / BM.numOfBirds < 0.4F)
+                BM.burnDamage = BM.maxLife * 1.1F / state3Duration1;
+            else
+                BM.burnDamage = BM.maxLife * 0.9F / state3Duration1;
 
-        // Start is called before the first frame update
-        void Start()
+            yield return new WaitForSeconds(state3Duration1);
+            if (BM.birdsAliveCnt > 0)
+            {
+                state = 5;
+
+            }
+            else
+            {
+                state = 6;
+            }
+
+        }
+        
+    }
+    
+    void Start()
     {
         BM = GetComponent<BirdManager>();
         SC = GameObject.Find("Sun").GetComponent<SunController>();
+        SC2 = GameObject.Find("Sun").GetComponent<SunController2>();
         SPC = GameObject.Find("Sun").GetComponent<SunPositionController>();
+        SPC2 = GameObject.Find("Sun").GetComponent<SunPositionController2>();
         BC = GameObject.Find("BackgroundSkyAndOcean").GetComponent<BackgroundController>();
+        BC2 = GameObject.Find("BackgroundSkyAndOcean").GetComponent<BackgroundController2>();
+        ERC = GetComponent<EdgeRaysController>();
         StartCoroutine(SetStateCoroutine());
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Sun Position Controller For State 1
 public class SunPositionController : MonoBehaviour
 {
     // Update is called once per frame
