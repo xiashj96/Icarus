@@ -6,6 +6,8 @@ using DG.Tweening;
 public class BirdManager : MonoBehaviour
 {
     public int numOfBirds = 0;
+    public float totLife = 0;
+    public float maxLife = 0;
     public int particleLimit = 100;
 
     public float basicRadius = 3F;
@@ -42,11 +44,17 @@ public class BirdManager : MonoBehaviour
     {
         ind[0] = ind[1] = ind[2] = 0;
         state2RadiusRate = 1;
-        //yield return new WaitForSeconds(5F);
+
         BirdList.Sort((b1, b2) => b1.theta.CompareTo(b2.theta));
         int k = 0;
         foreach(Bird b in BirdList)
         	b.col = (k++) % 3;
+
+        BirdList.Sort((b1, b2) => b1.life.CompareTo(b2.life));
+        k = 0;
+        foreach (Bird b in BirdList)
+            b.lifeIndex = (k++) % 3;
+
         while (true)
         {
             ind[0] = 2; ind[1] = 1; ind[2] = 3;

@@ -24,6 +24,7 @@ public class Bird : MonoBehaviour
     [Header("Life")]
     public float life = 1;  // when initialized, set life manually
                             // life is related trail time
+    public int lifeIndex = 0;
     float droppingRate = 0F;
     float maxDroppingRate = 50F;
     float state4TargetX = 0F;
@@ -59,8 +60,10 @@ public class Bird : MonoBehaviour
         BM = GameObject.Find("Manager").GetComponent<BirdManager>();
         GS = GameObject.Find("Manager").GetComponent<GameSystem>();
         BM.numOfBirds += 1;
+        BM.totLife += life;
+        BM.maxLife = Mathf.Max(BM.maxLife, life);
         id = BM.numOfBirds;
-        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(0.041F * id - Mathf.Floor(0.041F * id), 0.8F, 1F);
+        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();
@@ -85,7 +88,7 @@ public class Bird : MonoBehaviour
         {
             if (droppingRate <= maxDroppingRate)
             {
-                droppingRate += Time.fixedDeltaTime / (0.01F + 10F * life);
+                droppingRate += Time.fixedDeltaTime / (0.01F + life);
                 if (droppingRate / maxDroppingRate >= 0.8F)
                     rb2d.AddForce(Vector2.up * 3F * Mathf.Pow((droppingRate / maxDroppingRate - 0.8F) * 5F, 3F));
             }
@@ -160,7 +163,12 @@ public class Bird : MonoBehaviour
 
     void Update()
     {
-    	if(numOfBirds != BM.numOfBirds)
+        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
+        if(GS.state == 3)
+        {
+            life -= Time.deltaTime / 30F;
+        }
+        if (numOfBirds != BM.numOfBirds)
     	{
     		var emission = particle.emission;
     		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);

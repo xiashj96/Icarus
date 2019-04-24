@@ -34,7 +34,8 @@ public class Mouse : MonoBehaviour
             {
                 var bird = GameObject.Instantiate(birdPrefab, mousePos, Quaternion.identity).GetComponent<Bird>();
                 float time = Time.time - timer;
-                bird.life = 1 - Mathf.Exp(-time / T);
+                //bird.life = 1 - Mathf.Exp(-time / T);
+                bird.life = Random.Range(0F, 1F);
             }
         }
     }

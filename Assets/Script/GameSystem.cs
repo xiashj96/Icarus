@@ -41,14 +41,18 @@ public class GameSystem : MonoBehaviour
         BM.flicking = false;
         BM.StopCoroutine(c);
 
-        //state = 0;
-        //yield return new WaitForSeconds(state0Duration);
+        if(BM.numOfBirds <= 20)
+        {
+            state = 0;
+            yield return new WaitForSeconds(state0Duration);
+            state = 4;
+        }
+        else
+        {
+        }
 
-        state = 4;
-    }
-
-    // Start is called before the first frame update
-    void Start()
+        // Start is called before the first frame update
+        void Start()
     {
         BM = GetComponent<BirdManager>();
         SC = GameObject.Find("Sun").GetComponent<SunController>();
