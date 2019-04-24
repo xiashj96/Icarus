@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class Bird : MonoBehaviour
 {
+    bool alive = true;
     float targetRadius;
     public int id = -1;
     public int col = -1;
@@ -24,6 +25,7 @@ public class Bird : MonoBehaviour
     [Header("Life")]
     public float life = 1;  // when initialized, set life manually
                             // life is related trail time
+    public int lifeIndex = 0;
     float droppingRate = 0F;
     float maxDroppingRate = 50F;
     float state4TargetX = 0F;
@@ -59,8 +61,10 @@ public class Bird : MonoBehaviour
         BM = GameObject.Find("Manager").GetComponent<BirdManager>();
         GS = GameObject.Find("Manager").GetComponent<GameSystem>();
         BM.numOfBirds += 1;
+        BM.totLife += life;
+        BM.maxLife = Mathf.Max(BM.maxLife, life);
         id = BM.numOfBirds;
-        //GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(0.041F * id - Mathf.Floor(0.041F * id), 0.8F, 1F);
+        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();
@@ -85,7 +89,7 @@ public class Bird : MonoBehaviour
         {
             if (droppingRate <= maxDroppingRate)
             {
-                droppingRate += Time.fixedDeltaTime / (0.01F + 10F * life);
+                droppingRate += Time.fixedDeltaTime / (0.01F + life);
                 if (droppingRate / maxDroppingRate >= 0.8F)
                     rb2d.AddForce(Vector2.up * 3F * Mathf.Pow((droppingRate / maxDroppingRate - 0.8F) * 5F, 3F));
             }
@@ -98,7 +102,8 @@ public class Bird : MonoBehaviour
             if (droppingRate / maxDroppingRate >= 0.8F && transform.position.y < sunPosition.y)
                 rb2d.AddForce(Vector2.right * (state4TargetX - transform.position.x));
         }
-            
+        if(!alive)
+            rb2d.AddForce(Vector2.down * 0.8F);
 
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
@@ -106,6 +111,8 @@ public class Bird : MonoBehaviour
     
     Vector2 GetTangentForce()
     {
+        if (!alive)
+            return Vector2.zero;
         Vector2 r = (Vector2)transform.position - sunPosition;
 
         Vector2 tangent = new Vector2(-r.y, r.x).normalized;
@@ -117,18 +124,21 @@ public class Bird : MonoBehaviour
             if (droppingRate / maxDroppingRate >= 0.8F)
                 tangent *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / maxDroppingRate);
         }
+
         return tangent;
     }
 
     Vector2 GetNormalForce()
     {
+        if (!alive)
+            return Vector2.zero;
+
         targetRadius = BM.GetRadius(col == -1 ? id % 3 : col, individualRadiusRate);
         Vector2 r = (Vector2)transform.position - sunPosition;
         theta = Mathf.Atan2(r.x, r.y);
         Vector2 normal = r.normalized;
         radius = r.magnitude;
-
-
+        
         float normV = Vector2.Dot(rb2d.velocity, normal);
         integalDist += (radius - targetRadius) * Time.fixedDeltaTime;
 
@@ -160,7 +170,20 @@ public class Bird : MonoBehaviour
 
     void Update()
     {
-    	if(numOfBirds != BM.numOfBirds)
+        if (alive)
+            GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
+        else
+            GetComponentInChildren<SpriteRenderer>().color = Color.black;
+        if (GS.state == 3)
+        {
+            life -= BM.burnDamage * Time.deltaTime;
+            if(alive && life <=0F)
+            {
+                alive = false;
+                BM.birdsAliveCnt--;
+            }
+        }
+        if (numOfBirds != BM.numOfBirds)
     	{
     		var emission = particle.emission;
     		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);

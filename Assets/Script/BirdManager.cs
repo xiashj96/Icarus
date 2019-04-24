@@ -6,9 +6,13 @@ using DG.Tweening;
 public class BirdManager : MonoBehaviour
 {
     public int numOfBirds = 0;
+    public int birdsAliveCnt = 0;
+    public float totLife = 0;
+    public float maxLife = 0;
     public int particleLimit = 100;
 
     public float basicRadius = 3F;
+    public float burnDamage = 0F;
 
     float state0RadiusRate = 0.85F;
     float state1RadiusRate = 0.4F;
@@ -41,12 +45,15 @@ public class BirdManager : MonoBehaviour
         const float flickTime = 0.4F, barTime = 4F;
 
         ind[0] = ind[1] = ind[2] = 0;
-        
+        state2RadiusRate = 1;
         BirdList.Sort((b1, b2) => b1.theta.CompareTo(b2.theta));
         int k = 0;
         foreach(Bird b in BirdList)
         	b.col = (k++) % 3;
-
+        BirdList.Sort((b1, b2) => b1.life.CompareTo(b2.life));
+        k = 0;
+        foreach (Bird b in BirdList)
+            b.lifeIndex = (k++) % 3;
         while (true)
         {
             ind[0] = 2; ind[1] = 1; ind[2] = 3;
