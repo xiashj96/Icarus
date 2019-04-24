@@ -15,6 +15,7 @@ public class BirdManager : MonoBehaviour
     float state1RadiusRate = 0.4F;
     float state2RadiusRate = 1F;
     float state3RadiusRate = 1F;
+    float state4RadiusRate = 1.3F;
 
     public bool flicking = false;
 
@@ -89,6 +90,9 @@ public class BirdManager : MonoBehaviour
                 return basicRadius * (state2RadiusRate * ringRate[ind[id % 3]] + iRate * 0.06F);
             case 3:
                 return basicRadius * (state3RadiusRate + iRate * 0.2F);
+            case 4:
+                return basicRadius * (state4RadiusRate + iRate * 0.5F);
+
 
         }
         return basicRadius;

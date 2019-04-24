@@ -629,8 +629,6 @@ MonoBehaviour:
   birdPrefab: {fileID: 1184694201713154397, guid: 313bbf4b84449584ba6aeb74eb4ee803,
     type: 3}
   T: 1
-  timeLowerbound: 0.5
-  timeUpperbound: 1
 --- !u!114 &1199151308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -662,7 +660,7 @@ MonoBehaviour:
   state: 1
   state0Duration: 2
   state1Duration: 20
-  state2Duration: 20
+  state2Duration: 21
 --- !u!1 &1208023283
 GameObject:
   m_ObjectHideFlags: 0

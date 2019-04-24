@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class GameSystem : MonoBehaviour
 {
+    /*
+     * States:
+     * 0: transition
+     * 1: Generating
+     * 2: Ceremony
+     * 3: Burning
+     * 4: Dropping to the sea
+     * 
+    */
     public int state = 1;
     public float state0Duration = 3f;
     public float state1Duration = 5f;
@@ -32,10 +41,10 @@ public class GameSystem : MonoBehaviour
         BM.flicking = false;
         BM.StopCoroutine(c);
 
-        state = 0;
-        yield return new WaitForSeconds(state0Duration);
+        //state = 0;
+        //yield return new WaitForSeconds(state0Duration);
 
-        state = 3;
+        state = 4;
     }
 
     // Start is called before the first frame update
