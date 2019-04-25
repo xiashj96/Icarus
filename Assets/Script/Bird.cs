@@ -28,6 +28,10 @@ public class Bird : MonoBehaviour
     [Header("Life")]
     public float life = 1;  // when initialized, set life manually
     public float minAlpha;   // max alpha is always 1
+    float initialAlpha;
+    float initialWidth = -1;
+    float initialRate = -1;
+    public Material reflectionMaterial;
 
     public int lifeIndex = 0;
     float droppingRate = 0F;
@@ -68,7 +72,8 @@ public class Bird : MonoBehaviour
         BM.totLife += life;
         BM.maxLife = Mathf.Max(BM.maxLife, life);
         id = BM.numOfBirds;
-        GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, minAlpha + (1-minAlpha) * life); // alpha channel of sprite
+        initialAlpha = minAlpha + (1 - minAlpha) * life;
+        GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha); // alpha channel of sprite
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();
@@ -227,9 +232,19 @@ public class Bird : MonoBehaviour
     		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);
     		numOfBirds = BM.numOfBirds;
         }
-        if(GS.state == 3 || GS.state == 4)
+
+        if(GS.state >= 3)
         {
-        	
+        	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / 1920;
+        	float blueLine = reflectionMaterial.GetFloat("_BlueLine");
+        	float buffer = 0.05f;
+        	float alpha = Mathf.Max(Mathf.Min((screenPos - blueLine) / buffer, 1), 0);
+        	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * alpha);
+        	if(initialWidth < 0) initialWidth = GetComponentInChildren<TrailRenderer>().widthMultiplier;
+        	GetComponentInChildren<TrailRenderer>().widthMultiplier = initialWidth * (alpha < 0.3f ? 0 : alpha);
+        	var emission = particle.emission;
+        	if(initialRate < 0) initialRate = emission.rateOverTime.constant;
+        	emission.rateOverTime = initialRate * alpha;
         }
     }
 
