@@ -6,6 +6,9 @@ using DG.Tweening;
 public class Bird : MonoBehaviour
 {
     bool alive = true;
+    bool fakeAlive = false;
+    int droppingState = 0;
+    static float lastDeathTime = 0F;
     float targetRadius;
     public int id = -1;
     public int col = -1;
@@ -61,6 +64,7 @@ public class Bird : MonoBehaviour
         BM = GameObject.Find("Manager").GetComponent<BirdManager>();
         GS = GameObject.Find("Manager").GetComponent<GameSystem>();
         BM.numOfBirds += 1;
+        BM.birdsAliveCnt++;
         BM.totLife += life;
         BM.maxLife = Mathf.Max(BM.maxLife, life);
         id = BM.numOfBirds;
@@ -102,8 +106,12 @@ public class Bird : MonoBehaviour
             if (droppingRate / maxDroppingRate >= 0.8F && transform.position.y < sunPosition.y)
                 rb2d.AddForce(Vector2.right * (state4TargetX - transform.position.x));
         }
-        if(!alive)
+        if (!alive && !fakeAlive)
             rb2d.AddForce(Vector2.down * 0.8F);
+        if (droppingState > 0)
+            rb2d.AddForce(Vector2.left * rb2d.position.x * 0.2F);
+        if (droppingState == 2)
+            rb2d.AddForce(Vector2.up * 3F);
 
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
@@ -111,7 +119,7 @@ public class Bird : MonoBehaviour
     
     Vector2 GetTangentForce()
     {
-        if (!alive)
+        if (!alive && !fakeAlive)
             return Vector2.zero;
         Vector2 r = (Vector2)transform.position - sunPosition;
 
@@ -130,7 +138,7 @@ public class Bird : MonoBehaviour
 
     Vector2 GetNormalForce()
     {
-        if (!alive)
+        if (!alive && !fakeAlive)
             return Vector2.zero;
 
         targetRadius = BM.GetRadius(col == -1 ? id % 3 : col, individualRadiusRate);
@@ -167,22 +175,50 @@ public class Bird : MonoBehaviour
         }
         return ret;
     }
+    IEnumerator FakeAliveCoroutine()
+    {
+        fakeAlive = true;
+        yield return new WaitForSeconds(GS.state6FakeAliveTime);
+        while(Mathf.Abs(theta) < 0.8*Mathf.PI)
+            yield return new WaitForSeconds(0.1F);
+        fakeAlive = false;
+        droppingState = 1;
+        yield return new WaitForSeconds(2F);
+        for (int i = 1; i <= 3; i++)
+        {
+            yield return new WaitForSeconds(4F);
+            droppingState = 2;
+            yield return new WaitForSeconds(1.8F - 0.3F * i);
+            droppingState = 1;
 
+        }
+    }
     void Update()
     {
     	/*
         if (alive)
             GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
         else
-            GetComponentInChildren<SpriteRenderer>().color = Color.black;
+        {
+            if (fakeAlive)
+                GetComponentInChildren<SpriteRenderer>().color = new Color(1F, 0.5F, 0.5F);
+            else
+                GetComponentInChildren<SpriteRenderer>().color = Color.grey;
+        }
         */
+
         if (GS.state == 3)
         {
             life -= BM.burnDamage * Time.deltaTime;
-            if(alive && life <=0F)
+        }
+        if (alive && life <= 0F && Time.time - lastDeathTime >= 0.2F)
+        {
+            lastDeathTime = Time.time; // lastDeathTime is static;
+            alive = false;
+            BM.birdsAliveCnt--;
+            if (BM.birdsAliveCnt == 0)
             {
-                alive = false;
-                BM.birdsAliveCnt--;
+                StartCoroutine(FakeAliveCoroutine());
             }
         }
         if (numOfBirds != BM.numOfBirds)

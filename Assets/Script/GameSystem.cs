@@ -19,9 +19,12 @@ public class GameSystem : MonoBehaviour
     public float state0Duration = 3f;
     public float state1Duration = 5f;
     public float state2Duration = 32F;
+
     public float state3Duration = 20F;
     public float state4Duration1 = 20F;
     public float state4Duration2 = 2F;
+
+    public float state6FakeAliveTime = 10F;
 
     BirdManager BM;
     SunController SC;
@@ -70,10 +73,11 @@ public class GameSystem : MonoBehaviour
         else
         {
             state = 3;
-            if (BM.totLife / BM.numOfBirds < 0.4F)
-                BM.burnDamage = BM.maxLife * 1.1F / state3Duration;
+
+            if (BM.totLife / BM.numOfBirds < 0.8F)
+                BM.burnDamage = BM.maxLife * 1.2F / state3Duration;
             else
-                BM.burnDamage = BM.maxLife * 0.9F / state3Duration;
+                BM.burnDamage = BM.maxLife * 0.95F / state3Duration;
 
             SC2.StartAllCoroutine();
             SPC2.StartAllCoroutine(state3Duration);
