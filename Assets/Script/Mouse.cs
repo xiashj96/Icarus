@@ -5,6 +5,7 @@ using UnityEngine;
 public class Mouse : MonoBehaviour
 {
     public GameObject birdPrefab;
+    public bool randomLife;
     public float T;
     float timer;
     //public float timeLowerbound = 1.0f;
@@ -12,11 +13,13 @@ public class Mouse : MonoBehaviour
 
     GameSystem GS;
     LineManager LM;
+    ParticleSystem PS;
 
     void Start()
     {
         GS = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
         LM = GameObject.FindGameObjectWithTag("GameController").GetComponent<LineManager>();
+        PS = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -29,6 +32,7 @@ public class Mouse : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             timer = Time.time;
+            PS.Play();
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -36,13 +40,21 @@ public class Mouse : MonoBehaviour
             {
                 var bird = GameObject.Instantiate(birdPrefab, mousePos, Quaternion.identity).GetComponent<Bird>();
                 float time = Time.time - timer;
-                //bird.life = 1 - Mathf.Exp(-time / T);
-                bird.life = Random.Range(0F, 1F);
+                if (randomLife)
+                {
+                    bird.life = Random.Range(0F, 1F);
+                }
+                else
+                {
+                    bird.life = 1 - Mathf.Exp(-time / T);
+
+                }
             }
             else if(GS.state == 3)
             {
                 LM.Generate(mousePos);
             }
+            PS.Stop();
         }
     }
 }

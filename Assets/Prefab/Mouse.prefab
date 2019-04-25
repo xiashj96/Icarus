@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   birdPrefab: {fileID: 1184694201713154397, guid: 313bbf4b84449584ba6aeb74eb4ee803,
     type: 3}
+  randomLife: 0
   T: 3
 --- !u!198 &7601547801992826505
 ParticleSystem:
@@ -64,7 +65,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

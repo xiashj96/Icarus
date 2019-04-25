@@ -27,7 +27,8 @@ public class Bird : MonoBehaviour
 
     [Header("Life")]
     public float life = 1;  // when initialized, set life manually
-                            // life is related trail time
+    public float minAlpha;   // max alpha is always 1
+
     public int lifeIndex = 0;
     float droppingRate = 0F;
     float state4TargetX = 0F;
@@ -67,7 +68,7 @@ public class Bird : MonoBehaviour
         BM.totLife += life;
         BM.maxLife = Mathf.Max(BM.maxLife, life);
         id = BM.numOfBirds;
-        //GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
+        GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, minAlpha + (1-minAlpha) * life); // alpha channel of sprite
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();

@@ -8,12 +8,17 @@ public class LeapMotion : MonoBehaviour
 {
     public GameObject birdPrefab;
     public float scaleFactor;
+    public bool randomLife;
+    public float T;
     LeapServiceProvider leap;
+    ParticleSystem PS;
     bool pinching = false;
+    float timer;
     // Start is called before the first frame update
     void Start()
     {
         leap = GetComponentInParent<LeapServiceProvider>();
+        PS = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -42,14 +47,24 @@ public class LeapMotion : MonoBehaviour
                 if (hand.IsPinching() && pinching == false)
                 {
                     pinching = true;
-                    var bird = GameObject.Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
-                    //float time = Time.time - timer;
-                    //bird.life = 1 - Mathf.Exp(-time / T);
+                    timer = Time.time;
+                    PS.Play();
                 }
 
-                if (!hand.IsPinching())
+                if (!hand.IsPinching() && pinching == true)
                 {
                     pinching = false;
+                    var bird = GameObject.Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
+                    var time = Time.time - timer;
+                    if (randomLife)
+                    {
+                        bird.life = Random.Range(0F, 1F);
+                    }
+                    else
+                    {
+                        bird.life = 1 - Mathf.Exp(-time / T);
+                    }
+                    PS.Stop();
                 }
             }
         }
