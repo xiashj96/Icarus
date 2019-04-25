@@ -64,7 +64,7 @@ public class Bird : MonoBehaviour
         BM.totLife += life;
         BM.maxLife = Mathf.Max(BM.maxLife, life);
         id = BM.numOfBirds;
-        GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
+        //GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
         BM.BirdList.Add(this);
 
         trail = GetComponentInChildren<TrailRenderer>();
@@ -170,10 +170,12 @@ public class Bird : MonoBehaviour
 
     void Update()
     {
+    	/*
         if (alive)
             GetComponentInChildren<SpriteRenderer>().color = Color.HSVToRGB(life * 0.6F, 0.8F, 1F);
         else
             GetComponentInChildren<SpriteRenderer>().color = Color.black;
+        */
         if (GS.state == 3)
         {
             life -= BM.burnDamage * Time.deltaTime;
