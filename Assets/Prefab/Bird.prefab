@@ -339,6 +339,8 @@ MonoBehaviour:
   theta: 0
   radius: 0
   life: 1
+  minAlpha: 0.5
+  lifeIndex: 0
   minTrailTime: 0.5
   maxTrailTime: 1
   sun: {fileID: 0}
