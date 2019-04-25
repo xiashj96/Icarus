@@ -7,20 +7,22 @@ public class SunController2 : MonoBehaviour
 {
 	public GameObject ring, hole, core, halo, plane;
 
+    public float duration = 0.5f;
+
 	public float coreEndScale = 1.1f;
 	public float holeEndScale = 0.94f;
 
 	public float planeStartScale = 0.25f;
 	public float planeEndScale = 0.78f;
 
-    public void StartAllCoroutine(float duration)
+    public void StartAllCoroutine()
     {
-    	StartCoroutine(CoreCoroutine(duration));
-    	StartCoroutine(HoleCoroutine(duration));
-    	StartCoroutine(PlaneCoroutine(duration));
+    	StartCoroutine(CoreCoroutine());
+    	StartCoroutine(HoleCoroutine());
+    	StartCoroutine(PlaneCoroutine());
     }
 
-    IEnumerator CoreCoroutine(float duration)
+    IEnumerator CoreCoroutine()
     {
         float coreStartScale = core.transform.localScale.x;
     	for(float t = 0; t < duration; t += Time.deltaTime)
@@ -32,7 +34,7 @@ public class SunController2 : MonoBehaviour
     	}
     }
 
-    IEnumerator HoleCoroutine(float duration)
+    IEnumerator HoleCoroutine()
     {
     	float holeStartScale = hole.transform.localScale.x;
     	for(float t = 0; t < duration; t += Time.deltaTime)
@@ -44,7 +46,7 @@ public class SunController2 : MonoBehaviour
     	}
     }
 
-    IEnumerator PlaneCoroutine(float duration)
+    IEnumerator PlaneCoroutine()
     {
     	for(float t = 0; t < duration; t += Time.deltaTime)
     	{

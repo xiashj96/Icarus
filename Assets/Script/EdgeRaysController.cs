@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Sun Position Controller For State 1
+//Edge Rays Controller For State 3
 public class EdgeRaysController : MonoBehaviour
 {
-    // Update is called once per frame
+    public float duration = 2f;
+
     public float startStrength = 0.2f;
 
     public AnimationCurve curve;
@@ -17,12 +18,12 @@ public class EdgeRaysController : MonoBehaviour
         edgeRaysMaterial.SetFloat("_Strength", startStrength);
     }
 
-    public void StartAllCoroutine(float duration)
+    public void StartAllCoroutine()
     {
-        StartCoroutine(StrengtheningCoroutine(duration));
+        StartCoroutine(StrengtheningCoroutine());
     }
 
-    IEnumerator StrengtheningCoroutine(float duration)
+    IEnumerator StrengtheningCoroutine()
     {
         for(float t = 0; t < duration; t += Time.deltaTime)
         {
