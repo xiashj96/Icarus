@@ -30,7 +30,6 @@ public class Bird : MonoBehaviour
                             // life is related trail time
     public int lifeIndex = 0;
     float droppingRate = 0F;
-    float maxDroppingRate = 50F;
     float state4TargetX = 0F;
     public float minTrailTime = 0.5f;
     public float maxTrailTime = 1f;
@@ -91,11 +90,11 @@ public class Bird : MonoBehaviour
 
         if (GS.state == 4)//dropping to the sea
         {
-            if (droppingRate <= maxDroppingRate)
+            if (droppingRate <= BM.maxDroppingRate)
             {
                 droppingRate += Time.fixedDeltaTime / (0.01F + life);
-                if (droppingRate / maxDroppingRate >= 0.8F)
-                    rb2d.AddForce(Vector2.up * 3F * Mathf.Pow((droppingRate / maxDroppingRate - 0.8F) * 5F, 3F));
+                if (droppingRate / BM.maxDroppingRate >= 0.8F)
+                    rb2d.AddForce(Vector2.up * 3F * Mathf.Pow((droppingRate / BM.maxDroppingRate - 0.8F) * 5F, 3F));
             }
             else
             {
@@ -103,7 +102,7 @@ public class Bird : MonoBehaviour
                 rb2d.AddForce(Vector2.down * 0.8F);
             }
 
-            if (droppingRate / maxDroppingRate >= 0.8F && transform.position.y < sunPosition.y)
+            if (droppingRate / BM.maxDroppingRate >= 0.8F && transform.position.y < sunPosition.y)
                 rb2d.AddForce(Vector2.right * (state4TargetX - transform.position.x));
         }
         if (!alive && !fakeAlive)
@@ -129,8 +128,8 @@ public class Bird : MonoBehaviour
             tangent *= 0.8F + ovalIntensity * 0.2F;
         if(GS.state == 4)
         {
-            if (droppingRate / maxDroppingRate >= 0.8F)
-                tangent *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / maxDroppingRate);
+            if (droppingRate / BM.maxDroppingRate >= 0.8F)
+                tangent *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / BM.maxDroppingRate);
         }
 
         return tangent;
@@ -162,8 +161,8 @@ public class Bird : MonoBehaviour
             ret *= 2F;
         if (GS.state == 4)
         {
-            if (droppingRate / maxDroppingRate >= 0.8F)
-                ret *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / maxDroppingRate);
+            if (droppingRate / BM.maxDroppingRate >= 0.8F)
+                ret *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / BM.maxDroppingRate);
             ret *= 2F;
         }
         if (BM.flicking)
@@ -226,6 +225,10 @@ public class Bird : MonoBehaviour
     		var emission = particle.emission;
     		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);
     		numOfBirds = BM.numOfBirds;
+        }
+        if(GS.state == 3 || GS.state == 4)
+        {
+        	
         }
     }
 

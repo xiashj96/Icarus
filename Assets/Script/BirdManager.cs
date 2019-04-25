@@ -24,6 +24,7 @@ public class BirdManager : MonoBehaviour
     public bool flicking = false;
 
     public float velocityRate = 1F;
+    public float maxDroppingRate = 50F;
     public GameSystem GS;
     public List<Bird> BirdList = new List<Bird>();
 
@@ -113,6 +114,17 @@ public class BirdManager : MonoBehaviour
         }
         return basicRadius;
 
+    }
+
+    public void DestroyAllBirds()
+    {
+        foreach(Bird b in BirdList)
+            GameObject.Destroy(b);
+        BirdList.Clear();
+        numOfBirds = 0;
+        birdsAliveCnt = 0;
+        totLife = 0;
+        maxLife = 0;
     }
     
     private void Start()

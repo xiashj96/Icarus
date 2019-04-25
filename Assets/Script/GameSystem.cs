@@ -42,62 +42,69 @@ public class GameSystem : MonoBehaviour
 
     IEnumerator SetStateCoroutine()
     {
-        state = 1;
-        SC.StartAllCoroutine(state1Duration);
-        SPC.StartAllCoroutine(state1Duration);
-        BC.StartAllCoroutine(state1Duration);
-        BM.StartCoroutine(BM.State1Coroutine(state1Duration));
-        yield return new WaitForSeconds(state1Duration);
-
-        state = 0;
-        yield return new WaitForSeconds(state0Duration);
-
-        state = 2;
-        Coroutine c = BM.StartCoroutine(BM.State2Coroutine());
-        yield return new WaitForSeconds(state2Duration);
-        BM.flicking = false;
-        BM.StopCoroutine(c);
-
-        if(BM.numOfBirds <= 20)
+        while(true)
         {
-            state = 4;
-            SC3.StartAllCoroutine(state4Duration1);
-            SPC3.StartAllCoroutine(state4Duration1);
-            BC3.StartAllCoroutine(state4Duration1);
-            yield return new WaitForSeconds(state4Duration1);
+            state = 1;
+            SC.StartAllCoroutine(state1Duration);
+            SPC.StartAllCoroutine(state1Duration);
+            BC.StartAllCoroutine(state1Duration);
+            BM.StartCoroutine(BM.State1Coroutine(state1Duration));
+            yield return new WaitForSeconds(state1Duration);
 
-            yield return new WaitForSeconds(20f);
-            SR.StartAllCoroutine(state4Duration2);
-            yield return new WaitForSeconds(state4Duration2);
-        }
-        else
-        {
-            state = 3;
+            state = 0;
+            yield return new WaitForSeconds(state0Duration);
 
-            if (BM.totLife / BM.numOfBirds < 0.8F)
-                BM.burnDamage = BM.maxLife * 1.2F / state3Duration;
-            else
-                BM.burnDamage = BM.maxLife * 0.95F / state3Duration;
+            state = 2;
+            Coroutine c = BM.StartCoroutine(BM.State2Coroutine());
+            yield return new WaitForSeconds(state2Duration);
+            BM.flicking = false;
+            BM.StopCoroutine(c);
 
-            SC2.StartAllCoroutine();
-            SPC2.StartAllCoroutine(state3Duration);
-            BC2.StartAllCoroutine(state3Duration);
-            ERC.StartAllCoroutine();
-            BM.StartCoroutine(BM.State3Coroutine());
-            yield return new WaitForSeconds(state3Duration);
-
-            //Debug.Log("AAA");
-            if (BM.birdsAliveCnt == 0)
+            if(BM.numOfBirds <= 20)
             {
-                state = 5;
+                BM.maxDroppingRate = state4Duration1 - 15f;
+                state = 4;
+                SC3.StartAllCoroutine(state4Duration1);
+                SPC3.StartAllCoroutine(state4Duration1);
+                BC3.StartAllCoroutine(state4Duration1);
+                yield return new WaitForSeconds(state4Duration1);
+
+                yield return new WaitForSeconds(10f);
+                SR.StartAllCoroutine(state4Duration2);
+                yield return new WaitForSeconds(state4Duration2);
+
+                BM.DestroyAllBirds();
             }
             else
             {
-                state = 6;
-            }
+                state = 3;
 
+                if (BM.totLife / BM.numOfBirds < 0.8F)
+                    BM.burnDamage = BM.maxLife * 1.2F / state3Duration;
+                else
+                    BM.burnDamage = BM.maxLife * 0.95F / state3Duration;
+
+                SC2.StartAllCoroutine();
+                SPC2.StartAllCoroutine(state3Duration);
+                BC2.StartAllCoroutine(state3Duration);
+                ERC.StartAllCoroutine();
+                BM.StartCoroutine(BM.State3Coroutine());
+                yield return new WaitForSeconds(state3Duration);
+
+                //Debug.Log("AAA");
+                if (BM.birdsAliveCnt == 0)
+                {
+                    state = 5;
+                    while(true) yield return 0;
+                }
+                else
+                {
+                    state = 6;
+                    while(true) yield return 0;
+                }
+
+            }
         }
-        
     }
     
     void Start()
