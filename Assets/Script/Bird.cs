@@ -47,6 +47,7 @@ public class Bird : MonoBehaviour
     GameSystem GS;
 
     ParticleSystem particle;
+    Animator animator;
     int numOfBirds = 0;
     
     float ovalAngle = 0F, ovalIntensity = 0F;
@@ -79,6 +80,7 @@ public class Bird : MonoBehaviour
         trail = GetComponentInChildren<TrailRenderer>();
         trail.time = minTrailTime + life * (maxTrailTime - minTrailTime);
         particle = GetComponentInChildren<ParticleSystem>();
+        animator = GetComponentInChildren<Animator>();
 
         sun = GameObject.FindGameObjectWithTag("Sun");
         rb2d.velocity = new Vector2(Random.Range(-1F, 1F), 1F); // random initial velocity
@@ -88,6 +90,12 @@ public class Bird : MonoBehaviour
         ovalIntensity = Mathf.Pow(Random.Range(0.6F, 1.4F), 2F);
 
         state4TargetX = Random.Range(-2F, 2F) + Random.Range(-1F, 1F);
+    }
+
+    IEnumerator DieDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        animator.SetBool("Die", true);
     }
     
     void FixedUpdate()
@@ -104,6 +112,7 @@ public class Bird : MonoBehaviour
             }
             else
             {
+                StartCoroutine(DieDelay(5f));
                 droppingRate += Time.fixedDeltaTime;
                 rb2d.AddForce(Vector2.down * 0.8F);
             }
@@ -198,6 +207,7 @@ public class Bird : MonoBehaviour
             droppingState = 1;
 
         }
+        StartCoroutine(DieDelay(3f));
     }
     void Update()
     {
@@ -225,6 +235,10 @@ public class Bird : MonoBehaviour
             if (BM.birdsAliveCnt == 0)
             {
                 StartCoroutine(FakeAliveCoroutine());
+            }
+            else
+            {
+                StartCoroutine(DieDelay(2f));
             }
         }
         if (numOfBirds != BM.numOfBirds)
