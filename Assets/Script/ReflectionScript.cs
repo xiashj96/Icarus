@@ -49,6 +49,12 @@ public class ReflectionScript : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if(CurMaterial != null && transform.position.y >= 0)
+            CurMaterial.SetFloat("_CameraOffset", transform.position.y / 16);
+    }
+
     void OnDisable()
     {
         if(renderBuffer != null)

@@ -52,6 +52,8 @@
 			float _WTF2, _WSF2, _WA2;
 			float _WTF3, _WSF3, _WA3;
 
+            float _CameraOffset = 0;
+
 			fixed luminance(fixed3 color)
             {
                 return color.r * 0.212 + color.g * 0.715 + color.b * 0.072;
@@ -78,7 +80,7 @@
 				uvgrab.x += sin(_Time.y * _WTF2 + _WSF2 * uvgrab.y) * _WA2 * (_RefCen - uvgrab.y);
 				//uvgrab.x += sin(_Time.y * _WTF3 + _WSF3 * uvgrab.y) * _WA3 * (_RefCen - uvgrab.y);
             	
-            	fixed3 tex = tex2D(_MainTex, uvgrab);
+            	fixed3 tex = tex2D(_MainTex, float2(uvgrab.x, uvgrab.y - _CameraOffset));
             	if(luminance(tex) < 0.5)
             		return fixed3(0, 0, 0);
             	return tex * (1 - uvgrab.y) * (uvgrab.y - _RefCen) / (1 - _RefCen) / (1 - _RefCen) * (1 - uvgrab.y) / (1 - _RefCen) * (3 + _Compression * 5);
@@ -89,6 +91,7 @@
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = v.uv;
+                o.uv.y += _CameraOffset;
 				return o;
 			}
 
