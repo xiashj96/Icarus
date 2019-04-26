@@ -170,10 +170,4 @@ public class GameSystem : MonoBehaviour
         CPC = camera.GetComponent<CameraPositionController>();
         StartCoroutine(SetStateCoroutine());
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

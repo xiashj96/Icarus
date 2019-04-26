@@ -49,6 +49,15 @@ MonoBehaviour:
     type: 3}
   randomLife: 0
   T: 3
+  SeaCreate: {fileID: 7335434477142444951, guid: d7a8db9b40971f84bbadaf0b61bc7317,
+    type: 3}
+  SeaHand1: {fileID: 597921616600178101, guid: 69791d5ed67d3174da3d333c2a183e94, type: 3}
+  SeaHand2: {fileID: 8645321342831695608, guid: fb73120676fd65b4b91b3aebccc24336,
+    type: 3}
+  SeaHand3: {fileID: 7991626579743233571, guid: 6a613668da5d9e44ea82846a909680db,
+    type: 3}
+  SeaHand4: {fileID: 5930487790211425578, guid: 13556b576aeb79643a15ab16fbf40d17,
+    type: 3}
 --- !u!198 &7601547801992826505
 ParticleSystem:
   m_ObjectHideFlags: 0
