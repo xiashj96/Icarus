@@ -25,6 +25,7 @@ public class GameSystem : MonoBehaviour
 
     public float state6FakeAliveTime = 10F;
 
+    AudioSource AS;
     BirdManager BM;
     SunController SC;
     SunController2 SC2;
@@ -45,6 +46,7 @@ public class GameSystem : MonoBehaviour
         while(true)
         {
             state = 1;
+            AS.Play();
             SC.StartAllCoroutine(state1Duration);
             SPC.StartAllCoroutine(state1Duration);
             BC.StartAllCoroutine(state1Duration);
@@ -125,6 +127,7 @@ public class GameSystem : MonoBehaviour
     	GameObject bg = GameObject.Find("BackgroundSkyAndOcean");
         GameObject camera = GameObject.Find("Main Camera");
 
+        AS = GetComponent<AudioSource>();
         BM = GetComponent<BirdManager>();
         SC = sun.GetComponent<SunController>();
         SC2 = sun.GetComponent<SunController2>();
