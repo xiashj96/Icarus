@@ -118,7 +118,7 @@ public class BirdManager : MonoBehaviour
             case 0:
                 return basicRadius * (state0RadiusRate + iRate * 0.2F);
             case 1:
-                return basicRadius * (state1RadiusRate + iRate * 0.25F);
+                return basicRadius * (state1RadiusRate + iRate * 0.5F);
             case 2:
                 return basicRadius * (state2RadiusRate * ringRate[ind[id % 3]] + iRate * 0.06F);
             case 3:

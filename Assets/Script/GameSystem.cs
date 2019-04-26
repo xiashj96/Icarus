@@ -27,6 +27,7 @@ public class GameSystem : MonoBehaviour
 
     AudioSource AS;
     BirdManager BM;
+    LineManager LM;
     SunController SC;
     SunController2 SC2;
     SunController3 SC3;
@@ -50,6 +51,7 @@ public class GameSystem : MonoBehaviour
             SC.StartAllCoroutine(state1Duration);
             SPC.StartAllCoroutine(state1Duration);
             BC.StartAllCoroutine(state1Duration);
+            LM.StartCoroutine(LM.MoveTo(LM.generatePossibility2, state1Duration));
             BM.StartCoroutine(BM.State1Coroutine(state1Duration));
             yield return new WaitForSeconds(state1Duration);
 
@@ -57,6 +59,7 @@ public class GameSystem : MonoBehaviour
             yield return new WaitForSeconds(state0Duration);
 
             state = 2;
+            LM.StartCoroutine(LM.MoveTo(LM.generatePossibility3, state2Duration));
             Coroutine c = BM.StartCoroutine(BM.State2Coroutine());
             yield return new WaitForSeconds(state2Duration);
             BM.flicking = false;
@@ -70,6 +73,7 @@ public class GameSystem : MonoBehaviour
                 SC3.StartAllCoroutine(state4Duration - 10);
                 SPC3.StartAllCoroutine(state4Duration - 10);
                 BC3.StartAllCoroutine(state4Duration - 10);
+                LM.StartCoroutine(LM.MoveTo(0, state4Duration - 20));
                 yield return new WaitForSeconds(state4Duration - 12);
 
                 StartCoroutine(AudioFadeOut(10f));
@@ -78,6 +82,7 @@ public class GameSystem : MonoBehaviour
                 SR.StartAllCoroutine(2f);
                 yield return new WaitForSeconds(2f);
 
+                LM.Initialize();
                 BM.DestroyAllBirds();
             }
             else
@@ -94,6 +99,7 @@ public class GameSystem : MonoBehaviour
                 SPC2.StartAllCoroutine(state3Duration);
                 BC2.StartAllCoroutine(state3Duration);
                 ERC.StartAllCoroutine();
+                LM.StartCoroutine(LM.MoveTo(0, state3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());
                 yield return new WaitForSeconds(state3Duration);
 
@@ -115,6 +121,7 @@ public class GameSystem : MonoBehaviour
                     CPC.StartAllCoroutine2(5);
                     yield return new WaitForSeconds(5);
 
+                    LM.Initialize();
                     BM.DestroyAllBirds();
                 }
                 else
@@ -147,6 +154,7 @@ public class GameSystem : MonoBehaviour
 
         AS = GetComponent<AudioSource>();
         BM = GetComponent<BirdManager>();
+        LM = GetComponent<LineManager>();
         SC = sun.GetComponent<SunController>();
         SC2 = sun.GetComponent<SunController2>();
         SC3 = sun.GetComponent<SunController3>();

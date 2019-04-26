@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class LineManager : MonoBehaviour
 {
-    public float generatePossibility = 0.1f;
+    public float generatePossibility1 = 0.5f;
+    public float generatePossibility2 = 1f;
+    public float generatePossibility3 = 5f;
+    public float generatePossibility;
     float radius = 6f;
 
 	GameObject sun;
@@ -14,13 +17,30 @@ public class LineManager : MonoBehaviour
     void Start()
     {
         sun = GameObject.FindGameObjectWithTag("Sun");
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        generatePossibility = generatePossibility1;
+    }
+
+    public IEnumerator MoveTo(float p, float duration)
+    {
+        float startP = generatePossibility;
+        for(float t = 0; t < duration; t += Time.deltaTime)
+        {
+            generatePossibility = startP + (p - startP) * t / duration;
+            yield return 0;
+        }
+        generatePossibility = p;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
 
-        if(Random.Range(0f, 1f) >= generatePossibility)
+        if(Random.Range(0f, 1f) >= generatePossibility * Time.fixedDeltaTime)
         	return;
 
         Vector3 sunPos = sun.transform.position;
