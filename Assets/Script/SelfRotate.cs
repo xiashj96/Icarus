@@ -19,7 +19,6 @@ public class SelfRotate : MonoBehaviour
         else
         {
             transform.DORotate(new Vector3(0, 0, 360f), period, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetEase(Ease.Linear);
-
         }
     }
 

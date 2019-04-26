@@ -15,6 +15,11 @@ public class EdgeRaysController : MonoBehaviour
 
     void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         edgeRaysMaterial.SetFloat("_Strength", startStrength);
     }
 

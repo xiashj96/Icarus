@@ -11,18 +11,17 @@ public class GameSystem : MonoBehaviour
      * 2: Ceremony
      * 3: Burning
      * 4: Dropping to the sea
-     * 5: Reborn
-     * 6: Burnout
+     * 5: Burnout
+     * 6: Reborn
      * 
     */
     public int state = 1;
     public float state0Duration = 3f;
     public float state1Duration = 5f;
     public float state2Duration = 32F;
-
     public float state3Duration = 20F;
-    public float state4Duration1 = 20F;
-    public float state4Duration2 = 2F;
+    public float state4Duration = 60F;
+    //public float state5Duration = 60F;
 
     public float state6FakeAliveTime = 10F;
 
@@ -39,6 +38,7 @@ public class GameSystem : MonoBehaviour
     BackgroundController3 BC3;
     EdgeRaysController ERC;
     EdgeRaysController2 ERC2;
+    CameraPositionController CPC;
 
     IEnumerator SetStateCoroutine()
     {
@@ -62,16 +62,14 @@ public class GameSystem : MonoBehaviour
 
             if(BM.numOfBirds <= 20)
             {
-                BM.maxDroppingRate = state4Duration1 - 15f;
                 state = 4;
-                SC3.StartAllCoroutine(state4Duration1);
-                SPC3.StartAllCoroutine(state4Duration1);
-                BC3.StartAllCoroutine(state4Duration1);
-                yield return new WaitForSeconds(state4Duration1);
-
-                yield return new WaitForSeconds(10f);
-                SR.StartAllCoroutine(state4Duration2);
-                yield return new WaitForSeconds(state4Duration2);
+                BM.maxDroppingRate = state4Duration - 25;
+                SC3.StartAllCoroutine(state4Duration - 10);
+                SPC3.StartAllCoroutine(state4Duration - 10);
+                BC3.StartAllCoroutine(state4Duration - 10);
+                yield return new WaitForSeconds(state4Duration - 2);
+                SR.StartAllCoroutine(2f);
+                yield return new WaitForSeconds(2f);
 
                 BM.DestroyAllBirds();
             }
@@ -91,11 +89,25 @@ public class GameSystem : MonoBehaviour
                 BM.StartCoroutine(BM.State3Coroutine());
                 yield return new WaitForSeconds(state3Duration);
 
-                //Debug.Log("AAA");
                 if (BM.birdsAliveCnt == 0)
                 {
                     state = 5;
-                    while(true) yield return 0;
+                    while(!BM.lastFalling)
+                        yield return 0;
+                    yield return new WaitForSeconds(15);
+
+                    CPC.StartAllCoroutine(63);
+                    yield return new WaitForSeconds(63);
+                    
+                    SC.Initialize();
+                    SPC.Initialize();
+                    BC.Initialize();
+                    ERC.Initialize();
+
+                    CPC.StartAllCoroutine2(5);
+                    yield return new WaitForSeconds(5);
+
+                    BM.DestroyAllBirds();
                 }
                 else
                 {
@@ -111,6 +123,7 @@ public class GameSystem : MonoBehaviour
     {
     	GameObject sun = GameObject.Find("Sun");
     	GameObject bg = GameObject.Find("BackgroundSkyAndOcean");
+        GameObject camera = GameObject.Find("Main Camera");
 
         BM = GetComponent<BirdManager>();
         SC = sun.GetComponent<SunController>();
@@ -125,6 +138,7 @@ public class GameSystem : MonoBehaviour
         BC3 = bg.GetComponent<BackgroundController3>();
         ERC = GetComponent<EdgeRaysController>();
         ERC2 = GetComponent<EdgeRaysController2>();
+        CPC = camera.GetComponent<CameraPositionController>();
         StartCoroutine(SetStateCoroutine());
     }
 

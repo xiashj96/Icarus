@@ -15,6 +15,11 @@ public class SunController : MonoBehaviour
 
     void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         core.transform.localScale = new Vector3(coreStartScale, coreStartScale, 1.0f);
         halo.transform.localScale = new Vector3(coreStartScale, coreStartScale, 1.0f);
         hole.transform.localScale = new Vector3(0, 0, 1);

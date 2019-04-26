@@ -10,6 +10,7 @@ public class BirdManager : MonoBehaviour
     public float totLife = 0;
     public float maxLife = 0;
     public int particleLimit = 100;
+    public bool lastFalling = false;
 
     public float basicRadius = 3F;
     public float burnDamage = 0F;
@@ -119,12 +120,13 @@ public class BirdManager : MonoBehaviour
     public void DestroyAllBirds()
     {
         foreach(Bird b in BirdList)
-            GameObject.Destroy(b);
+            Destroy(b.gameObject);
         BirdList.Clear();
         numOfBirds = 0;
         birdsAliveCnt = 0;
         totLife = 0;
         maxLife = 0;
+        lastFalling = false;
     }
     
     private void Start()

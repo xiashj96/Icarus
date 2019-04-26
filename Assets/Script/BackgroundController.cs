@@ -18,6 +18,11 @@ public class BackgroundController : MonoBehaviour
 
     void Start()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         gameObject.transform.position = new Vector3(gameObject.transform.position.x, startPosition, gameObject.transform.position.z);
         reflectionMaterial.SetFloat("_BlueLine", blueLineStartPosition);
         reflectionMaterial.SetFloat("_Compression", 0);

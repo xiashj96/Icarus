@@ -13,7 +13,12 @@ public class SunPositionController : MonoBehaviour
 
     void Start()
     {
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, startPosition, gameObject.transform.position.z);
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+    	gameObject.transform.position = new Vector3(gameObject.transform.position.x, startPosition, gameObject.transform.position.z);
     }
 
     public void StartAllCoroutine(float duration)

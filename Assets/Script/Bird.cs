@@ -187,6 +187,7 @@ public class Bird : MonoBehaviour
         while(Mathf.Abs(theta) < 0.8*Mathf.PI)
             yield return new WaitForSeconds(0.1F);
         fakeAlive = false;
+        BM.lastFalling = true;
         droppingState = 1;
         yield return new WaitForSeconds(2F);
         for (int i = 1; i <= 3; i++)
@@ -237,8 +238,9 @@ public class Bird : MonoBehaviour
         {
         	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / 1920;
         	float blueLine = reflectionMaterial.GetFloat("_BlueLine");
-        	float buffer = 0.05f;
-        	float alpha = Mathf.Max(Mathf.Min((screenPos - blueLine) / buffer, 1), 0);
+        	const float buffer = 0.05f;
+        	float alpha = Mathf.Max((screenPos - blueLine) / buffer, 0);
+        	if(alpha >= 1) return;
         	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * alpha);
         	if(initialWidth < 0) initialWidth = GetComponentInChildren<TrailRenderer>().widthMultiplier;
         	GetComponentInChildren<TrailRenderer>().widthMultiplier = initialWidth * (alpha < 0.3f ? 0 : alpha);
