@@ -132,6 +132,14 @@ public class BirdManager : MonoBehaviour
 
     }
 
+    public void RearrangeLifeOfBirds()
+    {
+        BirdList.Sort((b1, b2) => b1.life.CompareTo(b2.life));
+        int k = 0;
+        foreach(Bird b in BirdList)
+            b.life = (float)(++k) / numOfBirds;
+    }
+
     public void DestroyAllBirds()
     {
         foreach(Bird b in BirdList)

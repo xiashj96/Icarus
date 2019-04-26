@@ -65,11 +65,16 @@ public class GameSystem : MonoBehaviour
             if(BM.numOfBirds <= 20)
             {
                 state = 4;
+                BM.RearrangeLifeOfBirds();
                 BM.maxDroppingRate = state4Duration - 25;
                 SC3.StartAllCoroutine(state4Duration - 10);
                 SPC3.StartAllCoroutine(state4Duration - 10);
                 BC3.StartAllCoroutine(state4Duration - 10);
-                yield return new WaitForSeconds(state4Duration - 2);
+                yield return new WaitForSeconds(state4Duration - 12);
+
+                StartCoroutine(AudioFadeOut(10f));
+                yield return new WaitForSeconds(10f);
+
                 SR.StartAllCoroutine(2f);
                 yield return new WaitForSeconds(2f);
 
@@ -78,11 +83,12 @@ public class GameSystem : MonoBehaviour
             else
             {
                 state = 3;
+                BM.RearrangeLifeOfBirds();
 
                 if (BM.totLife / BM.numOfBirds < 0.8F)
-                    BM.burnDamage = BM.maxLife * 1.2F / state3Duration;
+                    BM.burnDamage = 1.2F / state3Duration;
                 else
-                    BM.burnDamage = BM.maxLife * 0.95F / state3Duration;
+                    BM.burnDamage = 0.95F / state3Duration;
 
                 SC2.StartAllCoroutine();
                 SPC2.StartAllCoroutine(state3Duration);
@@ -91,7 +97,7 @@ public class GameSystem : MonoBehaviour
                 BM.StartCoroutine(BM.State3Coroutine());
                 yield return new WaitForSeconds(state3Duration);
 
-                if (BM.birdsAliveCnt == 0)
+                if (BM.birdsAliveCnt == 0 || true)
                 {
                     state = 5;
                     while(!BM.lastFalling)
@@ -119,6 +125,18 @@ public class GameSystem : MonoBehaviour
 
             }
         }
+    }
+
+    IEnumerator AudioFadeOut(float duration)
+    {
+        float startVolume = AS.volume;
+        for(float t = 0; t < duration; t += Time.deltaTime)
+        {
+            AS.volume = startVolume * (1 - t / duration);
+            yield return 0;
+        }
+        AS.Stop();
+        AS.volume = startVolume;
     }
     
     void Start()
