@@ -132,7 +132,7 @@ public class GameSystem : MonoBehaviour
         float startVolume = AS.volume;
         for(float t = 0; t < duration; t += Time.deltaTime)
         {
-            AS.volume = startVolume * (1 - t / duration);
+            AS.volume = startVolume * Mathf.Pow(1 - t / duration, 5);
             yield return 0;
         }
         AS.Stop();
