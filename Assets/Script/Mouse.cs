@@ -47,9 +47,9 @@ public class Mouse : MonoBehaviour
                 else
                 {
                     bird.life = 1 - Mathf.Exp(-time / T);
-
                 }
-                if(bird.life < 0.01f) bird.life = 0.01f;
+                if (bird.life < 0.01F)
+                    bird.life = 0.01F;
             }
             else if(GS.state == 3)
             {

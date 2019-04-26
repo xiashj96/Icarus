@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.IO;
 
 public class BirdManager : MonoBehaviour
 {
@@ -41,7 +42,20 @@ public class BirdManager : MonoBehaviour
     		yield return 0;
     	}
     }
-
+    void WriteStats()
+    {
+        string path = "stats/1.txt";
+        if (!Directory.Exists("stats/"))
+            Directory.CreateDirectory("stats/");
+        StreamWriter sw = new StreamWriter(path, true);
+        foreach(Bird b in BirdList)
+        {
+            sw.Write(b.life.ToString("0.###"));
+            sw.Write(",");
+        }
+        sw.Write(sw.NewLine);
+        sw.Close();
+    }
     public IEnumerator State2Coroutine()
     {
         const float flickTime = 0.4F, barTime = 4F;
@@ -54,6 +68,7 @@ public class BirdManager : MonoBehaviour
         	b.col = (k++) % 3;
         BirdList.Sort((b1, b2) => b1.life.CompareTo(b2.life));
         k = 0;
+        WriteStats();
         foreach (Bird b in BirdList)
             b.lifeIndex = (k++) % 3;
         while (true)

@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/xsj.unity
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/317b79fdc19f8164093f981092cc92d8
     guid: 317b79fdc19f8164093f981092cc92d8
+  - enabled: 1
+    path: Assets/jwk.unity
+    guid: 1662ae55b8523ab45a1aa6f37bda626e
   m_configObjects: {}
