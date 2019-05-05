@@ -5,15 +5,19 @@ using UnityEngine;
 //Sun Controller For State 4
 public class SunController3 : MonoBehaviour
 {
-	public GameObject ring, hole, core, halo, plane;
+	public GameObject ring, hole, core, halo, plane, wax;
 
     public float coreEndScale = 0.1f;
     public float holeEndScale = 0.1f;
+
+    public float waxEndPosition = 0.0f;
+    public float waxEndScale = 1.0f;
 
     public void StartAllCoroutine(float duration)
     {
     	StartCoroutine(CoreCoroutine(duration));
     	StartCoroutine(HoleCoroutine(duration));
+        StartCoroutine(WaxCoroutine(duration));
     }
 
     IEnumerator CoreCoroutine(float duration)
@@ -42,5 +46,20 @@ public class SunController3 : MonoBehaviour
     	}
         hole.transform.localScale = new Vector3(0, 0, 1.0f);
         ring.transform.localScale = new Vector3(0, 0, 1.0f);
+    }
+
+    IEnumerator WaxCoroutine(float duration)
+    {
+        float waxStartScale = wax.transform.localScale.x;
+        float waxStartPosition = wax.transform.localPosition.y;
+        for(float t = 0; t < duration; t += Time.deltaTime)
+        {
+            float scale = waxStartScale + (waxEndScale - waxStartScale) * t / duration;
+            float position = waxStartPosition + (waxEndPosition - waxStartPosition) * t / duration;
+            wax.transform.localScale = new Vector3(scale, scale, 1.0f);
+            wax.transform.localPosition = new Vector3(wax.transform.localPosition.x, position, wax.transform.localPosition.z);
+            yield return 0;
+        }
+        wax.transform.localScale = new Vector3(0, 0, 1.0f);
     }
 }
