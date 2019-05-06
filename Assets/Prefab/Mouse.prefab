@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1692332014
 Transform:
   m_ObjectHideFlags: 0
@@ -211,7 +211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332332006014149
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332332591496053
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +435,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332332990759072
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332333178848173
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,7 +648,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   birdPrefab: {fileID: 1184694201713154397, guid: 313bbf4b84449584ba6aeb74eb4ee803,
     type: 3}
+  bluelineMaterial: {fileID: 2100000, guid: 4356160632e27714da9683027140ced5, type: 2}
+  map: 1
+  yRatio: 0.1
   randomLife: 0
   T: 1.5
-  handCreateAnimation: {fileID: 1692332013}
   smoothing: 0.1

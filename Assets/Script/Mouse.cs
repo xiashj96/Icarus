@@ -5,17 +5,19 @@ using UnityEngine;
 public class Mouse : MonoBehaviour
 {
     public GameObject birdPrefab;
+    public Material bluelineMaterial;
+    public bool map; // if set to true, map the whole input range to blueline
+    public float yRatio; // compression ration of y
     public bool randomLife;
     public float T;
     float timer;
-    //public float timeLowerbound = 1.0f;
-    //public float timeUpperbound = 2.0f;
+    
 
     GameSystem GS;
     LineManager LM;
     //ParticleSystem PS;
 
-    public GameObject handCreateAnimation;
+    Animator handCreateAnimator;
 
     public float smoothing;
     Vector2 oldPos;
@@ -28,21 +30,35 @@ public class Mouse : MonoBehaviour
         GS = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
         LM = GameObject.FindGameObjectWithTag("GameController").GetComponent<LineManager>();
         generateHands = GetComponentInChildren<GenerateHandsInCircle>();
+        handCreateAnimator = GetComponentInChildren<Animator>();
         buttonIsDown = false;
+        oldPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (buttonIsDown)
+        Vector2 mapPos;
+        if (map) // map mouse to area around blueline
         {
-            Vector2 smoothPos = Vector2.Lerp(oldPos, mousePos, smoothing); // if clicking, apply position smoothing, use smaller t for more smoothing\
-            transform.position = (Vector2)smoothPos;
+            float blueline = bluelineMaterial.GetFloat("_BlueLine");
+            float y = blueline * 16 - 8;
+            mapPos = Vector2.Scale(mousePos, new Vector2(1, yRatio)) + new Vector2(0, y);
         }
         else
         {
-            transform.position = mousePos;
+            mapPos = mousePos;
+        }
+
+        if (buttonIsDown) // if clicking, apply position smoothing, use smaller t for more smoothing
+        {
+            Vector2 smoothPos = Vector2.Lerp(oldPos, mapPos, smoothing); 
+            transform.position = (Vector2)smoothPos;
+        }
+        else // no smoothing
+        {
+            transform.position = mapPos;
         }
         oldPos = transform.position;
         
@@ -50,13 +66,13 @@ public class Mouse : MonoBehaviour
         {
             timer = Time.time;
             buttonIsDown = true;
-            handCreateAnimation.SetActive(true);
+            handCreateAnimator.SetBool("Play",true);
             generateHands.StartGenerating();
         }
         if (Input.GetMouseButtonUp(0))
         {
             buttonIsDown = false;
-            handCreateAnimation.SetActive(false);
+            handCreateAnimator.SetBool("Play", false);
             if (GS.state == 1)
             {
                 var bird = GameObject.Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
