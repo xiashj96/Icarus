@@ -12,6 +12,13 @@ public class ReflectionScript : MonoBehaviour
     RenderTexture renderBuffer = null;
     RenderTexture tempBuffer = null;
 
+    GameObject sun;
+
+    private void Start()
+    {
+        sun = GameObject.FindGameObjectWithTag("Sun");
+    }
+
     void OnRenderImage(RenderTexture sourceTexture, RenderTexture destTexture)
     {
         if (CurMaterial != null)
@@ -51,8 +58,28 @@ public class ReflectionScript : MonoBehaviour
 
     void Update()
     {
-        if(CurMaterial != null && transform.position.y >= 0)
+        if(CurMaterial != null)
+        {
             CurMaterial.SetFloat("_CameraOffset", transform.position.y / 16);
+
+            // update sun position
+            float viewPosY = Camera.main.WorldToViewportPoint(sun.transform.position).y;
+
+            float _BlueLine = CurMaterial.GetFloat("_BlueLine");
+            float _Compression = CurMaterial.GetFloat("_Compression");
+            float _SightPoint = CurMaterial.GetFloat("_SightPoint");
+
+
+            float _RefCen = _BlueLine * (2 - _Compression);
+            float b = _RefCen + _SightPoint;
+            float a = (b / _RefCen - 1) * (1 - _RefCen);
+            float y2 = b * (1 - viewPosY) / (a + 1 - viewPosY);
+            float _BlueLine2 = _RefCen - (1 - y2 / _RefCen) * (_RefCen - _BlueLine * _Compression);
+
+            CurMaterial.SetFloat("_BlueLine2", _BlueLine2);
+        }
+
+        
     }
 
     void OnDisable()
