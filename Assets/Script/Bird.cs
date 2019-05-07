@@ -26,7 +26,7 @@ public class Bird : MonoBehaviour
     public float radius;
 
     [Header("Life")]
-    public float life = 1;  // when initialized, set life manually
+    public float life = 1,startingLife = 1;  // when initialized, set life manually
     public float minAlpha;   // max alpha is always 1
     float initialAlpha;
     float initialWidth = -1;
@@ -91,6 +91,8 @@ public class Bird : MonoBehaviour
         ovalIntensity = Mathf.Pow(Random.Range(0.6F, 1.4F), 2F);
 
         state4TargetX = Random.Range(-2F, 2F) + Random.Range(-1F, 1F);
+
+        startingLife = life;
     }
 
     IEnumerator DieDelay(float duration)
