@@ -777,11 +777,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 1
   state0Duration: 3
-  state1Duration: 182.5
-  state2Duration: 44.5
-  state3Duration: 72
-  state4Duration: 70
-  state6FakeAliveTime: 10
+  s1Duration: 5
+  s2Duration: 64
+  s3Duration: 60
+  s4Duration: 60
+  s1Progress: 0
+  s1SmoothProgress: 0
+  s6Progress: 0
+  s5FakeAliveTime: 10
 --- !u!114 &1199151310
 MonoBehaviour:
   m_ObjectHideFlags: 0

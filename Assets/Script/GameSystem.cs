@@ -24,8 +24,9 @@ public class GameSystem : MonoBehaviour
     //public float state5Duration = 60F;
 
     public float s1Progress = 0F, s1SmoothProgress = 0F;
+    public float s6Progress = 0F;
 
-    public float s6FakeAliveTime = 10F;
+    public float s5FakeAliveTime = 10F;
 
     AudioSource AS;
     BirdManager BM;
@@ -97,10 +98,10 @@ public class GameSystem : MonoBehaviour
                 state = 3;
                 BM.RearrangeLifeOfBirds();
 
-                if (BM.totLife / BM.numOfBirds < 0.8F)
+                if (BM.totLife / BM.numOfBirds < 0.008F)
                     BM.burnDamage = 1.2F / s3Duration;
                 else
-                    BM.burnDamage = 0.95F / s3Duration;
+                    BM.burnDamage = (BM.BirdList[BM.numOfBirds-3].life-0.001F)/ s3Duration;
 
                 SC2.StartAllCoroutine();
                 SPC2.StartAllCoroutine(s3Duration);
@@ -110,7 +111,7 @@ public class GameSystem : MonoBehaviour
                 BM.StartCoroutine(BM.State3Coroutine());
                 yield return new WaitForSeconds(s3Duration);
 
-                if (BM.birdsAliveCnt == 0 || true)
+                if (BM.birdsAliveCnt == 0)
                 {
                     state = 5;
                     while(!BM.lastFalling)
@@ -134,7 +135,12 @@ public class GameSystem : MonoBehaviour
                 else
                 {
                     state = 6;
-                    while(true) yield return 0;
+                    while(true)
+                    {
+                        if (s6Progress < 1F)
+                            s6Progress += 0.1F * Time.deltaTime;
+                        yield return 0;
+                    }
                 }
 
             }
