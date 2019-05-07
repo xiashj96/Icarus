@@ -17,13 +17,15 @@ public class GameSystem : MonoBehaviour
     */
     public int state = 1;
     public float state0Duration = 3f;
-    public float state1Duration = 5f;
-    public float state2Duration = 32F;
-    public float state3Duration = 20F;
-    public float state4Duration = 60F;
+    public float s1Duration = 5f;
+    public float s2Duration = 32F;
+    public float s3Duration = 20F;
+    public float s4Duration = 60F;
     //public float state5Duration = 60F;
 
-    public float state6FakeAliveTime = 10F;
+    public float s1Progress = 0F, s1SmoothProgress = 0F;
+
+    public float s6FakeAliveTime = 10F;
 
     AudioSource AS;
     BirdManager BM;
@@ -48,20 +50,24 @@ public class GameSystem : MonoBehaviour
         {
             state = 1;
             AS.Play();
-            SC.StartAllCoroutine(state1Duration);
-            SPC.StartAllCoroutine(state1Duration);
-            BC.StartAllCoroutine(state1Duration);
-            LM.StartCoroutine(LM.MoveTo(LM.generatePossibility2, state1Duration));
-            BM.StartCoroutine(BM.State1Coroutine(state1Duration));
-            yield return new WaitForSeconds(state1Duration);
+            SC.StartAllCoroutine(s1Duration);
+            SPC.StartAllCoroutine(s1Duration);
+            BC.StartAllCoroutine(s1Duration);
+            LM.StartCoroutine(LM.MoveTo(LM.generatePossibility2, s1Duration));
+            BM.StartCoroutine(BM.State1Coroutine(s1Duration));
+            for(s1Progress = s1SmoothProgress = 0F; s1SmoothProgress < 1; s1Progress += Time.deltaTime / 240F)
+            {
+
+                yield return 0;
+            }
 
             state = 0;
             yield return new WaitForSeconds(state0Duration);
 
             state = 2;
-            LM.StartCoroutine(LM.MoveTo(LM.generatePossibility3, state2Duration));
+            LM.StartCoroutine(LM.MoveTo(LM.generatePossibility3, s2Duration));
             Coroutine c = BM.StartCoroutine(BM.State2Coroutine());
-            yield return new WaitForSeconds(state2Duration);
+            yield return new WaitForSeconds(s2Duration);
             BM.flicking = false;
             BM.StopCoroutine(c);
 
@@ -69,12 +75,12 @@ public class GameSystem : MonoBehaviour
             {
                 state = 4;
                 BM.RearrangeLifeOfBirds();
-                BM.maxDroppingRate = state4Duration - 25;
-                SC3.StartAllCoroutine(state4Duration - 10);
-                SPC3.StartAllCoroutine(state4Duration - 10);
-                BC3.StartAllCoroutine(state4Duration - 10);
-                LM.StartCoroutine(LM.MoveTo(0, state4Duration - 20));
-                yield return new WaitForSeconds(state4Duration - 12);
+                BM.maxDroppingRate = s4Duration - 25;
+                SC3.StartAllCoroutine(s4Duration - 10);
+                SPC3.StartAllCoroutine(s4Duration - 10);
+                BC3.StartAllCoroutine(s4Duration - 10);
+                LM.StartCoroutine(LM.MoveTo(0, s4Duration - 20));
+                yield return new WaitForSeconds(s4Duration - 12);
 
                 StartCoroutine(AudioFadeOut(10f));
                 yield return new WaitForSeconds(10f);
@@ -91,17 +97,17 @@ public class GameSystem : MonoBehaviour
                 BM.RearrangeLifeOfBirds();
 
                 if (BM.totLife / BM.numOfBirds < 0.8F)
-                    BM.burnDamage = 1.2F / state3Duration;
+                    BM.burnDamage = 1.2F / s3Duration;
                 else
-                    BM.burnDamage = 0.95F / state3Duration;
+                    BM.burnDamage = 0.95F / s3Duration;
 
                 SC2.StartAllCoroutine();
-                SPC2.StartAllCoroutine(state3Duration);
-                BC2.StartAllCoroutine(state3Duration);
+                SPC2.StartAllCoroutine(s3Duration);
+                BC2.StartAllCoroutine(s3Duration);
                 ERC.StartAllCoroutine();
-                LM.StartCoroutine(LM.MoveTo(0, state3Duration));
+                LM.StartCoroutine(LM.MoveTo(0, s3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());
-                yield return new WaitForSeconds(state3Duration);
+                yield return new WaitForSeconds(s3Duration);
 
                 if (BM.birdsAliveCnt == 0 || true)
                 {

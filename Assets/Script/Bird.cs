@@ -192,7 +192,7 @@ public class Bird : MonoBehaviour
     IEnumerator FakeAliveCoroutine()
     {
         fakeAlive = true;
-        yield return new WaitForSeconds(GS.state6FakeAliveTime);
+        yield return new WaitForSeconds(GS.s6FakeAliveTime);
         while(Mathf.Abs(theta) < 0.8*Mathf.PI)
             yield return new WaitForSeconds(0.1F);
         fakeAlive = false;
