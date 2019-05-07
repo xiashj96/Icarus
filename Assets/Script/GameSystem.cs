@@ -50,13 +50,14 @@ public class GameSystem : MonoBehaviour
         while(true)
         {
             state = 1;
+            s1SmoothProgress = 0F;
             AS.Play();
             SC.StartAllCoroutine();
             SPC.StartAllCoroutine();
             BC.StartAllCoroutine();
             LM.StartCoroutine(LM.MoveTo(LM.generatePossibility2, s1Duration));
             BM.StartCoroutine(BM.State1Coroutine());
-            for(s1Progress = s1SmoothProgress = 0F; s1SmoothProgress < 1; s1Progress += Time.deltaTime / 240F)
+            for(s1Progress = 0F; s1SmoothProgress < 1; s1Progress += Time.deltaTime / 240F)
             {
                 s1SmoothProgress += Time.deltaTime / 240F;
                 s1SmoothProgress += (s1Progress - s1SmoothProgress) * Time.deltaTime;
@@ -98,7 +99,7 @@ public class GameSystem : MonoBehaviour
                 state = 3;
                 BM.RearrangeLifeOfBirds();
 
-                if (BM.totLife / BM.numOfBirds < 0.008F)
+                if (BM.totLife / BM.numOfBirds < 0.8F)
                     BM.burnDamage = 1.2F / s3Duration;
                 else
                     BM.burnDamage = (BM.BirdList[BM.numOfBirds-3].life-0.001F)/ s3Duration;
