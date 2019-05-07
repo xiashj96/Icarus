@@ -132,8 +132,31 @@ public class Bird : MonoBehaviour
 
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
+        if(GS.state == 6 && alive)
+            rb2d.AddForce(GetS6Force());
+
     }
-    
+
+    float s6randX = -1F,s6randY = -1F,s6RandS = -1F;
+    Vector2 diffDeltaPos = Vector2.zero,deltaPos = Vector2.zero,
+        lastFrameDeltaPos = Vector2.zero, targetPos = Vector2.zero;
+    Vector2 GetS6Force()
+    {
+        if(s6randX <0)
+        {
+            s6randX = Random.Range(0F, 2F * Mathf.PI);
+            s6randY = Random.Range(0F, 2F * Mathf.PI);
+            s6RandS = Random.Range(0.8F, 1.2F);
+        }
+
+        targetPos = sunPosition + Vector2.down * 3.5F +
+            new Vector2(0.6F * Mathf.Cos(s6randX + Time.time * 0.8F * s6RandS), 1.2F * Mathf.Cos(s6randY + Time.time * 0.5F * s6RandS));
+        deltaPos = targetPos - (Vector2)transform.position;
+        diffDeltaPos = (deltaPos - lastFrameDeltaPos) / Time.fixedDeltaTime;
+        lastFrameDeltaPos = deltaPos;
+        return GS.s6Progress * (4F * deltaPos + 2F * diffDeltaPos);
+    }
+
     Vector2 GetTangentForce()
     {
         if (!alive && !fakeAlive)
@@ -150,6 +173,8 @@ public class Bird : MonoBehaviour
                 tangent *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / BM.maxDroppingRate);
         }
 
+        if (GS.state == 6)
+            tangent *= 1 - GS.s6Progress;
         return tangent;
     }
 
@@ -190,12 +215,14 @@ public class Bird : MonoBehaviour
             float p = (Mathf.Abs(Mathf.Cos(theta - ovalAngle)) - 0.6F) * ovalIntensity;
             ret += -normal * 10F * p;
         }
+        if (GS.state == 6)
+            ret *= 1 - GS.s6Progress;
         return ret;
     }
     IEnumerator FakeAliveCoroutine()
     {
         fakeAlive = true;
-        yield return new WaitForSeconds(GS.s6FakeAliveTime);
+        yield return new WaitForSeconds(GS.s5FakeAliveTime);
         while(Mathf.Abs(theta) < 0.8*Mathf.PI)
             yield return new WaitForSeconds(0.1F);
         fakeAlive = false;
