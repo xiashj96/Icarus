@@ -15,10 +15,12 @@ public class BackgroundController : MonoBehaviour
     public float blueLineEndPosition = 0.085f;
 
     public float endCompression = 0.5f;
+    GameSystem GS;
 
     void Start()
     {
         Initialize();
+        GS = FindObjectOfType<GameSystem>();
     }
 
     public void Initialize()
@@ -28,38 +30,38 @@ public class BackgroundController : MonoBehaviour
         reflectionMaterial.SetFloat("_Compression", 0);
     }
 
-    public void StartAllCoroutine(float duration)
+    public void StartAllCoroutine()
     {
-        StartCoroutine(MovingCoroutine(duration));
-        StartCoroutine(BlueLineCoroutine(duration));
-        StartCoroutine(CompressingCoroutine(duration));
+        StartCoroutine(MovingCoroutine());
+        StartCoroutine(BlueLineCoroutine());
+        StartCoroutine(CompressingCoroutine());
     }
 
-    IEnumerator MovingCoroutine(float duration)
+    IEnumerator MovingCoroutine()
     {
-        for(float t = 0; t < duration; t += Time.deltaTime)
+        while (GS.state == 1)
         {
-            float position = startPosition + (endPosition - startPosition) * t / duration;
+            float position = startPosition + (endPosition - startPosition) * GS.s1SmoothProgress;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, position, gameObject.transform.position.z);
             yield return 0;
         }
     }
 
-    IEnumerator BlueLineCoroutine(float duration)
+    IEnumerator BlueLineCoroutine()
     {
-        for(float t = 0; t < duration; t += Time.deltaTime)
+        while (GS.state == 1)
         {
-            float blueLine = blueLineStartPosition + (blueLineEndPosition - blueLineStartPosition) * t / duration;
+            float blueLine = blueLineStartPosition + (blueLineEndPosition - blueLineStartPosition) * GS.s1SmoothProgress;
             reflectionMaterial.SetFloat("_BlueLine", blueLine);
             yield return 0;
         }
     }
 
-    IEnumerator CompressingCoroutine(float duration)
+    IEnumerator CompressingCoroutine()
     {
-        for(float t = 0; t < duration; t += Time.deltaTime)
+        while (GS.state == 1)
         {
-            float compression = endCompression * t / duration;
+            float compression = endCompression * GS.s1SmoothProgress;
             reflectionMaterial.SetFloat("_Compression", compression);
             yield return 0;
         }

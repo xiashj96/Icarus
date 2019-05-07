@@ -50,14 +50,15 @@ public class GameSystem : MonoBehaviour
         {
             state = 1;
             AS.Play();
-            SC.StartAllCoroutine(s1Duration);
-            SPC.StartAllCoroutine(s1Duration);
-            BC.StartAllCoroutine(s1Duration);
+            SC.StartAllCoroutine();
+            SPC.StartAllCoroutine();
+            BC.StartAllCoroutine();
             LM.StartCoroutine(LM.MoveTo(LM.generatePossibility2, s1Duration));
-            BM.StartCoroutine(BM.State1Coroutine(s1Duration));
+            BM.StartCoroutine(BM.State1Coroutine());
             for(s1Progress = s1SmoothProgress = 0F; s1SmoothProgress < 1; s1Progress += Time.deltaTime / 240F)
             {
-
+                s1SmoothProgress += Time.deltaTime / 240F;
+                s1SmoothProgress += (s1Progress - s1SmoothProgress) * Time.deltaTime;
                 yield return 0;
             }
 

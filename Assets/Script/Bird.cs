@@ -68,6 +68,7 @@ public class Bird : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         BM = GameObject.Find("Manager").GetComponent<BirdManager>();
         GS = GameObject.Find("Manager").GetComponent<GameSystem>();
+        GS.s1Progress += 1F / 800F;
         BM.numOfBirds += 1;
         BM.birdsAliveCnt++;
         BM.totLife += life;
