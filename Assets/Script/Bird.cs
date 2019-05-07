@@ -28,10 +28,6 @@ public class Bird : MonoBehaviour
     [Header("Life")]
     public float life = 1,startingLife = 1;  // when initialized, set life manually
     public float minAlpha;   // max alpha is always 1
-    float initialAlpha;
-    float initialWidth = -1;
-    float initialRate = -1;
-    public Material reflectionMaterial;
 
     public int lifeIndex = 0;
     float droppingRate = 0F;
@@ -47,10 +43,18 @@ public class Bird : MonoBehaviour
     GameSystem GS;
 
     ParticleSystem particle;
+    ParticleSystem.EmissionModule emission;
+    GenerateLight generateLight;
     Animator animator;
     int numOfBirds = 0;
     
     float ovalAngle = 0F, ovalIntensity = 0F;
+
+    bool fadeOut = false;
+    float initialAlpha;
+    float initialWidth;
+    float initialRate;
+    public Material reflectionMaterial;
 
     IEnumerator ChangeRadiusCoroutine()
     {
@@ -81,6 +85,8 @@ public class Bird : MonoBehaviour
         trail = GetComponentInChildren<TrailRenderer>();
         trail.time = minTrailTime + life * (maxTrailTime - minTrailTime);
         particle = GetComponentInChildren<ParticleSystem>();
+        emission = particle.emission;
+        generateLight = GameObject.Find("LightManager").GetComponent<GenerateLight>();
         animator = GetComponentInChildren<Animator>();
 
         sun = GameObject.FindGameObjectWithTag("Sun");
@@ -219,6 +225,7 @@ public class Bird : MonoBehaviour
             ret *= 1 - GS.s6Progress;
         return ret;
     }
+
     IEnumerator FakeAliveCoroutine()
     {
         fakeAlive = true;
@@ -239,6 +246,7 @@ public class Bird : MonoBehaviour
         }
         StartCoroutine(DieDelay(3f));
     }
+
     void Update()
     {
     	/*
@@ -273,23 +281,31 @@ public class Bird : MonoBehaviour
         }
         if (numOfBirds != BM.numOfBirds)
     	{
-    		var emission = particle.emission;
     		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);
     		numOfBirds = BM.numOfBirds;
         }
 
         if(GS.state >= 3)
         {
-        	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / 1920;
+        	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / UnityEngine.Screen.height;
         	float blueLine = reflectionMaterial.GetFloat("_BlueLine");
+            float cameraOffset = reflectionMaterial.GetFloat("_CameraOffset");
         	const float buffer = 0.05f;
-        	float alpha = Mathf.Max((screenPos - blueLine) / buffer, 0);
+        	float alpha = Mathf.Max(1 + (screenPos + cameraOffset - blueLine) / buffer, 0);
         	if(alpha >= 1) return;
+            if(!fadeOut)
+            {
+                fadeOut = true;
+                generateLight.Generate(startingLife, transform.position);
+                initialWidth = GetComponentInChildren<TrailRenderer>().widthMultiplier;
+                initialRate = emission.rateOverTime.constant;
+            }
+            if(GS.state == 5)
+            {
+                alpha = Mathf.Max(screenPos - 0.05f, 0f);
+            }
         	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * alpha);
-        	if(initialWidth < 0) initialWidth = GetComponentInChildren<TrailRenderer>().widthMultiplier;
         	GetComponentInChildren<TrailRenderer>().widthMultiplier = initialWidth * (alpha < 0.3f ? 0 : alpha);
-        	var emission = particle.emission;
-        	if(initialRate < 0) initialRate = emission.rateOverTime.constant;
         	emission.rateOverTime = initialRate * alpha;
         }
     }

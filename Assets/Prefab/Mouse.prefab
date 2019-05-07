@@ -74,7 +74,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 7, y: 7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 5670332331718488540}
   - component: {fileID: 5670332331718488542}
   - component: {fileID: 5670332331718488541}
-  - component: {fileID: 5670332331718488543}
   m_Layer: 0
   m_Name: Hand1
   m_TagString: Untagged
@@ -199,19 +198,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5670332331718488543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5670332331718488531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332332006014149
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +209,6 @@ GameObject:
   - component: {fileID: 5670332332006014150}
   - component: {fileID: 5670332332006014144}
   - component: {fileID: 5670332332006014151}
-  - component: {fileID: 5670332332006014145}
   m_Layer: 0
   m_Name: Hand4
   m_TagString: Untagged
@@ -312,19 +297,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5670332332006014145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5670332332006014149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332332591496053
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +308,6 @@ GameObject:
   - component: {fileID: 5670332332591496054}
   - component: {fileID: 5670332332591496048}
   - component: {fileID: 5670332332591496055}
-  - component: {fileID: 5670332332591496049}
   m_Layer: 0
   m_Name: Hand3
   m_TagString: Untagged
@@ -425,19 +396,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5670332332591496049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5670332332591496053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332332990759072
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +407,6 @@ GameObject:
   - component: {fileID: 5670332332990759073}
   - component: {fileID: 5670332332990759075}
   - component: {fileID: 5670332332990759074}
-  - component: {fileID: 5670332332990759084}
   m_Layer: 0
   m_Name: Hand2
   m_TagString: Untagged
@@ -538,19 +495,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5670332332990759084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5670332332990759072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d236894303e57fb4a8e66aaf02a12795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 1
 --- !u!1 &5670332333178848173
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,3 +600,4 @@ MonoBehaviour:
   T: 1.5
   handCreateAnimation: {fileID: 1692332013}
   smoothing: 0.1
+  reflectionMaterial: {fileID: 2100000, guid: 4356160632e27714da9683027140ced5, type: 2}

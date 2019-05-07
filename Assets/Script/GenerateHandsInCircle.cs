@@ -10,16 +10,21 @@ public class GenerateHandsInCircle : MonoBehaviour
 
     public float radius;
     public float period;
-    Coroutine c;
+    Coroutine c = null;
 
     public void StartGenerating()
     {
+        if(c != null)
+            StopGenerating();
         c = StartCoroutine(GenerateHands()); 
     }
 
     public void StopGenerating()
     {
+        if(c == null)
+            return;
         StopCoroutine(c);
+        c = null;
     }
 
     IEnumerator GenerateHands()
@@ -27,8 +32,10 @@ public class GenerateHandsInCircle : MonoBehaviour
         for (int i = 0;;i++)
         {
             var hand = hands[i % hands.Length];
-            hand.SetActive(true);
-            hand.transform.localPosition = Vector2.Scale(Random.insideUnitCircle, new Vector2(radius, radius));
+            var instance = GameObject.Instantiate(hand, transform.position, Quaternion.identity);
+            instance.SetActive(true);
+            instance.transform.position = (Vector2)instance.transform.position + Vector2.Scale(Random.insideUnitCircle, new Vector2(radius, radius));
+            Destroy(instance, 1f);
             yield return new WaitForSeconds(period);
         }
     }

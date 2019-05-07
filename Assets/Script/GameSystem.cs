@@ -106,7 +106,7 @@ public class GameSystem : MonoBehaviour
 
                 SC2.StartAllCoroutine();
                 SPC2.StartAllCoroutine(s3Duration);
-                BC2.StartAllCoroutine(s3Duration);
+                BC2.StartAllCoroutine(2);
                 ERC.StartAllCoroutine();
                 LM.StartCoroutine(LM.MoveTo(0, s3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());

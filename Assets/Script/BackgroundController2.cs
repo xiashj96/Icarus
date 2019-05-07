@@ -27,6 +27,7 @@ public class BackgroundController2 : MonoBehaviour
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, position, gameObject.transform.position.z);
             yield return 0;
         }
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, endPosition, gameObject.transform.position.z);
     }
 
     IEnumerator BlueLineCoroutine(float duration)
@@ -38,6 +39,7 @@ public class BackgroundController2 : MonoBehaviour
             reflectionMaterial.SetFloat("_BlueLine", blueLine);
             yield return 0;
         }
+        reflectionMaterial.SetFloat("_BlueLine", blueLineEndPosition);
     }
 
     IEnumerator CompressingCoroutine(float duration)
@@ -49,5 +51,6 @@ public class BackgroundController2 : MonoBehaviour
             reflectionMaterial.SetFloat("_Compression", compression);
             yield return 0;
         }
+        reflectionMaterial.SetFloat("_Compression", 1);
     }
 }

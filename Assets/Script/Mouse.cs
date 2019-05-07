@@ -23,18 +23,24 @@ public class Mouse : MonoBehaviour
 
     GenerateHandsInCircle generateHands;
 
+    public Material reflectionMaterial;
+    GenerateLight generateLight;
+
     void Start()
     {
         GS = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
         LM = GameObject.FindGameObjectWithTag("GameController").GetComponent<LineManager>();
         generateHands = GetComponentInChildren<GenerateHandsInCircle>();
         buttonIsDown = false;
+        generateLight = GameObject.Find("LightManager").GetComponent<GenerateLight>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mouseScreenPos = Input.mousePosition;
+        mouseScreenPos.y = reflectionMaterial.GetFloat("_BlueLine2") * UnityEngine.Screen.height;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
         if (buttonIsDown)
         {
             Vector2 smoothPos = Vector2.Lerp(oldPos, mousePos, smoothing); // if clicking, apply position smoothing, use smaller t for more smoothing\
@@ -71,6 +77,7 @@ public class Mouse : MonoBehaviour
                 }
                 if (bird.life < 0.01F)
                     bird.life = 0.01F;
+                generateLight.Generate(bird.life, transform.position);
             }
             else if(GS.state == 3)
             {
