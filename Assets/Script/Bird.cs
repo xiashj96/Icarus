@@ -265,7 +265,7 @@ public class Bird : MonoBehaviour
         {
             life -= BM.burnDamage * Time.deltaTime;
         }
-        if (alive && life <= 0F && Time.time - lastDeathTime >= 0.2F)
+        if (alive && life <= 0F)
         {
             lastDeathTime = Time.time; // lastDeathTime is static;
             alive = false;
