@@ -44,6 +44,7 @@ public class GameSystem : MonoBehaviour
     EdgeRaysController ERC;
     EdgeRaysController2 ERC2;
     CameraPositionController CPC;
+    SeaLightController SLC;
 
     IEnumerator SetStateCoroutine()
     {
@@ -102,11 +103,12 @@ public class GameSystem : MonoBehaviour
                 if (BM.totLife / BM.numOfBirds < 0.8F)
                     BM.burnDamage = 1.2F / s3Duration;
                 else
-                    BM.burnDamage = (BM.BirdList[BM.numOfBirds-3].life-0.001F)/ s3Duration;
+                    BM.burnDamage = (BM.BirdList[BM.numOfBirds - 3].life - 0.001F) / s3Duration;
 
                 SC2.StartAllCoroutine();
                 SPC2.StartAllCoroutine(s3Duration);
-                BC2.StartAllCoroutine(2);
+                BC2.StartAllCoroutine(5);
+                SLC.StartCoroutine(SLC.FadeIn(2.5f, 2.5f));
                 ERC.StartAllCoroutine();
                 LM.StartCoroutine(LM.MoveTo(0, s3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());
@@ -165,6 +167,7 @@ public class GameSystem : MonoBehaviour
     	GameObject sun = GameObject.Find("Sun");
     	GameObject bg = GameObject.Find("BackgroundSkyAndOcean");
         GameObject camera = GameObject.Find("Main Camera");
+        GameObject seaLight = GameObject.Find("SeaLight");
 
         AS = GetComponent<AudioSource>();
         BM = GetComponent<BirdManager>();
@@ -182,6 +185,7 @@ public class GameSystem : MonoBehaviour
         ERC = GetComponent<EdgeRaysController>();
         ERC2 = GetComponent<EdgeRaysController2>();
         CPC = camera.GetComponent<CameraPositionController>();
+        SLC = seaLight.GetComponent<SeaLightController>();
         StartCoroutine(SetStateCoroutine());
     }
 }
