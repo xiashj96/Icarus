@@ -6,7 +6,6 @@ public class GameSystem : MonoBehaviour
 {
     /*
      * States:
-     * 0: transition
      * 1: Generating
      * 2: Ceremony
      * 3: Burning
@@ -16,7 +15,6 @@ public class GameSystem : MonoBehaviour
      * 
     */
     public int state = 1;
-    public float state0Duration = 3f;
     public float s1Duration = 5f;
     public float s2Duration = 32F;
     public float s3Duration = 20F;
@@ -65,9 +63,6 @@ public class GameSystem : MonoBehaviour
                 s1SmoothProgress += (s1Progress - s1SmoothProgress) * Time.deltaTime;
                 yield return 0;
             }
-
-            state = 0;
-            yield return new WaitForSeconds(state0Duration);
 
             state = 2;
             LM.StartCoroutine(LM.MoveTo(LM.generatePossibility3, s2Duration));

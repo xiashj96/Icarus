@@ -31,7 +31,7 @@ public class BirdManager : MonoBehaviour
     public List<Bird> BirdList = new List<Bird>();
 
     int[] ind = { 0, 0, 0 };
-    public float[] ringRate = { 1.0F, 0.9F, 1.25F, 1.6F };
+    public float[] ringRate = { 0.85F, 0.9F, 1.25F, 1.6F };
 
     public IEnumerator State1Coroutine()
     {
@@ -71,6 +71,8 @@ public class BirdManager : MonoBehaviour
         WriteStats();
         foreach (Bird b in BirdList)
             b.lifeIndex = (k++) % 3;
+
+        yield return new WaitForSeconds(3f);
         while (true)
         {
             ind[0] = 2; ind[1] = 1; ind[2] = 3;
