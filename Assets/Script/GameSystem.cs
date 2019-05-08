@@ -111,6 +111,7 @@ public class GameSystem : MonoBehaviour
                 BC2.StartAllCoroutine(5);
                 SLC.StartCoroutine(SLC.FadeIn(2.5f, 2.5f));
                 ERC.StartAllCoroutine();
+                BM.StartCoroutine(BM.BurstCoroutine(0.2f));
                 LM.StartCoroutine(LM.MoveTo(0, s3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());
                 yield return new WaitForSeconds(s3Duration);

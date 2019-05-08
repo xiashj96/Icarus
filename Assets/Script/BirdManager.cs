@@ -140,6 +140,17 @@ public class BirdManager : MonoBehaviour
             b.life = (float)(++k) / numOfBirds;
     }
 
+    public IEnumerator BurstCoroutine(float delay)
+    {
+        //yield return new WaitForSeconds(delay);
+        BirdList.Sort((b1, b2) => Random.Range(-1, 2));
+        foreach(Bird b in BirdList)
+        {
+            b.Burst();
+            yield return new WaitForSeconds(Random.Range(0f, delay * 2 / BirdList.Count));
+        }
+    }
+
     public void DestroyAllBirds()
     {
         foreach(Bird b in BirdList)
