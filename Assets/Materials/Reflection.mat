@@ -72,6 +72,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RefCen: 0.24
+    - _ShowAuxiliary: 0
     - _SightPoint: 0.6
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

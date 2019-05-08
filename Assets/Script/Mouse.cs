@@ -8,9 +8,9 @@ public class Mouse : MonoBehaviour
 
     public GameObject birdPrefab;
     public Material bluelineMaterial;
-    public bool map; // if set to true, map the whole input range to blueline
     public float yRatio; // compression ration of y
     public bool randomLife;
+    public bool map;
     public float T;
     float timer;
 
@@ -25,6 +25,9 @@ public class Mouse : MonoBehaviour
 
     GenerateHandsInCircle generateHands;
 
+    public Material reflectionMaterial;
+    GenerateLight generateLight;
+
     void Start()
     {
         GS = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
@@ -33,6 +36,7 @@ public class Mouse : MonoBehaviour
         handCreateAnimator = GetComponentInChildren<Animator>();
         buttonIsDown = false;
         oldPos = transform.position;
+        generateLight = GameObject.Find("LightManager").GetComponent<GenerateLight>();
     }
 
     // Update is called once per frame
@@ -40,9 +44,10 @@ public class Mouse : MonoBehaviour
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 mapPos;
-        if (map) // map mouse to area around blueline
+
+        if (map)  // map mouse position around blueline
         {
-            float blueline = bluelineMaterial.GetFloat("_BlueLine");
+            float blueline = bluelineMaterial.GetFloat("_BlueLine2");
             float y = blueline * 16 - 8;
             // if fullscreen, scale x
             float xRatio = Screen.height * 9f / 16f / Screen.width;
@@ -89,6 +94,7 @@ public class Mouse : MonoBehaviour
                 }
                 if (bird.life < 0.01F)
                     bird.life = 0.01F;
+                generateLight.Generate(bird.life, transform.position);
             }
             else if(GS.state == 3)
             {

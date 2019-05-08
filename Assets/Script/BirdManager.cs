@@ -33,12 +33,12 @@ public class BirdManager : MonoBehaviour
     int[] ind = { 0, 0, 0 };
     public float[] ringRate = { 1.0F, 0.9F, 1.25F, 1.6F };
 
-    public IEnumerator State1Coroutine(float duration)
+    public IEnumerator State1Coroutine()
     {
         state1RadiusRate = state1StartRadiusRate;
-    	for(float t = 0; t < duration; t += Time.deltaTime)
+    	while(GS.state == 1)
     	{
-    		state1RadiusRate = state1StartRadiusRate + (1 - state1StartRadiusRate) * t / duration;
+    		state1RadiusRate = state1StartRadiusRate + (1 - state1StartRadiusRate) * GS.s1SmoothProgress;
     		yield return 0;
     	}
     }

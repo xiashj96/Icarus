@@ -6,11 +6,10 @@ using UnityEngine;
 public class SunController : MonoBehaviour
 {
 	public GameObject ring, hole, core, halo, plane, wax;
-
+    GameSystem GS;
 	public float coreStartScale = 0.3f;
 	public float coreEndScale = 1.0f;
 
-	public float holeStartTime = 0.25f;
 	public float holeEndScale = 0.85f;
 
     public float waxStartPosition = 0.0f;
@@ -21,6 +20,7 @@ public class SunController : MonoBehaviour
     void Start()
     {
         Initialize();
+        GS = FindObjectOfType<GameSystem>();
     }
 
     public void Initialize()
@@ -35,42 +35,43 @@ public class SunController : MonoBehaviour
         wax.transform.localScale = new Vector3(waxStartScale, waxStartScale, 1);
     }
 
-    public void StartAllCoroutine(float duration)
+    public void StartAllCoroutine()
     {
-    	StartCoroutine(CoreCoroutine(duration));
-    	StartCoroutine(HoleCoroutine(duration));
-        StartCoroutine(WaxCoroutine(duration));
+    	StartCoroutine(CoreCoroutine());
+    	StartCoroutine(HoleCoroutine());
+        StartCoroutine(WaxCoroutine());
     }
 
-    IEnumerator CoreCoroutine(float duration)
+    IEnumerator CoreCoroutine()
     {
-    	for(float t = 0; t < duration; t += Time.deltaTime)
+    	while(GS.state == 1)
     	{
-    		float scale = coreStartScale + (coreEndScale - coreStartScale) * t / duration;
+    		float scale = coreStartScale + (coreEndScale - coreStartScale) * GS.s1SmoothProgress;
     		core.transform.localScale = new Vector3(scale, scale, 1.0f);
     		halo.transform.localScale = new Vector3(scale, scale, 1.0f);
     		yield return 0;
     	}
     }
 
-    IEnumerator HoleCoroutine(float duration)
+    IEnumerator HoleCoroutine()
     {
-    	yield return new WaitForSeconds(duration * holeStartTime);
-    	for(float t = duration * holeStartTime; t < duration; t += Time.deltaTime)
-    	{
-    		float scale = holeEndScale * (t / duration - holeStartTime) / (1 - holeStartTime);
+    	yield return new WaitForSeconds(60F);
+        float startSP = GS.s1SmoothProgress;
+        while (GS.state == 1)
+        {
+    		float scale = holeEndScale * (GS.s1SmoothProgress - startSP) / (1 - startSP);
     		hole.transform.localScale = new Vector3(scale, scale, 1.0f);
     		ring.transform.localScale = new Vector3(scale, scale, 1.0f);
     		yield return 0;
     	}
     }
 
-    IEnumerator WaxCoroutine(float duration)
+    IEnumerator WaxCoroutine()
     {
-        for(float t = 0; t < duration; t += Time.deltaTime)
+        while (GS.state == 1)
         {
-            float scale = waxStartScale + (waxEndScale - waxStartScale) * t / duration;
-            float position = waxStartPosition + (waxEndPosition - waxStartPosition) * t / duration;
+            float scale = waxStartScale + (waxEndScale - waxStartScale) * GS.s1SmoothProgress;
+            float position = waxStartPosition + (waxEndPosition - waxStartPosition) * GS.s1SmoothProgress;
             wax.transform.localScale = new Vector3(scale, scale, 1.0f);
             wax.transform.localPosition = new Vector3(wax.transform.localPosition.x, position, wax.transform.localPosition.z);
             yield return 0;

@@ -7,6 +7,7 @@
 		_BlueLine ("Blue Line", Range(0, 0.5)) = 0.35
 		_Compression ("Compression", Range(0, 1)) = 0
 		_SightPoint ("Sight Point", Range(0, 1)) = 0.3
+        _ShowAuxiliary ("Show Auxiliary", int) = 0
 
 		_WTF1("Wave Time Freq 1", float) = 1
 		_WSF1("Wave Spacial Freq 1", float) = 250
@@ -47,7 +48,8 @@
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-			float _BlueLine, _Compression, _SightPoint;
+			float _BlueLine, _BlueLine2, _Compression, _SightPoint;
+            int _ShowAuxiliary;
 			float _WTF1, _WSF1, _WA1;
 			float _WTF2, _WSF2, _WA2;
 			float _WTF3, _WSF3, _WA3;
@@ -76,6 +78,8 @@
 				if(uvgrab.y > 1)
 					return fixed3(0, 0, 0);
 
+                //if(abs(uvgrab.y - ))
+
 				uvgrab.x += sin(_Time.y * _WTF1 + _WSF1 * uvgrab.y) * _WA1 * (_RefCen - uvgrab.y);
 				uvgrab.x += sin(_Time.y * _WTF2 + _WSF2 * uvgrab.y) * _WA2 * (_RefCen - uvgrab.y);
 				//uvgrab.x += sin(_Time.y * _WTF3 + _WSF3 * uvgrab.y) * _WA3 * (_RefCen - uvgrab.y);
@@ -97,6 +101,10 @@
 
 			fixed4 frag(v2f i) : SV_Target
 			{
+                if(_ShowAuxiliary == 1 && abs(i.uv.y - _BlueLine2) < 0.001)
+                    return fixed4(0, 1, 1, 1);
+                if(_ShowAuxiliary == 1 && abs(i.uv.y - _BlueLine) < 0.001)
+                    return fixed4(0, 0, 1, 1);
 				return fixed4(reflect(i.uv), 1);
 			}
 			ENDCG

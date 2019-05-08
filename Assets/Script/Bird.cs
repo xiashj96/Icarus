@@ -26,12 +26,8 @@ public class Bird : MonoBehaviour
     public float radius;
 
     [Header("Life")]
-    public float life = 1;  // when initialized, set life manually
+    public float life = 1,startingLife = 1;  // when initialized, set life manually
     public float minAlpha;   // max alpha is always 1
-    float initialAlpha;
-    float initialWidth = -1;
-    float initialRate = -1;
-    public Material reflectionMaterial;
 
     public int lifeIndex = 0;
     float droppingRate = 0F;
@@ -47,10 +43,16 @@ public class Bird : MonoBehaviour
     GameSystem GS;
 
     ParticleSystem particle;
+    ParticleSystem.EmissionModule emission;
+    GenerateLight generateLight;
     Animator animator;
     int numOfBirds = 0;
     
     float ovalAngle = 0F, ovalIntensity = 0F;
+
+    bool fadeOut = false;
+    float initialAlpha;
+    public Material reflectionMaterial;
 
     IEnumerator ChangeRadiusCoroutine()
     {
@@ -68,6 +70,7 @@ public class Bird : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         BM = GameObject.Find("Manager").GetComponent<BirdManager>();
         GS = GameObject.Find("Manager").GetComponent<GameSystem>();
+        GS.s1Progress += 1F / 800F;
         BM.numOfBirds += 1;
         BM.birdsAliveCnt++;
         BM.totLife += life;
@@ -80,6 +83,8 @@ public class Bird : MonoBehaviour
         trail = GetComponentInChildren<TrailRenderer>();
         trail.time = minTrailTime + life * (maxTrailTime - minTrailTime);
         particle = GetComponentInChildren<ParticleSystem>();
+        emission = particle.emission;
+        generateLight = GameObject.Find("LightManager").GetComponent<GenerateLight>();
         animator = GetComponentInChildren<Animator>();
 
         sun = GameObject.FindGameObjectWithTag("Sun");
@@ -90,6 +95,8 @@ public class Bird : MonoBehaviour
         ovalIntensity = Mathf.Pow(Random.Range(0.6F, 1.4F), 2F);
 
         state4TargetX = Random.Range(-2F, 2F) + Random.Range(-1F, 1F);
+
+        startingLife = life;
     }
 
     IEnumerator DieDelay(float duration)
@@ -129,8 +136,31 @@ public class Bird : MonoBehaviour
 
         rb2d.AddForce(GetTangentForce());
         rb2d.AddForce(GetNormalForce());
+        if(GS.state == 6 && alive)
+            rb2d.AddForce(GetS6Force());
+
     }
-    
+
+    float s6randX = -1F,s6randY = -1F,s6RandS = -1F;
+    Vector2 diffDeltaPos = Vector2.zero,deltaPos = Vector2.zero,
+        lastFrameDeltaPos = Vector2.zero, targetPos = Vector2.zero;
+    Vector2 GetS6Force()
+    {
+        if(s6randX <0)
+        {
+            s6randX = Random.Range(0F, 2F * Mathf.PI);
+            s6randY = Random.Range(0F, 2F * Mathf.PI);
+            s6RandS = Random.Range(0.8F, 1.2F);
+        }
+
+        targetPos = sunPosition + Vector2.down * 3.5F +
+            new Vector2(0.6F * Mathf.Cos(s6randX + Time.time * 0.8F * s6RandS), 1.2F * Mathf.Cos(s6randY + Time.time * 0.5F * s6RandS));
+        deltaPos = targetPos - (Vector2)transform.position;
+        diffDeltaPos = (deltaPos - lastFrameDeltaPos) / Time.fixedDeltaTime;
+        lastFrameDeltaPos = deltaPos;
+        return GS.s6Progress * (4F * deltaPos + 2F * diffDeltaPos);
+    }
+
     Vector2 GetTangentForce()
     {
         if (!alive && !fakeAlive)
@@ -147,6 +177,8 @@ public class Bird : MonoBehaviour
                 tangent *= 2.5F * Mathf.Max(0F, 1.2F - droppingRate / BM.maxDroppingRate);
         }
 
+        if (GS.state == 6)
+            tangent *= 1 - GS.s6Progress;
         return tangent;
     }
 
@@ -187,12 +219,15 @@ public class Bird : MonoBehaviour
             float p = (Mathf.Abs(Mathf.Cos(theta - ovalAngle)) - 0.6F) * ovalIntensity;
             ret += -normal * 10F * p;
         }
+        if (GS.state == 6)
+            ret *= 1 - GS.s6Progress;
         return ret;
     }
+
     IEnumerator FakeAliveCoroutine()
     {
         fakeAlive = true;
-        yield return new WaitForSeconds(GS.state6FakeAliveTime);
+        yield return new WaitForSeconds(GS.s5FakeAliveTime);
         while(Mathf.Abs(theta) < 0.8*Mathf.PI)
             yield return new WaitForSeconds(0.1F);
         fakeAlive = false;
@@ -209,6 +244,7 @@ public class Bird : MonoBehaviour
         }
         StartCoroutine(DieDelay(3f));
     }
+
     void Update()
     {
     	/*
@@ -227,7 +263,7 @@ public class Bird : MonoBehaviour
         {
             life -= BM.burnDamage * Time.deltaTime;
         }
-        if (alive && life <= 0F && Time.time - lastDeathTime >= 0.2F)
+        if (alive && life <= 0F)
         {
             lastDeathTime = Time.time; // lastDeathTime is static;
             alive = false;
@@ -243,24 +279,25 @@ public class Bird : MonoBehaviour
         }
         if (numOfBirds != BM.numOfBirds)
     	{
-    		var emission = particle.emission;
     		emission.rateOverTime = Mathf.Min((float)BM.particleLimit / BM.numOfBirds / particle.startLifetime, 5f);
     		numOfBirds = BM.numOfBirds;
         }
 
         if(GS.state >= 3)
         {
-        	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / 1920;
+        	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / UnityEngine.Screen.height;
         	float blueLine = reflectionMaterial.GetFloat("_BlueLine");
-        	const float buffer = 0.05f;
-        	float alpha = Mathf.Max((screenPos - blueLine) / buffer, 0);
-        	if(alpha >= 1) return;
-        	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * alpha);
-        	if(initialWidth < 0) initialWidth = GetComponentInChildren<TrailRenderer>().widthMultiplier;
-        	GetComponentInChildren<TrailRenderer>().widthMultiplier = initialWidth * (alpha < 0.3f ? 0 : alpha);
-        	var emission = particle.emission;
-        	if(initialRate < 0) initialRate = emission.rateOverTime.constant;
-        	emission.rateOverTime = initialRate * alpha;
+            float cameraOffset = reflectionMaterial.GetFloat("_CameraOffset");
+        	if(screenPos + cameraOffset >= blueLine)
+                return;
+            if(!fadeOut)
+            {
+                fadeOut = true;
+                generateLight.Generate(startingLife, transform.position);
+            }
+        	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
+        	GetComponentInChildren<TrailRenderer>().enabled = false;
+        	particle.gameObject.SetActive(false);
         }
     }
 

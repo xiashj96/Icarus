@@ -17,6 +17,7 @@ public class MusicManager : MonoBehaviour
 {
     public MusicStage[] stages;
     GameSystem system;
+    int currentState;
 
     /*
      * system.state:

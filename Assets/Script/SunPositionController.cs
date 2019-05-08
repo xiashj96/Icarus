@@ -10,10 +10,12 @@ public class SunPositionController : MonoBehaviour
     public float endPosition = 4.23f;
 
     public Material edgeRaysMaterial = null;
+    GameSystem GS;
 
     void Start()
     {
         Initialize();
+        GS = FindObjectOfType<GameSystem>();
     }
 
     public void Initialize()
@@ -21,16 +23,16 @@ public class SunPositionController : MonoBehaviour
     	gameObject.transform.position = new Vector3(gameObject.transform.position.x, startPosition, gameObject.transform.position.z);
     }
 
-    public void StartAllCoroutine(float duration)
+    public void StartAllCoroutine()
     {
-        StartCoroutine(MovingCoroutine(duration));
+        StartCoroutine(MovingCoroutine());
     }
 
-    IEnumerator MovingCoroutine(float duration)
+    IEnumerator MovingCoroutine()
     {
-        for(float t = 0; t < duration; t += Time.deltaTime)
+        while (GS.state == 1)
         {
-            float position = startPosition + (endPosition - startPosition) * t / duration;
+            float position = startPosition + (endPosition - startPosition) * GS.s1SmoothProgress;
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, position, gameObject.transform.position.z);
             yield return 0;
         }

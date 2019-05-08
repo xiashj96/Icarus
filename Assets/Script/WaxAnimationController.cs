@@ -6,7 +6,7 @@ public class WaxAnimationController : MonoBehaviour
 {
     public float rate = 0.01f;
 
-    Animator animator;
+    Animator animator = null;
 
     void Start()
     {
@@ -21,12 +21,13 @@ public class WaxAnimationController : MonoBehaviour
 
     public void Flame()
     {
-    	Debug.Log("flame");
-    	animator.SetBool("Flame", true);
+    	if(animator != null)
+        	animator.SetBool("Flame", true);
     }
 
     public void EndFlame()
     {
-    	animator.SetBool("Flame", false);
+        if(animator != null)
+    	   animator.SetBool("Flame", false);
     }
 }
