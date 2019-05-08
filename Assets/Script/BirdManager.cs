@@ -155,7 +155,7 @@ public class BirdManager : MonoBehaviour
     private void Start()
     {
         GS = GetComponent<GameSystem>();
-        Screen.SetResolution(Screen.height * 9 / 16, Screen.height, Screen.fullScreen);
+       
     }
     
 }

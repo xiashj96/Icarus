@@ -26,7 +26,6 @@ public class MusicManager : MonoBehaviour
      * 4: 落海结局
      * 5: 燃尽结局
      * 6: 轮回结局
-     * 
     */
 
     void Start()

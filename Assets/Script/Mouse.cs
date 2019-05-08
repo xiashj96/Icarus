@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Mouse : MonoBehaviour
 {
+
+
     public GameObject birdPrefab;
     public Material bluelineMaterial;
     public bool map; // if set to true, map the whole input range to blueline
@@ -11,11 +13,9 @@ public class Mouse : MonoBehaviour
     public bool randomLife;
     public float T;
     float timer;
-    
 
     GameSystem GS;
     LineManager LM;
-    //ParticleSystem PS;
 
     Animator handCreateAnimator;
 
@@ -44,7 +44,9 @@ public class Mouse : MonoBehaviour
         {
             float blueline = bluelineMaterial.GetFloat("_BlueLine");
             float y = blueline * 16 - 8;
-            mapPos = Vector2.Scale(mousePos, new Vector2(1, yRatio)) + new Vector2(0, y);
+            // if fullscreen, scale x
+            float xRatio = Screen.height * 9f / 16f / Screen.width;
+            mapPos = Vector2.Scale(mousePos, new Vector2(xRatio, yRatio)) + new Vector2(0, y);
         }
         else
         {
@@ -54,7 +56,7 @@ public class Mouse : MonoBehaviour
         if (buttonIsDown) // if clicking, apply position smoothing, use smaller t for more smoothing
         {
             Vector2 smoothPos = Vector2.Lerp(oldPos, mapPos, smoothing); 
-            transform.position = (Vector2)smoothPos;
+            transform.position = smoothPos;
         }
         else // no smoothing
         {
@@ -75,7 +77,7 @@ public class Mouse : MonoBehaviour
             handCreateAnimator.SetBool("Play", false);
             if (GS.state == 1)
             {
-                var bird = GameObject.Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
+                var bird = Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
                 float time = Time.time - timer;
                 if (randomLife)
                 {
