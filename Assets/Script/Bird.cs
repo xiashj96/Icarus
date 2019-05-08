@@ -52,8 +52,6 @@ public class Bird : MonoBehaviour
 
     bool fadeOut = false;
     float initialAlpha;
-    float initialWidth;
-    float initialRate;
     public Material reflectionMaterial;
 
     IEnumerator ChangeRadiusCoroutine()
@@ -290,23 +288,16 @@ public class Bird : MonoBehaviour
         	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / UnityEngine.Screen.height;
         	float blueLine = reflectionMaterial.GetFloat("_BlueLine");
             float cameraOffset = reflectionMaterial.GetFloat("_CameraOffset");
-        	const float buffer = 0.05f;
-        	float alpha = Mathf.Max(1 + (screenPos + cameraOffset - blueLine) / buffer, 0);
-        	if(alpha >= 1) return;
+        	if(screenPos + cameraOffset >= blueLine)
+                return;
             if(!fadeOut)
             {
                 fadeOut = true;
                 generateLight.Generate(startingLife, transform.position);
-                initialWidth = GetComponentInChildren<TrailRenderer>().widthMultiplier;
-                initialRate = emission.rateOverTime.constant;
             }
-            if(GS.state == 5)
-            {
-                alpha = Mathf.Max(screenPos - 0.05f, 0f);
-            }
-        	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * alpha);
-        	GetComponentInChildren<TrailRenderer>().widthMultiplier = initialWidth * (alpha < 0.3f ? 0 : alpha);
-        	emission.rateOverTime = initialRate * alpha;
+        	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
+        	GetComponentInChildren<TrailRenderer>().enabled = false;
+        	particle.gameObject.SetActive(false);
         }
     }
 

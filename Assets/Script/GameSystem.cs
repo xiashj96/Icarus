@@ -48,6 +48,7 @@ public class GameSystem : MonoBehaviour
 
     IEnumerator SetStateCoroutine()
     {
+    	yield return 0;
         while(true)
         {
             state = 1;
@@ -128,6 +129,7 @@ public class GameSystem : MonoBehaviour
                     SPC.Initialize();
                     BC.Initialize();
                     ERC.Initialize();
+                    SLC.Disappear();
 
                     CPC.StartAllCoroutine2(5);
                     yield return new WaitForSeconds(5);

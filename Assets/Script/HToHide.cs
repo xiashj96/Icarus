@@ -8,7 +8,7 @@ public class HToHide : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(0, 1955, 0);
+        transform.position = new Vector3(0, -1000f, 0);
     }
 
     // Update is called once per frame
@@ -17,9 +17,9 @@ public class HToHide : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.H))
         {
             if(display = !display)
-                transform.position = new Vector3(0, 1920, 0);
+                transform.position = new Vector3(0, UnityEngine.Screen.height, 0);
             else
-                transform.position = new Vector3(0, 1955, 0);
+                transform.position = new Vector3(0, -1000f, 0);
         }
     }
 }
