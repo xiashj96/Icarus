@@ -54,8 +54,8 @@ public class MusicManager : MonoBehaviour
     {
         var currentState = states[current - 1];
         float timePassed = Time.time - timer;
-        if ((current != system.state && timePassed > currentState.transitionStartTime)
-            || timePassed > currentState.transitionEndTime)
+        if ((current != system.state ) && timePassed > currentState.transitionStartTime)
+            //|| timePassed > currentState.transitionEndTime)
         {
             FadeCurrentState();
             StartNewState(system.state);
