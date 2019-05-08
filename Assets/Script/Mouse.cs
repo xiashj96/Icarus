@@ -100,7 +100,7 @@ public class Mouse : MonoBehaviour
             else if (GS.state == 3 && s3Generate)
             {
                 var bird = Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
-                bird.life = 0.03F;
+                bird.life = 0.015F;
                 bird.Burst();
                 generateLight.Generate(bird.life, transform.position);
             }

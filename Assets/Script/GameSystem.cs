@@ -109,9 +109,9 @@ public class GameSystem : MonoBehaviour
                 BM.StartCoroutine(BM.BurstCoroutine(0.2f));
                 LM.StartCoroutine(LM.MoveTo(0, s3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());
-                yield return new WaitForSeconds(s3Duration - 5f);
+                yield return new WaitForSeconds(s3Duration - 10f);
                 GameObject.Find("Mouse").GetComponent<Mouse>().s3Generate = false;
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(10f);
                 GameObject.Find("dropper").SetActive(false);
 
                 if (BM.birdsAliveCnt == 0)
