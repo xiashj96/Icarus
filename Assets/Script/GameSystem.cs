@@ -6,7 +6,6 @@ public class GameSystem : MonoBehaviour
 {
     /*
      * States:
-     * 0: transition
      * 1: Generating
      * 2: Ceremony
      * 3: Burning
@@ -16,7 +15,6 @@ public class GameSystem : MonoBehaviour
      * 
     */
     public int state = 1;
-    public float state0Duration = 3f;
     public float s1Duration = 5f;
     public float s2Duration = 32F;
     public float s3Duration = 20F;
@@ -64,9 +62,6 @@ public class GameSystem : MonoBehaviour
                 yield return 0;
             }
 
-            state = 0;
-            yield return new WaitForSeconds(state0Duration);
-
             state = 2;
             LM.StartCoroutine(LM.MoveTo(LM.generatePossibility3, s2Duration));
             Coroutine c = BM.StartCoroutine(BM.State2Coroutine());
@@ -108,6 +103,7 @@ public class GameSystem : MonoBehaviour
                 BC2.StartAllCoroutine(5);
                 SLC.StartCoroutine(SLC.FadeIn(2.5f, 2.5f));
                 ERC.StartAllCoroutine();
+                BM.StartCoroutine(BM.BurstCoroutine(0.2f));
                 LM.StartCoroutine(LM.MoveTo(0, s3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());
                 yield return new WaitForSeconds(s3Duration);

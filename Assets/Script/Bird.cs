@@ -34,7 +34,8 @@ public class Bird : MonoBehaviour
     float state4TargetX = 0F;
     public float minTrailTime = 0.5f;
     public float maxTrailTime = 1f;
-    TrailRenderer trail;
+    public TrailRenderer trail;
+    public TrailRenderer fireTrail;
     
     public GameObject sun;
     Vector2 sunPosition;
@@ -45,7 +46,9 @@ public class Bird : MonoBehaviour
     ParticleSystem particle;
     ParticleSystem.EmissionModule emission;
     GenerateLight generateLight;
-    Animator animator;
+    public SpriteRenderer spriteRenderer;
+    public Animator animator;
+    public GameObject []bursts;
     int numOfBirds = 0;
     
     float ovalAngle = 0F, ovalIntensity = 0F;
@@ -77,15 +80,13 @@ public class Bird : MonoBehaviour
         BM.maxLife = Mathf.Max(BM.maxLife, life);
         id = BM.numOfBirds;
         initialAlpha = minAlpha + (1 - minAlpha) * life;
-        GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha); // alpha channel of sprite
+        spriteRenderer.color = new Color(1, 1, 1, initialAlpha); // alpha channel of sprite
         BM.BirdList.Add(this);
 
-        trail = GetComponentInChildren<TrailRenderer>();
         trail.time = minTrailTime + life * (maxTrailTime - minTrailTime);
         particle = GetComponentInChildren<ParticleSystem>();
         emission = particle.emission;
         generateLight = GameObject.Find("LightManager").GetComponent<GenerateLight>();
-        animator = GetComponentInChildren<Animator>();
 
         sun = GameObject.FindGameObjectWithTag("Sun");
         rb2d.velocity = new Vector2(Random.Range(-1F, 1F), 1F); // random initial velocity
@@ -103,6 +104,8 @@ public class Bird : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         animator.SetBool("Die", true);
+        yield return new WaitForSeconds(1.5f);
+        fireTrail.GetComponent<FireTrail>().to2 = true;
     }
     
     void FixedUpdate()
@@ -245,6 +248,13 @@ public class Bird : MonoBehaviour
         StartCoroutine(DieDelay(3f));
     }
 
+    public void Burst()
+    {
+        bursts[Random.Range(0, bursts.Length)].SetActive(true);
+        trail.gameObject.SetActive(false);
+        fireTrail.gameObject.SetActive(true);
+    }
+
     void Update()
     {
     	/*
@@ -258,7 +268,6 @@ public class Bird : MonoBehaviour
                 GetComponentInChildren<SpriteRenderer>().color = Color.grey;
         }
         */
-
         if (GS.state == 3)
         {
             life -= BM.burnDamage * Time.deltaTime;
@@ -294,9 +303,10 @@ public class Bird : MonoBehaviour
             {
                 fadeOut = true;
                 generateLight.Generate(startingLife, transform.position);
+                fireTrail.GetComponent<FireTrail>().extinct = true;
             }
-        	GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
-        	GetComponentInChildren<TrailRenderer>().enabled = false;
+        	spriteRenderer.color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
+        	trail.enabled = false;
         	particle.gameObject.SetActive(false);
         }
     }

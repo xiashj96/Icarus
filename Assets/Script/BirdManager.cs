@@ -31,7 +31,7 @@ public class BirdManager : MonoBehaviour
     public List<Bird> BirdList = new List<Bird>();
 
     int[] ind = { 0, 0, 0 };
-    public float[] ringRate = { 1.0F, 0.9F, 1.25F, 1.6F };
+    public float[] ringRate = { 0.85F, 0.9F, 1.25F, 1.6F };
 
     public IEnumerator State1Coroutine()
     {
@@ -71,6 +71,8 @@ public class BirdManager : MonoBehaviour
         WriteStats();
         foreach (Bird b in BirdList)
             b.lifeIndex = (k++) % 3;
+
+        yield return new WaitForSeconds(3f);
         while (true)
         {
             ind[0] = 2; ind[1] = 1; ind[2] = 3;
@@ -138,6 +140,17 @@ public class BirdManager : MonoBehaviour
         int k = 0;
         foreach(Bird b in BirdList)
             b.life = (float)(++k) / numOfBirds;
+    }
+
+    public IEnumerator BurstCoroutine(float delay)
+    {
+        //yield return new WaitForSeconds(delay);
+        BirdList.Sort((b1, b2) => Random.Range(-1, 2));
+        foreach(Bird b in BirdList)
+        {
+            b.Burst();
+            yield return new WaitForSeconds(Random.Range(0f, delay * 2 / BirdList.Count));
+        }
     }
 
     public void DestroyAllBirds()
