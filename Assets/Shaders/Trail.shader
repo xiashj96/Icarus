@@ -17,32 +17,29 @@
             Blend SrcAlpha OneMinusSrcAlpha
 
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
 
 			#include "UnityCG.cginc"
 
-			struct a2v
-			{
-				float4 vertex : POSITION;
-				float4 texcoord : TEXCOORD0;
-			};
-
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
+				float4 vertColor : TEXCOORD1;
 			};
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
             float _Opacity;
 
-			v2f vert(a2v v)
+			v2f vert(appdata_full v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.vertColor = v.color;
 				return o;
 			}
 
@@ -50,7 +47,7 @@
 			{
                 fixed4 tex = tex2D(_MainTex, i.uv);
                 tex.a = tex.a * _Opacity;
-				return tex;
+				return tex * i.vertColor;
 			}
 			ENDCG
 		}

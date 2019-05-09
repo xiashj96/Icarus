@@ -10,6 +10,8 @@ public class LineManager : MonoBehaviour
     public float generatePossibility;
     float radius = 6.3f;
 
+    GameSystem GS;
+
 	GameObject sun;
 	public GameObject line1;
     public GameObject line2;
@@ -17,12 +19,24 @@ public class LineManager : MonoBehaviour
     void Start()
     {
         sun = GameObject.FindGameObjectWithTag("Sun");
+        GS = FindObjectOfType<GameSystem>();
         Initialize();
     }
 
     public void Initialize()
     {
         generatePossibility = generatePossibility1;
+    }
+
+    public IEnumerator MoveTo(float p)
+    {
+        float startP = generatePossibility;
+        while(GS.state == 1)
+        {
+            generatePossibility = startP + (p - startP) * GS.s1SmoothProgress;
+            yield return 0;
+        }
+        generatePossibility = p;
     }
 
     public IEnumerator MoveTo(float p, float duration)

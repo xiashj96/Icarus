@@ -7,8 +7,6 @@ using DG.Tweening;
 public struct MusicState
 {
     public AudioClip clip;
-    public int transitionStartTime; // in seconds
-    public int transitionEndTime;
     public int fadeTime;
 }
 
@@ -19,13 +17,13 @@ public class MusicManager : MonoBehaviour
     public MusicState[] states;
     public float timePerBar = 6f; // sync transition to bars
     public float currentStateTime;
-    GameSystem system;
-    AudioSource source;
+    GameSystem GS;
+    AudioSource source1, source2;
     Coroutine currentCoroutine;
-    int currentState;
+    public int currentState, targetState;
 
     /*
-     * system.state:
+     * GS.state:
      * 1: 发展
      * 2: 结算
      * 3: 燃烧
@@ -36,58 +34,59 @@ public class MusicManager : MonoBehaviour
 
     void Start()
     {
-        system = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
-        currentState = system.state;
-        currentCoroutine = StartCoroutine(StartNewState(system.state));
+        source1 = gameObject.AddComponent<AudioSource>();
+        source2 = gameObject.AddComponent<AudioSource>();
+
+        GS = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
+        currentState = targetState = 1;
+        currentCoroutine = StartCoroutine(StartNewState(1));
     }
 
     void Update()
     {
-        currentStateTime = source.time;
-    }
-
-    IEnumerator SyncMusic()
-    {
-        yield return null;
-        while (true)
-        {
-            yield return new WaitForSeconds(timePerBar);
-            CheckState();
-        }
+        currentStateTime = source1.time;
     }
 
     void CheckState()
     {
-        float time = source.time;
-        if (currentState != system.state ) 
-            //&& time > states[currentState - 1].transitionStartTime)
-            //|| timePassed > currentState.transitionEndTime)
+        if (currentState != targetState )
         {
+            Debug.Log(currentStateTime);
             FadeCurrentState();
             StopCoroutine(currentCoroutine);
-            currentCoroutine = StartCoroutine(StartNewState(system.state));
+            currentCoroutine = StartCoroutine(StartNewState(targetState));
         }
     }
 
     IEnumerator StartNewState(int state)
     {
-        source = gameObject.AddComponent<AudioSource>();
-        source.clip = states[state - 1].clip;
-        source.Play();
+        source1.clip = states[state - 1].clip;
+        source1.volume = 1f;
+        source1.Play();
         currentState = state;
         while (true)
         {
-            yield return new WaitForSeconds(timePerBar);
-            CheckState();
+            float tmp = currentStateTime / timePerBar;
+            if( state == 2 ? (currentStateTime > 42f) : (tmp - Mathf.Floor(tmp) < 0.1f) ) 
+            {
+                CheckState();
+                yield return new WaitForSeconds(timePerBar / 2);
+            }
+            yield return 0;
         }
     }
 
     void FadeCurrentState()
     {
-        var oldSource = source;
-        oldSource.DOFade(0, states[currentState - 1].fadeTime).onComplete +=
-            () =>{
-                Destroy(oldSource);
-            };
+        var tmp = source1;
+        source1 = source2;
+        source2 = tmp;
+        source2.DOFade(0, states[currentState - 1].fadeTime).onComplete += () => { source2.Stop(); };
+    }
+
+    public void SetPitch(float pitch)
+    {
+        source1.pitch = pitch;
+        source2.pitch = pitch;
     }
 }

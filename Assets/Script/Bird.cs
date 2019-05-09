@@ -107,6 +107,8 @@ public class Bird : MonoBehaviour
         animator.SetBool("Die", true);
         yield return new WaitForSeconds(1.5f);
         fireTrail.GetComponent<FireTrail>().to2 = true;
+        var emission = droppingWax.GetComponent<ParticleSystem>().emission;
+        emission.rateOverDistanceMultiplier = 0;
     }
     
     void FixedUpdate()
@@ -306,7 +308,6 @@ public class Bird : MonoBehaviour
                 fadeOut = true;
                 generateLight.Generate(startingLife, transform.position);
                 fireTrail.GetComponent<FireTrail>().extinct = true;
-                droppingWax.SetActive(false);
             }
         	spriteRenderer.color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
         	trail.enabled = false;
