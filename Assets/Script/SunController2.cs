@@ -25,7 +25,7 @@ public class SunController2 : MonoBehaviour
     	StartCoroutine(PlaneCoroutine());
         StartCoroutine(WaxCoroutine());
         var trails = dropper.GetComponent<ParticleSystem>().trails;
-        trails.widthOverTrail = 0.4f;
+        trails.widthOverTrail = 0.2f;
         trails.lifetimeMultiplier = 0.05f;
     }
 
