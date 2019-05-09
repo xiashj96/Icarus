@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9163945811580246450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9163945811580246460}
+  - component: {fileID: 9163945811580246461}
+  - component: {fileID: 9163945811580246463}
+  - component: {fileID: 9163945811580246457}
+  - component: {fileID: 9163945811580246456}
+  - component: {fileID: 9163945811580246459}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9163945811580246460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163945811580246450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9163945811580246461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163945811580246450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d94eaf4a0f1f14245a1d5990a639fb6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfBirds: 0
+  birdsAliveCnt: 0
+  totLife: 0
+  maxLife: 0
+  particleLimit: 100
+  lastFalling: 0
+  basicRadius: 1.8
+  burnDamage: 0
+  state1StartRadiusRate: 0.4
+  flicking: 0
+  velocityRate: 1
+  maxDroppingRate: 50
+  GS: {fileID: 0}
+  BirdList: []
+  ringRate:
+  - 1
+  - 0.85
+  - 1.3
+  - 1.75
+--- !u!114 &9163945811580246463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163945811580246450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3449c3e56bde83441bf22ad415bd8524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9163945811580246457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163945811580246450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2296f51ceab09654eb297903b68e7aee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generatePossibility1: 0.5
+  generatePossibility2: 3
+  generatePossibility3: 8
+  generatePossibility: 0
+  line1: {fileID: 597962383473852803, guid: d865c3eb5a589c244a058ea372ccd913, type: 3}
+  line2: {fileID: 597962383473852803, guid: 60f4336964dce244cbad8d3a0f8c90ac, type: 3}
+--- !u!114 &9163945811580246456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163945811580246450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6950b5487e8a834685cd74b4b72e0c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 1
+  s1Duration: 5
+  s2Duration: 48
+  s3Duration: 20
+  s4Duration: 60
+  s1Progress: 0
+  s1SmoothProgress: 0
+  s6Progress: 0
+  s5FakeAliveTime: 10
+--- !u!114 &9163945811580246459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163945811580246450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1c325f90fee547b16b961cf2c64c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 2
+  startStrength: 0.2
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.10526315
+      inSlope: 3.5021577
+      outSlope: 3.5021577
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.043202005
+    - serializedVersion: 3
+      time: 0.36851934
+      value: 0.9338062
+      inSlope: -2.460733
+      outSlope: -2.460733
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.053904556
+    - serializedVersion: 3
+      time: 1.0002546
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  edgeRaysMaterial: {fileID: 2100000, guid: f3e80e2682744ba469998f52abe0b3c9, type: 2}

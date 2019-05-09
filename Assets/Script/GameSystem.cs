@@ -15,10 +15,10 @@ public class GameSystem : MonoBehaviour
      * 
     */
     public int state = 1;
-    public float s1Duration = 5f;
-    public float s2Duration = 32F;
-    public float s3Duration = 20F;
-    public float s4Duration = 60F;
+    public float s1Duration;
+    public float s2Duration;
+    public float s3Duration;
+    public float s4Duration;
     //public float state5Duration = 60F;
 
     public float s1Progress = 0F, s1SmoothProgress = 0F;
