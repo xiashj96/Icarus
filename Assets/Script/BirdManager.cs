@@ -146,7 +146,7 @@ public class BirdManager : MonoBehaviour
             b.Burst();
             yield return new WaitForSeconds(Random.Range(0f, delay * 2 / BirdList.Count));
         }
-        GameObject.Find("Mouse").GetComponent<Mouse>().s3Generate = true;
+        GameObject.Find("Input").GetComponent<Mouse>().s3Generate = true;
     }
 
     public void DestroyAllBirds()

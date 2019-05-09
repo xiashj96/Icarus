@@ -14,13 +14,19 @@ public class TimeScaleController : MonoBehaviour
     		if(skip = !skip)
     		{
     			Time.timeScale = scale;
-    			GetComponent<AudioSource>().pitch = scale;
+                foreach (var source in GetComponents<AudioSource>())
+                {
+                    source.pitch = scale;
+                }
     		}
     		else
     		{
     			Time.timeScale = 1;
-    			GetComponent<AudioSource>().pitch = 1;
-    		}
+                foreach (var source in GetComponents<AudioSource>())
+                {
+                    source.pitch = 1;
+                }
+            }
     	}
     }
 }

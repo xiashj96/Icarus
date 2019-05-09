@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3090421047626181224}
   - component: {fileID: 3090421047626181227}
+  - component: {fileID: 71230977}
   m_Layer: 0
   m_Name: Music
   m_TagString: Untagged
@@ -47,11 +48,11 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: 6413d488459ea0441a6a47c3d5998b35, type: 3}
     transitionStartTime: 120
     transitionEndTime: 288
-    fadeTime: 4
+    fadeTime: 2
   - clip: {fileID: 8300000, guid: c8a69beea3ca70a41baaa6100f33c848, type: 3}
     transitionStartTime: 42
     transitionEndTime: 42
-    fadeTime: 0
+    fadeTime: 18
   - clip: {fileID: 8300000, guid: ced4a57e57c1485438384cfa3ad2ddfe, type: 3}
     transitionStartTime: 78
     transitionEndTime: 120
@@ -69,3 +70,17 @@ MonoBehaviour:
     transitionEndTime: 120
     fadeTime: 4
   timePerBar: 6
+  currentStateTime: 0
+--- !u!114 &71230977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3090421047626181226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c567120bdf904469c893cd8ea694ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scale: 20

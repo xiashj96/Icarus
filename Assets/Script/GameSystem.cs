@@ -15,10 +15,10 @@ public class GameSystem : MonoBehaviour
      * 
     */
     public int state = 1;
-    public float s1Duration = 5f;
-    public float s2Duration = 32F;
-    public float s3Duration = 20F;
-    public float s4Duration = 60F;
+    public float s1Duration;
+    public float s2Duration;
+    public float s3Duration;
+    public float s4Duration;
     //public float state5Duration = 60F;
 
     public float s1Progress = 0F, s1SmoothProgress = 0F;
@@ -26,7 +26,6 @@ public class GameSystem : MonoBehaviour
 
     public float s5FakeAliveTime = 10F;
 
-    AudioSource AS;
     BirdManager BM;
     LineManager LM;
     SunController SC;
@@ -51,7 +50,6 @@ public class GameSystem : MonoBehaviour
         {
             state = 1;
             s1SmoothProgress = 0F;
-            AS.Play();
             SC.StartAllCoroutine();
             SPC.StartAllCoroutine();
             BC.StartAllCoroutine();
@@ -82,7 +80,6 @@ public class GameSystem : MonoBehaviour
                 LM.StartCoroutine(LM.MoveTo(0, s4Duration - 20));
                 yield return new WaitForSeconds(s4Duration - 12);
 
-                StartCoroutine(AudioFadeOut(10f));
                 yield return new WaitForSeconds(10f);
 
                 SR.StartAllCoroutine(2f);
@@ -110,7 +107,7 @@ public class GameSystem : MonoBehaviour
                 LM.StartCoroutine(LM.MoveTo(0, s3Duration));
                 BM.StartCoroutine(BM.State3Coroutine());
                 yield return new WaitForSeconds(s3Duration - 10f);
-                GameObject.Find("Mouse").GetComponent<Mouse>().s3Generate = false;
+                GameObject.Find("Input").GetComponent<Mouse>().s3Generate = false;
                 yield return new WaitForSeconds(10f);
                 GameObject.Find("dropper").SetActive(false);
 
@@ -150,18 +147,6 @@ public class GameSystem : MonoBehaviour
             }
         }
     }
-
-    IEnumerator AudioFadeOut(float duration)
-    {
-        float startVolume = AS.volume;
-        for(float t = 0; t < duration; t += Time.deltaTime)
-        {
-            AS.volume = startVolume * Mathf.Pow(1 - t / duration, 5);
-            yield return 0;
-        }
-        AS.Stop();
-        AS.volume = startVolume;
-    }
     
     void Start()
     {
@@ -170,7 +155,6 @@ public class GameSystem : MonoBehaviour
         GameObject camera = GameObject.Find("Main Camera");
         GameObject seaLight = GameObject.Find("SeaLight");
 
-        AS = GetComponent<AudioSource>();
         BM = GetComponent<BirdManager>();
         LM = GetComponent<LineManager>();
         SC = sun.GetComponent<SunController>();
