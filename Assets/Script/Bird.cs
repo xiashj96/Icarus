@@ -51,6 +51,8 @@ public class Bird : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Animator animator;
     public GameObject []bursts;
+    public GameObject bubble;
+    public ParticleSystem []bubbles;
     int numOfBirds = 0;
     
     float ovalAngle = 0F, ovalIntensity = 0F;
@@ -311,10 +313,22 @@ public class Bird : MonoBehaviour
                 fadeOut = true;
                 generateLight.Generate(startingLife, transform.position);
                 fireTrail.GetComponent<FireTrail>().extinct = true;
+                if(droppingState != 0)
+                	bubble.SetActive(true);
             }
-        	spriteRenderer.color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
         	trail.enabled = false;
         	particle.gameObject.SetActive(false);
+        	if(droppingState == 0)
+				spriteRenderer.color = new Color(1, 1, 1, 0);
+        	else
+        	{
+        		spriteRenderer.color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.1f, 0f) * 2);
+        		foreach(var b in bubbles)
+        		{
+        			var main = b.main;
+        			main.startColor = new Color(1, 1, 1, Mathf.Max(screenPos - 0.1f, 0f) * 2);
+        		}
+        	}
         }
     }
 
