@@ -20,6 +20,7 @@ public class Bird : MonoBehaviour
     float integalDist = 0F;
     float individualRadiusRate = 0F;
     float adjustForce = 0F;
+    float droppingSpeed = 0.8f;
 
     [Header("Position")]
     public float theta;
@@ -109,6 +110,8 @@ public class Bird : MonoBehaviour
         fireTrail.GetComponent<FireTrail>().to2 = true;
         var emission = droppingWax.GetComponent<ParticleSystem>().emission;
         emission.rateOverDistanceMultiplier = 0;
+        if(droppingState == 0)
+            droppingSpeed *= Random.Range(0.8f, 2f);
     }
     
     void FixedUpdate()
@@ -134,7 +137,7 @@ public class Bird : MonoBehaviour
                 rb2d.AddForce(Vector2.right * (state4TargetX - transform.position.x));
         }
         if (!alive && !fakeAlive)
-            rb2d.AddForce(Vector2.down * 0.8F);
+            rb2d.AddForce(Vector2.down * droppingSpeed);
         if (droppingState > 0)
             rb2d.AddForce(Vector2.left * rb2d.position.x * 0.2F);
         if (droppingState == 2)

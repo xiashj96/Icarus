@@ -48,10 +48,10 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: 6413d488459ea0441a6a47c3d5998b35, type: 3}
     fadeTime: 2
   - clip: {fileID: 8300000, guid: c8a69beea3ca70a41baaa6100f33c848, type: 3}
-    fadeTime: 6
+    fadeTime: 18
   - clip: {fileID: 8300000, guid: ced4a57e57c1485438384cfa3ad2ddfe, type: 3}
     fadeTime: 4
-  - clip: {fileID: 8300000, guid: 763184313cce16b4cac20e545e63d7f7, type: 3}
+  - clip: {fileID: 8300000, guid: e65f45132a3c3f94fa4d31c2e64fd2aa, type: 3}
     fadeTime: 4
   - clip: {fileID: 8300000, guid: 1bf2819d0af63894680422040af0f213, type: 3}
     fadeTime: 4

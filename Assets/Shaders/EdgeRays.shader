@@ -13,6 +13,7 @@
         _Strength("Strength", Range(0, 5)) = 0.9
         _AttenuateRatio("Attenuate Ratio", Range(0, 1)) = 0.4
         _DistanceAttenuation("Distance Attenuation", Range(0, 2)) = 1.52
+        _ExportCorrection ("Export Correction", Range(0, 1)) = 0.3164
 
     }
     SubShader
@@ -32,6 +33,7 @@
 
             half _DifferencingScaleX;
             half _DifferencingScaleY;
+            float _ExportCorrection;
 
             struct v2f
             {
@@ -72,7 +74,7 @@
 
                 for(int i = 0; i < 9; i++)
                 {
-                    half lum = luminance(tex2D(_MainTex, uv + duv[i] * half2(_DifferencingScaleX, _DifferencingScaleY)).rgb);
+                    half lum = luminance(tex2D(_MainTex, uv + duv[i] * half2(_DifferencingScaleX * _ExportCorrection, _DifferencingScaleY)).rgb);
 
                     edgeX += lum * Gx[i];
                     edgeY += lum * Gy[i];
@@ -110,6 +112,7 @@
             float4 _MainTex_ST;
 
             float2 _Offsets;
+            float _ExportCorrection;
 
             struct v2f
             {
@@ -126,9 +129,9 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = v.texcoord.xy;
 
-                o.uv01 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1);
-                o.uv23 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 2;
-                o.uv45 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 3;
+                o.uv01 = v.texcoord.xyxy + _Offsets.xyxy * float4(_ExportCorrection, 1, -_ExportCorrection, -1);
+                o.uv23 = v.texcoord.xyxy + _Offsets.xyxy * float4(_ExportCorrection, 1, -_ExportCorrection, -1) * 2;
+                o.uv45 = v.texcoord.xyxy + _Offsets.xyxy * float4(_ExportCorrection, 1, -_ExportCorrection, -1) * 3;
 
                 return o;
             }
