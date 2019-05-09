@@ -43,6 +43,7 @@ public class GameSystem : MonoBehaviour
     CameraPositionController CPC;
     SeaLightController SLC;
     MusicManager MM;
+    SubtitleManager SM;
 
     IEnumerator SetStateCoroutine()
     {
@@ -76,6 +77,7 @@ public class GameSystem : MonoBehaviour
                 MM.targetState = 4;
                 while(MM.currentState != 4)
                     yield return 0;
+                GameObject.Find("Input").GetComponent<Mouse>().s2Generate = false;
                 yield return new WaitForSeconds(6f);
                 BM.flicking = false;
                 BM.StopCoroutine(c);
@@ -102,6 +104,7 @@ public class GameSystem : MonoBehaviour
                 MM.targetState = 3;
                 while(MM.currentState != 3)
                     yield return 0;
+                GameObject.Find("Input").GetComponent<Mouse>().s2Generate = false;
                 yield return new WaitForSeconds(6f);
                 BM.flicking = false;
                 BM.StopCoroutine(c);
@@ -109,10 +112,10 @@ public class GameSystem : MonoBehaviour
 
                 BM.RearrangeLifeOfBirds();
 
-                if (BM.totLife / BM.numOfBirds < 0.8F)
+                //if (BM.totLife / BM.numOfBirds < 0.8F)
                     BM.burnDamage = 1.2F / s3Duration;
-                else
-                    BM.burnDamage = (BM.BirdList[BM.numOfBirds - 3].life + BM.BirdList[BM.numOfBirds - 4].life) / 2 / s3Duration;
+                //else
+                //    BM.burnDamage = (BM.BirdList[BM.numOfBirds - 3].life + BM.BirdList[BM.numOfBirds - 4].life) / 2 / s3Duration;
 
                 SC2.StartAllCoroutine();
                 SPC2.StartAllCoroutine(s3Duration);
@@ -136,6 +139,8 @@ public class GameSystem : MonoBehaviour
                     while(!BM.lastFalling)
                         yield return 0;
                     yield return new WaitForSeconds(15);
+
+                    SM.StartCoroutine(SM.SubtitleStart());
 
                     CPC.StartAllCoroutine(63);
                     yield return new WaitForSeconds(63);
@@ -176,6 +181,7 @@ public class GameSystem : MonoBehaviour
         GameObject camera = GameObject.Find("Main Camera");
         GameObject seaLight = GameObject.Find("SeaLight");
         GameObject music = GameObject.Find("Music");
+        GameObject subtitleManager = GameObject.Find("SubtitleManager");
 
         BM = GetComponent<BirdManager>();
         LM = GetComponent<LineManager>();
@@ -194,6 +200,7 @@ public class GameSystem : MonoBehaviour
         CPC = camera.GetComponent<CameraPositionController>();
         SLC = seaLight.GetComponent<SeaLightController>();
         MM = music.GetComponent<MusicManager>();
+        SM = subtitleManager.GetComponent<SubtitleManager>();
         StartCoroutine(SetStateCoroutine());
     }
 }

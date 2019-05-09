@@ -986,6 +986,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sun
       objectReference: {fileID: 0}
+    - target: {fileID: 597343181175969444, guid: f5b7f78ad2ad8184fac191a10f60f401,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8497764256607080422, guid: f5b7f78ad2ad8184fac191a10f60f401,
         type: 3}
       propertyPath: m_IsActive
