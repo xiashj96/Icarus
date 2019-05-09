@@ -36,6 +36,7 @@ public class Bird : MonoBehaviour
     public float maxTrailTime = 1f;
     public TrailRenderer trail;
     public TrailRenderer fireTrail;
+    public GameObject droppingWax;
     
     public GameObject sun;
     Vector2 sunPosition;
@@ -253,6 +254,7 @@ public class Bird : MonoBehaviour
         bursts[Random.Range(0, bursts.Length)].SetActive(true);
         trail.gameObject.SetActive(false);
         fireTrail.gameObject.SetActive(true);
+        droppingWax.SetActive(true);
     }
 
     void Update()
@@ -292,7 +294,7 @@ public class Bird : MonoBehaviour
     		numOfBirds = BM.numOfBirds;
         }
 
-        if(GS.state >= 3)
+        if(GS.state == 4 || !alive)
         {
         	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / UnityEngine.Screen.height;
         	float blueLine = reflectionMaterial.GetFloat("_BlueLine");
@@ -304,6 +306,7 @@ public class Bird : MonoBehaviour
                 fadeOut = true;
                 generateLight.Generate(startingLife, transform.position);
                 fireTrail.GetComponent<FireTrail>().extinct = true;
+                droppingWax.SetActive(false);
             }
         	spriteRenderer.color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
         	trail.enabled = false;

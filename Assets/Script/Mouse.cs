@@ -12,6 +12,7 @@ public class Mouse : MonoBehaviour
     public bool randomLife;
     public bool map;
     public float T;
+    public bool s3Generate = false;
     float timer;
 
     GameSystem GS;
@@ -96,9 +97,12 @@ public class Mouse : MonoBehaviour
                     bird.life = 0.01F;
                 generateLight.Generate(bird.life, transform.position);
             }
-            else if(GS.state == 3)
+            else if (GS.state == 3 && s3Generate)
             {
-                LM.Generate(mousePos);
+                var bird = Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
+                bird.life = 0.015F;
+                bird.Burst();
+                generateLight.Generate(bird.life, transform.position);
             }
             generateHands.StopGenerating();
         }

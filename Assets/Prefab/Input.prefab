@@ -542,9 +542,9 @@ MonoBehaviour:
   randomLife: 0
   map: 1
   T: 1.5
+  s3Generate: 0
   smoothing: 0.1
   reflectionMaterial: {fileID: 0}
---- !u!114 &1793752835
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

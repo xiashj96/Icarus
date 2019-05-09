@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -16,7 +16,6 @@ public class BirdManager : MonoBehaviour
     public float basicRadius = 3F;
     public float burnDamage = 0F;
 
-    float state0RadiusRate = 0.85F;
     float state1RadiusRate = 0.4F;
     float state2RadiusRate = 1F;
     float state3RadiusRate = 1.4F;
@@ -117,8 +116,6 @@ public class BirdManager : MonoBehaviour
     {
         switch(GS.state)
         {
-            case 0:
-                return basicRadius * (state0RadiusRate + iRate * 0.2F);
             case 1:
                 return basicRadius * (state1RadiusRate + iRate * 0.5F);
             case 2:
@@ -127,8 +124,6 @@ public class BirdManager : MonoBehaviour
                 return basicRadius * (state3RadiusRate + iRate * 0.2F);
             case 4:
                 return basicRadius * (state4RadiusRate + iRate * 0.5F);
-
-
         }
         return basicRadius;
 
@@ -151,6 +146,7 @@ public class BirdManager : MonoBehaviour
             b.Burst();
             yield return new WaitForSeconds(Random.Range(0f, delay * 2 / BirdList.Count));
         }
+        GameObject.Find("Input").GetComponent<Mouse>().s3Generate = true;
     }
 
     public void DestroyAllBirds()

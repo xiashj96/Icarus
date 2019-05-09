@@ -5,7 +5,7 @@ using UnityEngine;
 //Sun Controller For State 4
 public class SunController3 : MonoBehaviour
 {
-	public GameObject ring, hole, core, halo, plane, wax;
+	public GameObject ring, hole, core, halo, plane, wax, dropper;
 
     public float coreEndScale = 0.1f;
     public float holeEndScale = 0.1f;
@@ -18,6 +18,7 @@ public class SunController3 : MonoBehaviour
     	StartCoroutine(CoreCoroutine(duration));
     	StartCoroutine(HoleCoroutine(duration));
         StartCoroutine(WaxCoroutine(duration));
+        dropper.SetActive(false);
     }
 
     IEnumerator CoreCoroutine(float duration)

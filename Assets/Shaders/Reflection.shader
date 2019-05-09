@@ -5,6 +5,7 @@
 		_MainTex ("MainTex", 2D) = "white" {}
 
 		_BlueLine ("Blue Line", Range(0, 0.5)) = 0.35
+        _BlueLine2 ("Blue Line 2", Range(0, 0.5)) = 0.1
 		_Compression ("Compression", Range(0, 1)) = 0
 		_SightPoint ("Sight Point", Range(0, 1)) = 0.3
         _ShowAuxiliary ("Show Auxiliary", int) = 0

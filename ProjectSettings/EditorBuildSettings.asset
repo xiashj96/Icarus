@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/xsj.unity
     guid: f1d5326feaee3f64eb8987245cb6dbe7
+  - enabled: 1
+    path: Assets/wty.unity
+    guid: dee314184b50ba14d93f53977cef3eae
   m_configObjects: {}

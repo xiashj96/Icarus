@@ -5,7 +5,7 @@ using UnityEngine;
 //Sun Controller For State 1
 public class SunController : MonoBehaviour
 {
-	public GameObject ring, hole, core, halo, plane, wax;
+	public GameObject ring, hole, core, halo, plane, wax, dropper;
     GameSystem GS;
 	public float coreStartScale = 0.3f;
 	public float coreEndScale = 1.0f;
@@ -33,6 +33,9 @@ public class SunController : MonoBehaviour
         wax.GetComponent<WaxAnimationController>().EndFlame();
         wax.transform.localPosition = new Vector3(wax.transform.localPosition.x, waxStartPosition, wax.transform.localPosition.z);
         wax.transform.localScale = new Vector3(waxStartScale, waxStartScale, 1);
+        var trails = dropper.GetComponent<ParticleSystem>().trails;
+        trails.widthOverTrail = 0.03f;
+        trails.lifetimeMultiplier = 0.02f;
     }
 
     public void StartAllCoroutine()
@@ -40,6 +43,7 @@ public class SunController : MonoBehaviour
     	StartCoroutine(CoreCoroutine());
     	StartCoroutine(HoleCoroutine());
         StartCoroutine(WaxCoroutine());
+        dropper.SetActive(true);
     }
 
     IEnumerator CoreCoroutine()
