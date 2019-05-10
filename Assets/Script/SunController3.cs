@@ -18,7 +18,8 @@ public class SunController3 : MonoBehaviour
     	StartCoroutine(CoreCoroutine(duration));
     	StartCoroutine(HoleCoroutine(duration));
         StartCoroutine(WaxCoroutine(duration));
-        dropper.SetActive(false);
+        var emission = dropper.GetComponent<ParticleSystem>().emission;
+        emission.rateOverTimeMultiplier = 0;
     }
 
     IEnumerator CoreCoroutine(float duration)

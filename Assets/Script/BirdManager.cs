@@ -70,6 +70,7 @@ public class BirdManager : MonoBehaviour
         WriteStats();
         foreach (Bird b in BirdList)
             b.lifeIndex = (k++) % 3;
+        GameObject.Find("Input").GetComponent<Mouse>().s2Generate = true;
 
         yield return new WaitForSeconds(3f);
         while (true)

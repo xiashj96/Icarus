@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Mouse : MonoBehaviour
 {
-
-
     public GameObject birdPrefab;
     public Material bluelineMaterial;
     
     public bool randomLife;
     public bool map;
     public float T;
+    public bool s2Generate = false;
     public bool s3Generate = false;
     float timer;
 
     GameSystem GS;
+    BirdManager BM;
     LineManager LM;
 
     Animator handCreateAnimator;
@@ -32,6 +32,7 @@ public class Mouse : MonoBehaviour
     void Start()
     {
         GS = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameSystem>();
+        BM = GameObject.FindGameObjectWithTag("GameController").GetComponent<BirdManager>();
         LM = GameObject.FindGameObjectWithTag("GameController").GetComponent<LineManager>();
         generateHands = GetComponentInChildren<GenerateHandsInCircle>();
         handCreateAnimator = GetComponentInChildren<Animator>();
@@ -83,6 +84,9 @@ public class Mouse : MonoBehaviour
         {
             buttonIsDown = false;
             handCreateAnimator.SetBool("Play", false);
+            generateHands.StopGenerating();
+            if(BM.numOfBirds >= 400)
+                return;
             if (GS.state == 1)
             {
                 var bird = Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
@@ -99,14 +103,30 @@ public class Mouse : MonoBehaviour
                     bird.life = 0.01F;
                 generateLight.Generate(bird.life, transform.position);
             }
-            else if (GS.state == 3 && s3Generate)
+            else if (s2Generate)
+            {
+                var bird = Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
+                float time = Time.time - timer;
+                if (randomLife)
+                {
+                    bird.life = Random.Range(0F, 1F);
+                }
+                else
+                {
+                    bird.life = 1 - Mathf.Exp(-time / T);
+                }
+                if (bird.life < 0.01F)
+                    bird.life = 0.01F;
+                bird.lifeIndex = Random.Range(0, 3);
+                generateLight.Generate(bird.life, transform.position);
+            }
+            else if (s3Generate)
             {
                 var bird = Instantiate(birdPrefab, transform.position, Quaternion.identity).GetComponent<Bird>();
                 bird.life = 0.015F;
                 bird.Burst();
                 generateLight.Generate(bird.life, transform.position);
             }
-            generateHands.StopGenerating();
         }
     }
 }

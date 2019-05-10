@@ -22,6 +22,8 @@
 
 		_BlurOffsetX ("Blur Offset X", Range(0, 0.01)) = 0.0035
         _BlurOffsetY ("Blur Offset Y", Range(0, 0.01)) = 0.0017
+
+        _ExportCorrection ("Export Correction", Range(0, 1)) = 0.3164
 	}
 	SubShader
 	{
@@ -35,16 +37,10 @@
 
 			#include "UnityCG.cginc"
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-			};
-
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
+				float4 pos : POSITION;
 			};
 
 			sampler2D _MainTex;
@@ -56,6 +52,7 @@
 			float _WTF3, _WSF3, _WA3;
 
             float _CameraOffset = 0;
+            float _ExportCorrection;
 
 			fixed luminance(fixed3 color)
             {
@@ -81,9 +78,9 @@
 
                 //if(abs(uvgrab.y - ))
 
-				uvgrab.x += sin(_Time.y * _WTF1 + _WSF1 * uvgrab.y) * _WA1 * (_RefCen - uvgrab.y);
-				uvgrab.x += sin(_Time.y * _WTF2 + _WSF2 * uvgrab.y) * _WA2 * (_RefCen - uvgrab.y);
-				//uvgrab.x += sin(_Time.y * _WTF3 + _WSF3 * uvgrab.y) * _WA3 * (_RefCen - uvgrab.y);
+				uvgrab.x += sin(_Time.y * _WTF1 + _WSF1 * uvgrab.y) * _WA1 * (_RefCen - uvgrab.y) * _ExportCorrection;
+				//uvgrab.x += sin(_Time.y * _WTF2 + _WSF2 * uvgrab.y) * _WA2 * (_RefCen - uvgrab.y) * _ExportCorrection;
+				//uvgrab.x += sin(_Time.y * _WTF3 + _WSF3 * uvgrab.y) * _WA3 * (_RefCen - uvgrab.y) * _ExportCorrection;
             	
             	fixed3 tex = tex2D(_MainTex, float2(uvgrab.x, uvgrab.y - _CameraOffset));
             	if(luminance(tex) < 0.5)
@@ -91,16 +88,16 @@
             	return tex * (1 - uvgrab.y) * (uvgrab.y - _RefCen) / (1 - _RefCen) / (1 - _RefCen) * (1 - uvgrab.y) / (1 - _RefCen) * (3 + _Compression * 5);
             }
 
-			v2f vert(appdata v)
-			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = v.uv;
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
                 o.uv.y += _CameraOffset;
-				return o;
-			}
+                return o;
+            }
 
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f i) : COLOR
 			{
                 if(_ShowAuxiliary == 1 && abs(i.uv.y - _BlueLine2) < 0.001)
                     return fixed4(0, 1, 1, 1);
@@ -122,6 +119,7 @@
             float4 _MainTex_ST;
 
             float2 _Offsets;
+            float _ExportCorrection;
 
             struct v2f
             {
@@ -138,9 +136,9 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = v.texcoord.xy;
 
-                o.uv01 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1);
-                o.uv23 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 2;
-                o.uv45 = v.texcoord.xyxy + _Offsets.xyxy * float4(1, 1, -1, -1) * 3;
+                o.uv01 = v.texcoord.xyxy + _Offsets.xyxy * float4(_ExportCorrection, 1, -_ExportCorrection, -1);
+                o.uv23 = v.texcoord.xyxy + _Offsets.xyxy * float4(_ExportCorrection, 1, -_ExportCorrection, -1) * 2;
+                o.uv45 = v.texcoord.xyxy + _Offsets.xyxy * float4(_ExportCorrection, 1, -_ExportCorrection, -1) * 3;
 
                 return o;
             }
@@ -185,7 +183,6 @@
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
-
                 return o;
             }
 

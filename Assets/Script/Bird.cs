@@ -20,6 +20,7 @@ public class Bird : MonoBehaviour
     float integalDist = 0F;
     float individualRadiusRate = 0F;
     float adjustForce = 0F;
+    float droppingSpeed = 0.8f;
 
     [Header("Position")]
     public float theta;
@@ -50,6 +51,8 @@ public class Bird : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Animator animator;
     public GameObject []bursts;
+    public GameObject bubble;
+    public ParticleSystem []bubbles;
     int numOfBirds = 0;
     
     float ovalAngle = 0F, ovalIntensity = 0F;
@@ -107,6 +110,10 @@ public class Bird : MonoBehaviour
         animator.SetBool("Die", true);
         yield return new WaitForSeconds(1.5f);
         fireTrail.GetComponent<FireTrail>().to2 = true;
+        var emission = droppingWax.GetComponent<ParticleSystem>().emission;
+        emission.rateOverDistanceMultiplier = 0;
+        if(droppingState == 0)
+            droppingSpeed *= Random.Range(0.8f, 2f);
     }
     
     void FixedUpdate()
@@ -132,7 +139,7 @@ public class Bird : MonoBehaviour
                 rb2d.AddForce(Vector2.right * (state4TargetX - transform.position.x));
         }
         if (!alive && !fakeAlive)
-            rb2d.AddForce(Vector2.down * 0.8F);
+            rb2d.AddForce(Vector2.down * droppingSpeed);
         if (droppingState > 0)
             rb2d.AddForce(Vector2.left * rb2d.position.x * 0.2F);
         if (droppingState == 2)
@@ -306,11 +313,22 @@ public class Bird : MonoBehaviour
                 fadeOut = true;
                 generateLight.Generate(startingLife, transform.position);
                 fireTrail.GetComponent<FireTrail>().extinct = true;
-                droppingWax.SetActive(false);
+                if(droppingState != 0)
+                	bubble.SetActive(true);
             }
-        	spriteRenderer.color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.05f, 0f));
         	trail.enabled = false;
         	particle.gameObject.SetActive(false);
+        	if(droppingState == 0)
+				spriteRenderer.color = new Color(1, 1, 1, 0);
+        	else
+        	{
+        		spriteRenderer.color = new Color(1, 1, 1, initialAlpha * Mathf.Max(screenPos - 0.1f, 0f) * 2);
+        		foreach(var b in bubbles)
+        		{
+        			var main = b.main;
+        			main.startColor = new Color(1, 1, 1, Mathf.Max(screenPos - 0.1f, 0f) * 2);
+        		}
+        	}
         }
     }
 

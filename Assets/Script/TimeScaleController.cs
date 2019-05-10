@@ -6,6 +6,12 @@ public class TimeScaleController : MonoBehaviour
 {
 	public float scale = 2.0f;
 	bool skip = false;
+    MusicManager musicManager;
+
+    void Start()
+    {
+        musicManager = GameObject.Find("Music").GetComponent<MusicManager>();
+    }
 
     void Update()
     {
@@ -14,18 +20,12 @@ public class TimeScaleController : MonoBehaviour
     		if(skip = !skip)
     		{
     			Time.timeScale = scale;
-                foreach (var source in GetComponents<AudioSource>())
-                {
-                    source.pitch = scale;
-                }
+                musicManager.SetPitch(scale);
     		}
     		else
     		{
     			Time.timeScale = 1;
-                foreach (var source in GetComponents<AudioSource>())
-                {
-                    source.pitch = 1;
-                }
+                musicManager.SetPitch(1);
             }
     	}
     }
