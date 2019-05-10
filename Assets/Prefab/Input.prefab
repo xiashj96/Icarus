@@ -499,6 +499,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4565157672486504441}
   - component: {fileID: 4565157672486504440}
+  - component: {fileID: 1856538069}
+  - component: {fileID: 1856538070}
   m_Layer: 0
   m_Name: Input
   m_TagString: Untagged
@@ -538,13 +540,37 @@ MonoBehaviour:
   birdPrefab: {fileID: 1184694201713154397, guid: 313bbf4b84449584ba6aeb74eb4ee803,
     type: 3}
   bluelineMaterial: {fileID: 2100000, guid: 4356160632e27714da9683027140ced5, type: 2}
-  height: 1
   randomLife: 0
   map: 1
   T: 1.5
+  s2Generate: 0
   s3Generate: 0
   smoothing: 0.1
   reflectionMaterial: {fileID: 0}
+--- !u!114 &1856538069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4565157672486504443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c5a20372955ab4eb44e74cab8a8f83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1856538070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4565157672486504443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3449c3e56bde83441bf22ad415bd8524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4565157672995837713
 GameObject:
   m_ObjectHideFlags: 0

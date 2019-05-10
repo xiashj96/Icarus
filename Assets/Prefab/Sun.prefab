@@ -112,9 +112,9 @@ MonoBehaviour:
   plane: {fileID: 2883201918916186036}
   wax: {fileID: 3937904576539556613}
   dropper: {fileID: 4128369304447187686}
-  coreStartScale: 0.3
-  coreEndScale: 1
-  holeEndScale: 0.85
+  coreStartScale: 0.2
+  coreEndScale: 0.75
+  holeEndScale: 0.64
   waxStartPosition: -0.27
   waxEndPosition: -0.96
   waxStartScale: 0.04
@@ -139,10 +139,10 @@ MonoBehaviour:
   wax: {fileID: 3937904576539556613}
   dropper: {fileID: 4128369304447187686}
   duration: 0.5
-  coreEndScale: 1.3
-  holeEndScale: 1.1
-  planeStartScale: 0.25
-  planeEndScale: 0.78
+  coreEndScale: 0.95
+  holeEndScale: 0.81
+  planeStartScale: 0.4
+  planeEndScale: 0.95
   waxEndPosition: -1.2
   waxEndScale: 0.39
 --- !u!114 &3660237427970403756
@@ -164,8 +164,8 @@ MonoBehaviour:
   plane: {fileID: 2883201918916186036}
   wax: {fileID: 3937904576539556613}
   dropper: {fileID: 4128369304447187686}
-  coreEndScale: 0.1
-  holeEndScale: 0.1
+  coreEndScale: 0.4
+  holeEndScale: 0.4
   waxEndPosition: -0.51
   waxEndScale: 0.13
 --- !u!114 &7804146430710770518
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6f2cc1f1734c649982bdd7ea0787e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPosition: 3
+  endPosition: 3.24
 --- !u!114 &607972308750693284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee17a4a9920f6e448340a4ea9c4990d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPosition: 5.1
+  endPosition: 8.84
 --- !u!114 &8460331505242249761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,7 +410,7 @@ Transform:
 --- !u!199 &9141084138453023563
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5236,6 +5236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6686393354689015332}
   - component: {fileID: 6007871279033811228}
+  - component: {fileID: 4845247243421034762}
   m_Layer: 0
   m_Name: ring
   m_TagString: Untagged
@@ -5305,6 +5306,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4845247243421034762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4845247243421034761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90cb566b9bb83b4ab65d473a6aafcef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clockwise: 0
+  period: 20
 --- !u!1 &5432023812697427273
 GameObject:
   m_ObjectHideFlags: 0
@@ -5315,6 +5330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 222782715394232065}
   - component: {fileID: 5095945348754845558}
+  - component: {fileID: 1864663653}
   m_Layer: 0
   m_Name: hole
   m_TagString: Untagged
@@ -5384,6 +5400,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1864663653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5432023812697427273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90cb566b9bb83b4ab65d473a6aafcef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clockwise: 1
+  period: 20
 --- !u!1 &7960476097939812527
 GameObject:
   m_ObjectHideFlags: 0
@@ -5476,8 +5506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a90cb566b9bb83b4ab65d473a6aafcef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockwise: 0
-  period: 40
+  clockwise: 1
+  period: 20
 --- !u!1 &8497764256607080422
 GameObject:
   m_ObjectHideFlags: 0
@@ -5488,6 +5518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6892670154651765685}
   - component: {fileID: 3547764405355824401}
+  - component: {fileID: 652525637}
   m_Layer: 0
   m_Name: core
   m_TagString: Untagged
@@ -5557,3 +5588,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &652525637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8497764256607080422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90cb566b9bb83b4ab65d473a6aafcef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clockwise: 0
+  period: 20

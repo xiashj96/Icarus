@@ -303,7 +303,7 @@ public class Bird : MonoBehaviour
 
         if(GS.state == 4 || !alive)
         {
-        	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / UnityEngine.Screen.height;
+        	float screenPos = Camera.main.WorldToScreenPoint(transform.position).y / Camera.main.pixelHeight;
         	float blueLine = reflectionMaterial.GetFloat("_BlueLine");
             float cameraOffset = reflectionMaterial.GetFloat("_CameraOffset");
         	if(screenPos + cameraOffset >= blueLine)
