@@ -18,6 +18,9 @@ public class DisplayInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = "number of birds:" + BM.numOfBirds.ToString() + "  Time:" + Time.time.ToString("0.#") + "State Time: " + MM.currentStateTime.ToString();
+        text.text = "number of birds:" + BM.numOfBirds.ToString()
+            + "  Time:" + Time.time.ToString("0.#")
+            + "  State Time: " + MM.currentStateTime.ToString()
+            + "  Resolution: " + Screen.width.ToString() + "x" + Screen.height.ToString();
     }
 }

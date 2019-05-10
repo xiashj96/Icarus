@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/xsj.unity
     guid: f1d5326feaee3f64eb8987245cb6dbe7
   - enabled: 1

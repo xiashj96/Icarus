@@ -8,7 +8,7 @@ public class Mouse : MonoBehaviour
 
     public GameObject birdPrefab;
     public Material bluelineMaterial;
-    public float yRatio; // compression ration of y
+    
     public bool randomLife;
     public bool map;
     public float T;
@@ -43,20 +43,22 @@ public class Mouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 handPosNormalized = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
         Vector2 mapPos;
-
         if (map)  // map mouse position around blueline
         {
             float blueline = bluelineMaterial.GetFloat("_BlueLine2");
-            float y = blueline * 16 - 8;
-            // if fullscreen, scale x
-            float xRatio = Screen.height * 9f / 16f / Screen.width;
-            mapPos = Vector2.Scale(mousePos, new Vector2(xRatio, yRatio)) + new Vector2(0, y);
+            float width = 9;
+            float height = blueline * 5;
+            float x = -4.5f;
+            float y = blueline * 16 - 8 - height/2;
+            //float xRatio = Screen.height * 9f / 16f / Screen.width;
+            
+    mapPos = Vector2.Scale(handPosNormalized, new Vector2(width, height)) + new Vector2(x, y);
         }
         else
         {
-            mapPos = mousePos;
+            mapPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
         if (buttonIsDown) // if clicking, apply position smoothing, use smaller t for more smoothing
