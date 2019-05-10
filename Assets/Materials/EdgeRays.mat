@@ -70,7 +70,7 @@ Material:
     - _DifferencingScaleY: 0.0009
     - _DistanceAttenuation: 1.43
     - _DstBlend: 0
-    - _ExportCorrection: 1
+    - _ExportCorrection: 0.7533588
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
